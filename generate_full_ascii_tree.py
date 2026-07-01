@@ -1,7 +1,7 @@
 import os
 
 def main():
-    skills_dir = "/Users/winston/.agents/skills"
+    skills_dir = os.path.dirname(os.path.abspath(__file__))
     readme_path = os.path.join(skills_dir, "README.md")
     
     if not os.path.exists(skills_dir):

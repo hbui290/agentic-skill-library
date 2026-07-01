@@ -2118,8 +2118,8 @@ To enable AI agents to automatically discover and use these skills, connect them
       "command": "npx",
       "args": ["-y", "superpowers-mcp", "start"],
       "env": {
-        "SKILLS_PATH": "/Users/winston/.agents/flat-skills",
-        "SUPERPOWERS_SKILLS_DIR": "/Users/winston/.agents/flat-skills"
+        "SKILLS_PATH": "~/.agents/flat-skills",
+        "SUPERPOWERS_SKILLS_DIR": "~/.agents/flat-skills"
       }
     }
     ```
@@ -2150,7 +2150,7 @@ Use the automation script to fetch updates from upstream without breaking the ca
 *   **Script Path:** [update_skills.py](./update_skills.py)
 *   **Execution Command:**
     ```bash
-    python3 /Users/winston/.agents/skills/update_skills.py
+    python3 ~/.agents/skills/update_skills.py
     ```
 
 ### ⚙️ Update Pipeline:
@@ -2167,7 +2167,7 @@ Use the automation script to fetch updates from upstream without breaking the ca
 
 Verify the integrity of the local skills library:
 ```bash
-python3 /Users/winston/.agents/skills/verify_exact_skills.py
+python3 ~/.agents/skills/verify_exact_skills.py
 ```
 Nếu màn hình trả về:
 ```text

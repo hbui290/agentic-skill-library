@@ -2,9 +2,9 @@ import os
 import json
 import shutil
 
-skills_dir = "/Users/winston/.agents/skills"
-flat_dir = "/Users/winston/.agents/flat-skills"
-plugin_skills_dir = "/Users/winston/.claude/plugins/cache/superpowers-marketplace/superpowers/6.0.3/skills"
+skills_dir = os.path.dirname(os.path.abspath(__file__))
+flat_dir = os.path.abspath(os.path.join(skills_dir, "..", "flat-skills"))
+plugin_skills_dir = os.path.expanduser("~/.claude/plugins/cache/superpowers-marketplace/superpowers/6.0.3/skills")
 manifest_path = os.path.join(skills_dir, ".antigravity-install-manifest.json")
 
 # Default 14 skills that come with superpowers

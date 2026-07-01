@@ -2,7 +2,7 @@ import os
 import json
 
 def main():
-    skills_dir = "/Users/winston/.agents/skills"
+    skills_dir = os.path.dirname(os.path.abspath(__file__))
     manifest_path = os.path.join(skills_dir, ".antigravity-install-manifest.json")
     
     if not os.path.exists(manifest_path):

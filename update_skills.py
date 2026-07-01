@@ -5,7 +5,7 @@ import json
 import tempfile
 from collections import defaultdict
 
-skills_dir = "/Users/winston/.agents/skills"
+skills_dir = os.path.dirname(os.path.abspath(__file__))
 manifest_path = os.path.join(skills_dir, ".antigravity-install-manifest.json")
 readme_path = os.path.join(skills_dir, "README.md")
 
