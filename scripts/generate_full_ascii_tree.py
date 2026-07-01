@@ -2,7 +2,7 @@ import os
 import re
 
 def main():
-    skills_dir = os.path.dirname(os.path.abspath(__file__))
+    skills_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     readme_path = os.path.join(skills_dir, "README.md")
     tree_path = os.path.join(skills_dir, "DIRECTORY_TREE.md")
     

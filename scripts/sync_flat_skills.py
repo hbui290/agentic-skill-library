@@ -2,7 +2,7 @@ import os
 import json
 import shutil
 
-skills_dir = os.path.dirname(os.path.abspath(__file__))
+skills_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 flat_dir = os.path.abspath(os.path.join(skills_dir, "..", "flat-skills"))
 manifest_path = os.path.join(skills_dir, ".antigravity-install-manifest.json")
 

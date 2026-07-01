@@ -139,10 +139,10 @@ AI agents map skills by the name defined in the `SKILL.md` frontmatter, independ
 ## 🔄 Auto-Update Script
 
 Use the automation script to fetch updates from upstream without breaking the categorization structure:
-*   **Script Path:** [update_skills.py](./update_skills.py)
+*   **Script Path:** [update_skills.py](./scripts/update_skills.py)
 *   **Execution Command:**
     ```bash
-    python3 ~/.agents/skills/update_skills.py
+    python3 ~/.agents/skills/scripts/update_skills.py
     ```
 
 ### ⚙️ Update Pipeline:
@@ -159,7 +159,7 @@ Use the automation script to fetch updates from upstream without breaking the ca
 
 Verify the integrity of the local skills library:
 ```bash
-python3 ~/.agents/skills/verify_exact_skills.py
+python3 ~/.agents/skills/scripts/verify_exact_skills.py
 ```
 If the output is:
 ```text
