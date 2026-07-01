@@ -66,8 +66,8 @@ def main():
     with open(readme_path, 'r', encoding='utf-8') as f:
         readme_content = f.read()
 
-    start_marker = "## 🌲 Cấu Trúc Thư Mục Chi Tiết (Detailed Directory Tree)"
-    end_marker = "## 📂 Chi Tiết Phân Loại Hệ Thống (Directory Structure)"
+    start_marker = "## 🌲 Detailed Directory Tree"
+    end_marker = "## 📂 Directory Structure Details"
 
     if start_marker in readme_content and end_marker in readme_content:
         start_idx = readme_content.find(start_marker) + len(start_marker)
