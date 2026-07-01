@@ -4,23 +4,11 @@ import shutil
 
 skills_dir = os.path.dirname(os.path.abspath(__file__))
 flat_dir = os.path.abspath(os.path.join(skills_dir, "..", "flat-skills"))
-plugin_skills_dir = os.path.expanduser("~/.claude/plugins/cache/superpowers-marketplace/superpowers/6.0.3/skills")
 manifest_path = os.path.join(skills_dir, ".antigravity-install-manifest.json")
 
-# Default 14 skills that come with superpowers
-DEFAULT_SKILLS = {
-    "brainstorming", "dispatching-parallel-agents", "executing-plans",
-    "finishing-a-development-branch", "receiving-code-review", "requesting-code-review",
-    "subagent-driven-development", "systematic-debugging", "test-driven-development",
-    "using-git-worktrees", "using-superpowers", "verification-before-completion",
-    "writing-plans", "writing-skills"
-}
-
-def clean_dir(target_dir, keep_defaults=False):
+def clean_dir(target_dir):
     if os.path.exists(target_dir):
         for name in os.listdir(target_dir):
-            if keep_defaults and name in DEFAULT_SKILLS:
-                continue
             path = os.path.join(target_dir, name)
             try:
                 if os.path.islink(path) or os.path.isfile(path):
@@ -62,9 +50,8 @@ def main():
         
     entries = data.get("entries", [])
     
-    # Clean targets
-    clean_dir(flat_dir, keep_defaults=False)
-    clean_dir(plugin_skills_dir, keep_defaults=True)
+    # Clean flat_dir
+    clean_dir(flat_dir)
     
     # Count occurrences of base names to detect duplicates
     base_names = {}
@@ -73,7 +60,6 @@ def main():
         base_names[base] = base_names.get(base, 0) + 1
         
     created_flat = 0
-    created_plugin = 0
     duplicates_resolved = 0
     
     for entry in entries:
@@ -93,15 +79,8 @@ def main():
         dest_flat_dir = os.path.join(flat_dir, symlink_name)
         sync_skill(src_path, dest_flat_dir)
         created_flat += 1
-        
-        # Sync to plugin_skills_dir (if not one of the default 14 skills to avoid overwriting them)
-        if symlink_name not in DEFAULT_SKILLS:
-            dest_plugin_dir = os.path.join(plugin_skills_dir, symlink_name)
-            sync_skill(src_path, dest_plugin_dir)
-            created_plugin += 1
             
     print(f"Flat directory: Synced {created_flat} skills.")
-    print(f"Plugin directory: Synced {created_plugin} skills.")
     print(f"Resolved {duplicates_resolved} duplicate names.")
 
 if __name__ == "__main__":
