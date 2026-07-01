@@ -161,7 +161,7 @@ Verify the integrity of the local skills library:
 ```bash
 python3 ~/.agents/skills/verify_exact_skills.py
 ```
-Nếu màn hình trả về:
+If the output is:
 ```text
 Manifest has 1900 entries.
 SUCCESS: No duplicate entries in manifest.
