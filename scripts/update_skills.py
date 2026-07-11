@@ -4,6 +4,7 @@ import subprocess
 import json
 import tempfile
 from collections import defaultdict
+from datetime import datetime, timezone
 
 skills_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 manifest_path = os.path.join(skills_dir, ".antigravity-install-manifest.json")
@@ -24,21 +25,25 @@ def run_cmd(cmd, cwd=None):
         return False, result.stderr
     return True, result.stdout
 
-def get_current_skill_mapping():
-    # Map from skill_folder_name -> absolute_path of its parent directory
-    mapping = {}
+def find_leaf_skills():
+    # A skill dir is the shallowest dir under a macro category that directly
+    # contains regular files (handles skills nested at any depth).
+    leafs = []
     for macro in MACRO_CATEGORIES:
         macro_path = os.path.join(skills_dir, macro)
         if not os.path.exists(macro_path):
             continue
-        for sub in os.listdir(macro_path):
-            sub_path = os.path.join(macro_path, sub)
-            if not os.path.isdir(sub_path):
-                continue
-            for skill in os.listdir(sub_path):
-                skill_path = os.path.join(sub_path, skill)
-                if os.path.isdir(skill_path):
-                    mapping[skill] = sub_path
+        for dirpath, dirs, files in os.walk(macro_path):
+            if dirpath != macro_path and any(not f.startswith('.') for f in files):
+                leafs.append(os.path.relpath(dirpath, skills_dir))
+                dirs[:] = []  # do not descend into a skill
+    return sorted(leafs)
+
+def get_current_skill_mapping():
+    # Map from skill_folder_name -> absolute_path of its parent directory
+    mapping = {}
+    for rel in find_leaf_skills():
+        mapping[os.path.basename(rel)] = os.path.join(skills_dir, os.path.dirname(rel))
     return mapping
 
 def auto_classify_skill(skill_name):
@@ -121,10 +126,10 @@ def auto_classify_skill(skill_name):
     return macro, sub
 
 def main():
-    print("🚀 Fetching latest updates from sickn33/antigravity-awesome-skills on GitHub...")
+    print("🚀 Fetching latest updates from sickn33/agentic-awesome-skills on GitHub...")
     temp_dir = tempfile.mkdtemp()
-    
-    success, output = run_cmd(f"git clone --depth 1 https://github.com/sickn33/antigravity-awesome-skills.git {temp_dir}")
+
+    success, output = run_cmd(f"git clone --depth 1 https://github.com/sickn33/agentic-awesome-skills.git {temp_dir}")
     if not success:
         print("❌ Failed to clone repository.")
         shutil.rmtree(temp_dir)
@@ -136,14 +141,28 @@ def main():
     
     current_mapping = get_current_skill_mapping()
     
-    cloned_skills = [d for d in os.listdir(repo_skills_dir) if os.path.isdir(os.path.join(repo_skills_dir, d)) and not d.startswith(".")]
-    
+    cloned_units = [d for d in os.listdir(repo_skills_dir) if os.path.isdir(os.path.join(repo_skills_dir, d)) and not d.startswith(".")]
+
+    # Expand container units: an upstream dir with regular files is one skill;
+    # a container dir (subdirs only, e.g. libreoffice, sendblue, security)
+    # contributes each child dir as an individual skill.
+    cloned_skills = []  # (name, src_path)
+    for unit in cloned_units:
+        unit_path = os.path.join(repo_skills_dir, unit)
+        entries = [e for e in os.listdir(unit_path) if not e.startswith('.')]
+        has_files = any(os.path.isfile(os.path.join(unit_path, e)) for e in entries)
+        if has_files:
+            cloned_skills.append((unit, unit_path))
+        else:
+            for child in entries:
+                child_path = os.path.join(unit_path, child)
+                if os.path.isdir(child_path):
+                    cloned_skills.append((child, child_path))
+
     updated_count = 0
     new_count = 0
-    
-    for skill in cloned_skills:
-        src_skill_path = os.path.join(repo_skills_dir, skill)
-        
+
+    for skill, src_skill_path in cloned_skills:
         if skill in current_mapping:
             dest_parent = current_mapping[skill]
             dest_skill_path = os.path.join(dest_parent, skill)
@@ -163,25 +182,12 @@ def main():
     shutil.rmtree(temp_dir)
 
     print("⚙️ Rebuilding .antigravity-install-manifest.json...")
-    manifest_entries = []
-    for macro in MACRO_CATEGORIES:
-        macro_path = os.path.join(skills_dir, macro)
-        if not os.path.exists(macro_path):
-            continue
-        for sub in sorted(os.listdir(macro_path)):
-            sub_path = os.path.join(macro_path, sub)
-            if not os.path.isdir(sub_path):
-                continue
-            for skill in sorted(os.listdir(sub_path)):
-                skill_path = os.path.join(sub_path, skill)
-                if os.path.isdir(skill_path):
-                    relative_entry = f"{macro}/{sub}/{skill}"
-                    manifest_entries.append(relative_entry)
-                    
+    manifest_entries = find_leaf_skills()
+
     manifest_data = {
         "schemaVersion": 1,
-        "updatedAt": "2026-06-23T14:10:00.000Z",
-        "entries": sorted(manifest_entries)
+        "updatedAt": datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z"),
+        "entries": manifest_entries
     }
     
     with open(manifest_path, 'w', encoding='utf-8') as f:

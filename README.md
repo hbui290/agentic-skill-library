@@ -1,9 +1,9 @@
-# 🌌 Antigravity Skills Library
+# 🌌 Agentic Skills Library (Categorized)
 
 > [!IMPORTANT]
-> **Attribution Notice:** This repository is a restructured fork of [sickn33/antigravity-awesome-skills](https://github.com/sickn33/antigravity-awesome-skills). The original skills are authored by the contributors of the upstream repository. This fork reorganizes the flat folder structure into a categorized multi-tier hierarchy to optimize context search and prevent flat-directory parsing performance bottlenecks for AI agents in Antigravity IDE and other environments.
+> **Attribution Notice:** This repository is a restructured fork of [sickn33/agentic-awesome-skills](https://github.com/sickn33/agentic-awesome-skills) (formerly `antigravity-awesome-skills`). The original skills are authored by the contributors of the upstream repository. This fork reorganizes the flat folder structure into a categorized multi-tier hierarchy to optimize context search and prevent flat-directory parsing performance bottlenecks for AI agents in Antigravity IDE, Claude Code, and other environments.
 
-Welcome to the **Skills Library** for Antigravity IDE & CLI. This repository contains behavior playbooks (`SKILL.md`) that help AI agents perform automated tasks, planning, debugging, and system optimization.
+Welcome to the **Skills Library** for agentic tools (Antigravity IDE & CLI, Claude Code, Codex CLI, Cursor, Gemini CLI...). This repository contains behavior playbooks (`SKILL.md`) that help AI agents perform automated tasks, planning, debugging, and system optimization.
 
 To improve search efficiency and avoid I/O bottlenecks in flat directories, the skills are categorized into a multi-tier folder structure.
 
@@ -14,7 +14,7 @@ To improve search efficiency and avoid I/O bottlenecks in flat directories, the 
 To set up the skills library on a new machine, run this single command in your terminal:
 
 ```bash
-git clone https://github.com/hbui290/antigravity-categorized-skills.git ~/.agents/skills && python3 ~/.agents/skills/scripts/update_skills.py
+git clone https://github.com/hbui290/agentic-categorized-skills.git ~/.agents/skills && python3 ~/.agents/skills/scripts/update_skills.py
 ```
 
 This command will:
@@ -111,7 +111,7 @@ Refer to the matrix below to select the appropriate **Macro Category** for a new
 ## ⚙️ Configuration & Manifest Contract
 
 *   **Source Manifest:** [.antigravity-install-manifest.json](./.antigravity-install-manifest.json)
-*   **Total Registered Skills:** **1,900**
+*   **Total Registered Skills:** **1,949**
 
 ---
 
@@ -179,7 +179,7 @@ python3 ~/.agents/skills/scripts/verify_exact_skills.py
 ```
 If the output is:
 ```text
-Manifest has 1900 entries.
+Manifest has 1949 entries.
 SUCCESS: No duplicate entries in manifest.
 SUCCESS: Every manifest entry exists on disk!
 ```
