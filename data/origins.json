@@ -1,0 +1,7810 @@
+{
+  "ai-md": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "clarity-gate": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "manage-skills": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agent-creator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agent-framework-azure-ai-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agent-manager-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agent-orchestration-improve-agent": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agent-orchestration-multi-agent-optimize": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agent-orchestrator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agent-self-scheduling": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agent-squad": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agent-tool-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agentfolio": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agentmail": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agentphone": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agents-md": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agents-v2-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ai-agents-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "autonomous-agent-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "autonomous-agents": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aws-agentic-ai": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bdi-mental-states": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bdistill-behavioral-xray": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bdistill-knowledge-extraction": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "codex-subagent": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "computer-use-agents": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "delegating-to-agents": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dispatching-parallel-agents": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "distribute-skill-to-all-agents": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "effective-agent-skills": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hosted-agents": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hosted-agents-v2-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "llm-application-dev-langchain-agent": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "llm-council": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "m365-agents-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "m365-agents-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "m365-agents-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "multi-advisor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "multi-agent-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "multi-agent-brainstorming": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "multi-agent-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "multi-agent-task-orchestrator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "open-dynamic-workflows": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "parallel-agents": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pipecat-friday-agent": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "polis-protocol-a-self-optimizing-city-of-agents": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "product-decision-agent": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "claude-ally-health": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "claude-api": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "claude-code-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "claude-code-guide": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "claude-d3js-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "claude-in-chrome-troubleshooting": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "claude-monitor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "claude-scientific-skills": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "claude-settings-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "claude-speed-reader": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "claude-win11-speckit-update-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "deep-research": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "folder-specific-claude-and-agents-md": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gemini-api-dev": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gemini-interactions-api": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gemini-live-api-dev": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gemini-omni-flash-api": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "llm-application-dev-ai-assistant": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "notebooklm": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agent-memory": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agent-memory-mcp": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agent-memory-systems": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "context-agent": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "context-compression": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "context-degradation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "context-driven-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "context-engineering": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "context-fundamentals": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "context-guardian": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "context-kit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "context-management-context-restore": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "context-management-context-save": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "context-manager": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "context-optimization": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "context-window-management": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "conversation-memory": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "developer-audience-context": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "faf-context": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hierarchical-agent-memory": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "memory-systems": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mesh-memory": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "recallmax": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "recursive-context-pruning-token-budgeting": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tree-ring-memory": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "zipai-optimizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "advanced-evaluation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agent-evaluation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agentic-actions-auditor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "evaluation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "llm-evaluation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "runaway-guard": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ai-studio-image": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "audio-transcriber": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "computer-vision-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fal-audio": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fal-generate": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fal-image-edit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fal-platform": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fal-upscale": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fal-workflow": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seek-and-analyze-video": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "voice-agents": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "voice-ai-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "voice-ai-engine-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hugging-face-cli": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hugging-face-community-evals": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hugging-face-dataset-viewer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hugging-face-datasets": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hugging-face-evaluation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hugging-face-gradio": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hugging-face-jobs": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hugging-face-model-trainer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hugging-face-paper-publisher": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hugging-face-papers": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hugging-face-tool-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hugging-face-trackio": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hugging-face-vision-trainer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "huggingface-best": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "huggingface-local-models": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "huggingface-lora-space-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "huggingface-spaces": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "huggingface-tool-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "huggingface-zerogpu": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ilya-sutskever": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sam-altman": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "yann-lecun": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "yann-lecun-debate": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "yann-lecun-filosofia": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "yann-lecun-tecnico": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "app-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aws-mcp-setup": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hf-mcp": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "langchain-architecture": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "langgraph": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "llm-app-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mcp-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mcp-builder-ms": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pydantic-ai": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tool-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ui-skills": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brave-man": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "codex-fable5": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "moyu": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "project-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ai-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ai-dev-jobs-mcp": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ai-engineer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ai-engineering-toolkit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ai-native-cli": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ai-product": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ai-seo": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ai-wrapper-product": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "llm-ops": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "local-llm-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ml-engineer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mlops-engineer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "recsys-pipeline-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "remote-gpu-trainer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "scikit-learn": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "accint-solve": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aomi-transact": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "auri-core": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "loki-mode": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "molykit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fable-safe-prompt": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "llm-application-dev-prompt-optimize": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "llm-prompt-optimizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "llm-structured-output": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "prompt-caching": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "prompt-engineering": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "prompt-engineering-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "research-prompt": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ejentum-reasoning-harness": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "infinite-gratitude": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "lambda-lang": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "loop-library": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "polis-protocol": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "auto-research": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-storage-queue-rust": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "customer-research": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "embedding-strategies": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "exa-search": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gemini-deep-research": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hybrid-search-implementation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "monte-carlo-storage-cost-analysis": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "neon-object-storage": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "not-human-search-mcp": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pi-web-search": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "rag-engineer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "similarity-search-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tavily-web": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vector-database-engineer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vector-index-tuning": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ai-loop": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-language-conversations-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "neon-ai-gateway": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "00-andruia-consultant": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "10-andruia-skill-smith": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "20-andruia-niche-intelligence": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "backtesting-frameworks": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "longbridge": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "options-flow-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "quant-analyst": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "risk-manager": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "risk-metrics-calculation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "trading-ledger": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bamboohr-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "carrier-relationship-management": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "customer-support": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hr-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "inventory-demand-planning": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "production-scheduling": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "returns-reverse-logistics": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "team-composition-analysis": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "advogado-criminal": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "advogado-especialista": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "customs-trade-compliance": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "employment-contract-templates": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fda-food-safety-auditor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fda-medtech-compliance-auditor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "legal-advisor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "leiloeiro-avaliacao": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "leiloeiro-edital": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "leiloeiro-ia": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "leiloeiro-juridico": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "leiloeiro-mercado": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "leiloeiro-risco": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "lex": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "quality-nonconformance": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-accounting-setup": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-automated-tests": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-backup-strategy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-docker-deployment": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-ecommerce-configurator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-edi-connector": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-hr-payroll-setup": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-inventory-optimizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-l10n-compliance": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-manufacturing-advisor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-migration-helper": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-module-developer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-orm-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-performance-tuner": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-project-timesheet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-purchase-workflow": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-qweb-templates": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-rpc-api": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-sales-crm-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-security-rules": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-shopify-integration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-upgrade-advisor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-woocommerce-bridge": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odoo-xml-views-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brand-guidelines": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brand-guidelines-anthropic": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brand-guidelines-community": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "buywhere-product-catalog": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "content-creator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "product-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "product-inventor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "product-manager": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "product-manager-toolkit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "revops": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sales-automator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "zoho-crm-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "business-analyst": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "competitive-landscape": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "competitor-alternatives": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "competitor-analysis": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "geo-fundamentals": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "kpi-dashboard-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "market-sizing-analysis": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "moatmri": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "monetization": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "notion-template-business": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "osterwalder-canvas-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pricing-strategy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "saas-mvp-launcher": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "startup-analyst": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "startup-business-analyst-business-case": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "startup-business-analyst-financial-projections": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "startup-business-analyst-market-opportunity": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "startup-financial-modeling": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "startup-metrics-framework": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brooks-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cyber-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "energy-procurement": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "indexing-issue-auditor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "screenshots": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wp-site-health-auditor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "airtable-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "amazon-alexa": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "apify-actor-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "apify-actorization": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "apify-audience-analysis": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "apify-brand-reputation-monitoring": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "apify-competitor-intelligence": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "apify-content-analytics": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "apify-ecommerce": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "apify-influencer-discovery": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "apify-lead-generation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "apify-market-research": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "apify-trend-analysis": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "apify-ultimate-scraper": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "clickup-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "flowhunt-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "freshdesk-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gemini-api-integration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "google-analytics-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "google-docs-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "google-drive-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "helpdesk-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hubspot-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "intercom-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "make-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mcp-tool-developer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "n8n-code-javascript": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "n8n-code-python": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "n8n-expression-syntax": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "n8n-mcp-tools-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "n8n-node-configuration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "n8n-validation-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "n8n-workflow-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "notion-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "outlook-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "outlook-calendar-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "prompt-engineer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sendblue-notify": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sendgrid-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "shopify-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "slack-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "stripe-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "textme": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "zapier-make-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "zendesk-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "zoom-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aws-cdk-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aws-compliance-checker": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aws-cost-cleanup": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aws-cost-operations": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aws-cost-optimizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aws-iam-best-practices": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aws-penetration-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aws-secrets-rotation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aws-security-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aws-serverless": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aws-serverless-eda": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aws-skills": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aws-sst-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cdk-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cloudformation-best-practices": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "terraform-aws-modules": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-agents-persistent-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-agents-persistent-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-anomalydetector-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-contentsafety-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-contentsafety-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-contentsafety-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-contentunderstanding-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-document-intelligence-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-document-intelligence-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-formrecognizer-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-ml-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-openai-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-projects-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-projects-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-projects-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-projects-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-textanalytics-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-transcription-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-translation-document-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-translation-text-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-translation-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-vision-imageanalysis-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-vision-imageanalysis-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-voicelive-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-voicelive-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-voicelive-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-ai-voicelive-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-appconfiguration-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-appconfiguration-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-appconfiguration-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-communication-callautomation-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-communication-callingserver-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-communication-chat-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-communication-common-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-communication-sms-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-compute-batch-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-containerregistry-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-cosmos-db-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-cosmos-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-cosmos-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-cosmos-rust": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-cosmos-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-data-tables-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-data-tables-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-eventgrid-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-eventgrid-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-eventgrid-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-eventhub-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-eventhub-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-eventhub-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-eventhub-rust": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-eventhub-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-functions": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-identity-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-identity-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-identity-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-identity-rust": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-identity-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-keyvault-certificates-rust": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-keyvault-keys-rust": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-keyvault-keys-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-keyvault-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-keyvault-secrets-rust": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-keyvault-secrets-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-maps-search-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-messaging-webpubsub-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-messaging-webpubsubservice-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-mgmt-apicenter-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-mgmt-apicenter-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-mgmt-apimanagement-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-mgmt-apimanagement-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-mgmt-applicationinsights-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-mgmt-arizeaiobservabilityeval-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-mgmt-botservice-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-mgmt-botservice-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-mgmt-fabric-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-mgmt-fabric-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-mgmt-mongodbatlas-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-mgmt-weightsandbiases-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-microsoft-playwright-testing-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-monitor-ingestion-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-monitor-ingestion-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-monitor-opentelemetry-exporter-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-monitor-opentelemetry-exporter-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-monitor-opentelemetry-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-monitor-opentelemetry-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-monitor-query-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-monitor-query-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-postgres-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-resource-manager-cosmosdb-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-resource-manager-durabletask-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-resource-manager-mysql-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-resource-manager-playwright-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-resource-manager-postgresql-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-resource-manager-redis-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-resource-manager-sql-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-search-documents-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-search-documents-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-search-documents-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-security-keyvault-keys-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-security-keyvault-keys-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-security-keyvault-secrets-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-servicebus-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-servicebus-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-servicebus-rust": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-servicebus-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-speech-to-text-rest-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-storage-blob-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-storage-blob-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-storage-blob-rust": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-storage-blob-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-storage-file-datalake-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-storage-file-share-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-storage-file-share-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-storage-queue-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-storage-queue-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azure-web-pubsub-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "microsoft-azure-webjobs-extensions-authentication-events-dotnet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aegisops-ai": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "android-cli": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "azd-deployment": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ci-cd-and-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cicd-automation-workflow-automate": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "circleci-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cloud-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cost-optimization": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "deploy-to-vercel": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "deployment-engineer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "deployment-pipeline-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "deployment-procedures": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "devops-deploy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "devops-troubleshooter": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "docker-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "firebase": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gcp-cloud-run": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "github-actions-advanced": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gitops-workflow": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "helm-chart-scaffolding": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hybrid-cloud-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hybrid-cloud-networking": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "istio-traffic-management": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "k8s-manifest-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "kubernetes-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "kubestellar-console": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mise-configurator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "multi-cloud-architecture": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "render-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "server-management": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "service-mesh-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "smart-git-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "terraform-module-library": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "terraform-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "terraform-specialist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "007": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "active-directory-attacks": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "anti-reversing-techniques": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "attack-tree-construction": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "auth-implementation-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "binary-analysis-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "broken-authentication": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bumblebee": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "burp-suite-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "burpsuite-project-parser": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cloud-penetration-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "constant-time-analysis": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "container-security-hardening": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cred-omega": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dependency-management-deps-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ethical-hacking-methodology": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ffuf-claude-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ffuf-web-fuzzing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "file-path-traversal": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "file-uploads": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "firmware-analyst": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-security-coder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fsi-compliance-checker": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gdpr-data-handling": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gha-security-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "html-injection-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "idor-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "k8s-security-policies": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "laravel-security-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "linux-privilege-escalation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "malware-analyst": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "memory-forensics": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "metasploit-framework": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mtls-configuration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "network-101": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pci-compliance": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pentest-checklist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pentest-commands": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "privacy-by-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "privilege-escalation-methods": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "protocol-reverse-engineering": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "red-team-tactics": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "red-team-tools": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "reverse-engineer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sast-configuration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "scanning-tools": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "secrets-management": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "security-and-hardening": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "security-auditor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "security-bluebook-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "security-compliance-compliance-check": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "security-requirement-extraction": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "security-scanning-security-dependencies": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "security-scanning-security-hardening": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "security-scanning-security-sast": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "semgrep-rule-creator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "semgrep-rule-variant-creator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "shodan-reconnaissance": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "smtp-penetration-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "solidity-security": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sql-injection-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ssh-penetration-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "stride-analysis-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "threat-mitigation-mapping": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "threat-modeling-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tool-use-guardian": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "top-web-vulnerabilities": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "varlock": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "varlock-claude-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vulnerability-scanner": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "windows-privilege-escalation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wireshark-analysis": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wordpress-penetration-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "xss-html-injection": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "zeroize-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "application-performance-performance-optimization": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "datadog-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "distributed-debugging-debug-trace": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "distributed-tracing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "grafana-dashboards": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "incident-responder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "incident-response-incident-response": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "incident-response-smart-fix": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "incident-runbook-templates": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "observability-engineer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "observability-monitoring-monitor-setup": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "observability-monitoring-slo-implement": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "on-call-handoff-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pagerduty-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "postmortem-writing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sentry-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "service-mesh-observability": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "slo-implementation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tokenwise": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "android-ui-journey-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "android_ui_verification": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "audit-skills": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "awt-e2e-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bats-testing-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "browser-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "clarvia-aeo-check": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "deployment-validation-config-validate": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "differential-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dos-verify-done-claims": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "e2e-testing-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "go-playwright": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "k6-load-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "lambdatest-agent-skills": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mock-hunter": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "playwright-java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "playwright-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "production-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pypict-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "screen-reader-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skill-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skyvern-browser-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tdd-orchestrator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tdd-workflow": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tdd-workflows": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tdd-workflows-tdd-cycle": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tdd-workflows-tdd-green": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tdd-workflows-tdd-red": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tdd-workflows-tdd-refactor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "temporal-python-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "test-automator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "test-driven-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "testing-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "unit-testing-test-generate": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vibecode-production-qa-validator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "webapp-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "monte-carlo-monitoring-advisor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "api-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "api-design-principles": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "api-documentation-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "api-documenter": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "api-endpoint-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "api-fuzzing-bug-bounty": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "api-integration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "api-onboarding": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "api-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "api-sdk-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "api-security-best-practices": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "api-testing-observability-api-mock": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "backend-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "backend-dev-guidelines": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "backend-development-feature-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "backend-security-coder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dbos-golang": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dbos-python": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dbos-typescript": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "deepapi": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dotnet-backend": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dotnet-backend-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fastapi-router-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "graphql": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "grpc-golang": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "moodle-external-api-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "nestjs-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "nextjs-app-router-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "nodejs-backend-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "openapi-spec-generation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "openapi-spec-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "postman-openapi-converter": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "routerbase-model-gateway": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "runapi-cli": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "saas-multi-tenant": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "x402-express-wrapper": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "atlas-contract": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "blockchain-developer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "crypto-bd-agent": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "defi-protocol-templates": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "lightning-architecture-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "lightning-channel-factories": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "lightning-factory-explainer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "web3-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agenttrace-session-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brooks-lint": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "clean-code": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-documentation-code-explain": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-documentation-doc-generate": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-refactoring-context-restore": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-refactoring-refactor-clean": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-refactoring-tech-debt": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-review-ai-ai-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-review-and-quality": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-review-checklist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-review-excellence": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-reviewer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-simplifier": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "codebase-audit-pre-push": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "codebase-cleanup-deps-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "codebase-cleanup-refactor-clean": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "codebase-cleanup-tech-debt": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "codex-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "comprehensive-review-full-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "comprehensive-review-pr-enhance": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "django-access-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "django-perf-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dotnet-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fix-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "framework-migration-code-migrate": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "framework-migration-deps-upgrade": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "framework-migration-legacy-modernize": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "improve-codebase-architecture": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "kaizen": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "legacy-modernizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "performance-engineer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "performance-optimizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "performance-profiling": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "performance-testing-review-ai-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "performance-testing-review-multi-agent-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "senior-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "senior-fullstack": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skill-check": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "spec-to-code-compliance": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tdd": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "technical-change-tracker": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "test-fixing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "uncle-bob-craft": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vibe-code-auditor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vibe-code-cleanup": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vibers-code-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "claimable-postgres": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "database-admin": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "database-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "database-cloud-optimization-cost-optimize": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "database-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "database-migration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "database-migrations-migration-observability": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "database-migrations-sql-migrations": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "database-optimizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "drizzle-orm-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "neon-postgres": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "neon-postgres-branches": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "neon-postgres-egress-optimizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "nosql-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "postgres-best-practices": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "postgres-readonly-queries": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "postgresql": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "postgresql-cli": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "prisma-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pubmed-database": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sql-optimization-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sql-sentinel": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sqlmap-database-pentesting": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "supabase-postgres-best-practices": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "uniprot-database": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "using-neon": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bug-hunt-swarm": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bug-hunter": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-showcase-systematic-debugging": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "debugger": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "debugging-and-error-recovery": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "debugging-code": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "debugging-strategies": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "debugging-toolkit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "debugging-toolkit-smart-debug": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "diagnosing-bugs": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "error-debugging-error-analysis": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "error-debugging-error-trace": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "error-debugging-multi-agent-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "error-detective": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "error-diagnostics-error-analysis": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "error-diagnostics-error-trace": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "error-diagnostics-smart-debug": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "error-handling-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "find-bugs": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "logic-lens": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "systematic-debugging": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "triage": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-architecture": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-data-contracts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-lighthouse": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-observability": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-optimistic-mutations": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hig-components-content": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hig-components-controls": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hig-components-dialogs": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hig-components-layout": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hig-components-menus": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hig-components-search": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hig-components-status": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hig-components-system": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hig-foundations": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hig-inputs": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hig-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hig-platforms": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hig-project-context": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hig-technologies": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "i18n-localization": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "rayden-code": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sankhya-dashboard-html-jsp-custom-best-pratices": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "shadcn": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tanstack-query-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "trpc-fullstack": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "zod-validation-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fp-async": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fp-backend": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fp-data-transforms": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fp-either-ref": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fp-errors": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fp-option-ref": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fp-pipe-ref": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fp-pragmatic": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fp-react": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fp-refactor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fp-taskeither-ref": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fp-ts-errors": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fp-ts-pragmatic": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fp-ts-react": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fp-types-ref": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "2d-games": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "3d-games": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "faf-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "game-art": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "game-audio": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "game-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "game-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "godot-4-migration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "godot-gdscript-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "minecraft-bukkit-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mobile-games": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "multiplayer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "openclaw-github-repo-commander": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pc-games": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "unity-ai-game-creator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "unity-developer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "unity-ecs-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "unreal-engine-cpp-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vr-ar": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "web-games": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "2slides-ppt-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "algolia-search": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ax-extract-workflow": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cloudflare-workers-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "comfyui-gateway": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "copilot-sdk": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "discord-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "global-chat-agent-discovery": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "go-rod-master": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hubspot-integration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "junta-leiloeiros": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "microsoft-teams-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pakistan-payments-stack": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "payment-integration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "paypal-integration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "plaid-fintech": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "postmark-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "salesforce-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "salesforce-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sendblue-api": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sendblue-cli": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "shopify-apps": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "shopify-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "slack-bot-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "square-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "stripe-integration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "telegram": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "telegram-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "telegram-bot-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "twilio-communications": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "unsplash-integration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vexor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vexor-cli": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "whatsapp-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "whatsapp-cloud-api": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "youtube-full": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "async-python-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bash-defensive-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bash-linux": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bash-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "c-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "convex": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cpp-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "csharp-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "django-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ecl-harness-engineer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "elixir-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fastapi-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "golang-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "haskell-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hono": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "java-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "javascript-mastery": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "javascript-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "javascript-testing-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "javascript-typescript-typescript-scaffold": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "jq": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "julia-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "laravel-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "linux-shell-scripting": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "modern-javascript-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "php-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pydantic-models-py": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "python-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "python-development-python-scaffold": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "python-packaging": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "python-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "python-performance-optimization": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "python-pptx-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "python-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "python-testing-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ruby-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "rust-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "scala-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "shellcheck-configuration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "squirrel": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tmux": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "typescript-advanced-types": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "typescript-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "typescript-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "makepad-animation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "makepad-basics": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "makepad-deployment": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "makepad-dsl": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "makepad-event-action": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "makepad-font": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "makepad-layout": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "makepad-platform": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "makepad-reference": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "makepad-shaders": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "makepad-skills": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "makepad-splash": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "makepad-widgets": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "robius-app-architecture": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "robius-event-action": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "robius-matrix-integration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "robius-state-management": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "robius-widget-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "android-dev": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "android-jetpack-compose-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "avalonia-layout-zafiro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "avalonia-viewmodels-zafiro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "avalonia-zafiro-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "building-native-ui": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "electron-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "expo-api-routes": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "expo-cicd-workflows": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "expo-deployment": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "expo-dev-client": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "expo-tailwind-setup": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "expo-ui-jetpack-compose": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "expo-ui-swift-ui": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "flutter-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-mobile-development-component-scaffold": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ios-debugger-agent": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ios-developer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mobile-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mobile-developer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mobile-security-coder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "multi-platform-apps-multi-platform": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "native-data-fetching": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "swiftui-expert-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "swiftui-liquid-glass": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "swiftui-performance-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "swiftui-ui-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "swiftui-view-refactor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "upgrading-expo": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vscode-extension-guide-en": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "arm-cortex-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "busybox-on-windows": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dwarf-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gdb-cli": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "go-concurrency-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "kotlin-coroutines-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "memory-safety-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "rust-async-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "systems-programming-rust-project": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "SPDD": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "appdeploy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "base": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bazel-build-optimization": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bullmq-specialist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "codebase-to-wordpress-converter": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dependency-upgrade": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "devcontainer-setup": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "docx": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dx-optimizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "environment-setup-guide": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fastapi-templates": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "monorepo-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "monorepo-management": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "nx-workspace-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pdf": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pptx": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "prototype": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "setup-matt-pocock-skills": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "templates": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "turborepo-caching": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "unship": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "using-git-worktrees": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "uv-package-manager": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "xlsx": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ab-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "accint-commitments": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "accint-frames": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "add-app-clip": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "alternatives-pages": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "analytics": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "anti-deception": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "anti-sleep": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "appium-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "apple-container": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "applicationinsights-web-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "arrowspace": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ask-copilot": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "automated-triage": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brain-to-docs": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brooks-debt": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brooks-harness": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brooks-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brooks-sweep": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brooks-test": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "browser-harness": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "browser-testing-with-devtools": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "changelog-updates": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-polish": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-showcase-core-components": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-showcase-testing-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-simplification": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "codex-profiles": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "competitor-profiling": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "competitor-tracking": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cucumber-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cypress-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "deprecation-and-migration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dev-to-hashnode": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "developer-advocacy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "developer-churn": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "developer-listening": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "developer-newsletter": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "developer-onboarding": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "developer-sandbox": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "developer-signup-flow": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "devrel-content": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dispatch": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "doubt-driven-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "drizzle-migration-conflict": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "eas-update-insights": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "expo-brownfield": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "expo-examples": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "expo-module": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "expo-observe": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "faf-go": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "formik-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "free-tier-strategy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gh-image": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "go-in-depth": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "goal-loop": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "graphql-schema": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hf-mem": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hugo-to-markdown": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hyperexecute-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "idea-refine": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "implement": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "incremental-implementation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "infinity": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "jest-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "junit-5-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "logic-diff": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "logic-explain": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "logic-fix-all": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "logic-locate": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "logic-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "longbridge-content": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "longbridge-fundamentals": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "longbridge-market-data": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "loopy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "markdown-rendering": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mdpr-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "monte-carlo-analyze-root-cause": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "monte-carlo-performance-diagnosis": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "monte-carlo-remediation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "neon-functions": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "newman-cicd-integration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "observability-and-instrumentation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "odw": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "offers": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "onboarding": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "performance-optimization": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pi-custom-model": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pilot-protocol": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "postman-collection-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "postman-newman-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "power-user-cultivation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pre-release-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pre-ship-gate": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pricing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "privacy-mask": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "public-relations": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "puppeteer-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pytest-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "rclone-cli": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "re-create": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "read-all-adrs": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "redis-cli": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "repo-maintainer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "resolving-merge-conflicts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "review-and-simplify-changes": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "review-swarm": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "riffkit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "robot-framework-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "run-deep-swe": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sdk-dx": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "selenium-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "setup-help": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "shipping-and-launch": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "short": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "source-driven-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "spec-driven-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "supabase": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "technical-tutorials": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "telegram-bot-messaging": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "test-framework-migration-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "testng-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "the-honoured-one": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "time-ledger": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "train-sentence-transformers": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "trl-training": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tune-monitor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "unslop-commit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "unslop-file": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "unslop-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "usage-based-pricing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "use-dom": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vitest-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vps-server-management": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "weaviate": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "weaviate-cookbooks": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "webdriverio-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wgm": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wjttc-tester": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "workorai": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ab-test-setup": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cron-doctor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "form-cro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "onboarding-cro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "page-cro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "paywall-upgrade-cro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "popup-cro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "signup-flow-cro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "activecampaign-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brevo-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "convertkit-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "email-sequence": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "klaviyo-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mailchimp-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pipedrive-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "co-marketing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "copy-editing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "copywriting": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "crossframe-org": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "docs-as-marketing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "free-tool-strategy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "growth-engine": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "kotler-macro-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "launch-strategy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "marketing-ideas": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "marketing-plan": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "marketing-psychology": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "micro-saas-launcher": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "open-source-marketing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "paid-ads": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "product-marketing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "product-marketing-context": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "referral-program": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "viral-generator-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "app-store-optimization": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "developer-seo": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-seo": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "keyword-extractor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "local-legal-seo-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "nextjs-seo-indexing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "programmatic-seo": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "schema-markup": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "schema-markup-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tools-page-seo-optimizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "instagram": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "instagram-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "linkedin-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "linkedin-cli": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "linkedin-content-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "linkedin-profile-optimizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "reddit-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "social-content": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "social-metadata-hardening": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "social-orchestrator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "social-post-writer-seo": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "socialclaw": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tiktok-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "twitter-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wechat-official-account-strategist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "x-article-publisher-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "xiaohongshu-content-strategist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "youtube-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "linkedin-post-writer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "taisly-social-media-posting": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "3d-web-experience": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "animejs-animation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fixing-motion-performance": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "premium-3d-website": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "review-animations": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "scroll-experience": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "spline-3d-integration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "threejs-animation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "threejs-fundamentals": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "threejs-geometry": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "threejs-interaction": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "threejs-lighting": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "threejs-loaders": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "threejs-materials": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "threejs-postprocessing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "threejs-shaders": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "threejs-skills": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "threejs-textures": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "accessibility-compliance-accessibility-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "accesslint-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fixing-accessibility": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fixing-metadata": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ui-a11y": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ui-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ui-visual-validator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ux-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wcag-audit-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "3d-ui": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "algorithmic-art": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aurora-ui": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bento-ui": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brutalism": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brutalist-typography": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "canvas-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "card-based-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "claymorphism": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "color-blocking": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cyber-y2k": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cyberpunk-ui": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dark-mode": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "data-dense-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "draw": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "duotone-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "flat-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "flat-design-2": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frutiger-aero": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "glassmorphism": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gradient-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "high-contrast": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "high-end-visual-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "holographic-ui": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "industrial-brutalist-ui": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "isometric-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "layered-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "material-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "maximalism": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "minimalism": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "minimalist-ui": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "monochromatic-ui": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "neo-brutalism": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "neumorphism": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "retro-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "retro-futurism": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sci-fi-interface": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skeuomorphism": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "soft-pastel": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "spatial-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "swiss-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "synthwave": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tile-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "typography-first": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vaporwave": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vibrant-maximalism": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "widget-based-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "y2k-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "baseline-ui": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "core-components": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "design-system": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "floating-ui": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "iconsax-library": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "magic-ui-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "radix-ui-design-system": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "rayden-use": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tailwind-design-system": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tailwind-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "theme-factory": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ui-component": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ui-page": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ui-pattern": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ui-setup": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ui-tokens": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "antigravity-design-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "canva-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "figma-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vizcom": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "webflow-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "angular": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "angular-best-practices": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "angular-migration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "angular-state-management": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "angular-ui-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "astro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sveltekit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bun-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-api-integration-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-dev-guidelines": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-developer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-mobile-security-xss-scan": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-ui-dark-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "progressive-web-app": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "redesign-existing-projects": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "senior-frontend": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-technical": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "web-design-guidelines": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "web-performance-optimization": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ai-native-ui": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bilig-workpaper": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "browser-extension-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "chat-widget": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "chrome-extension-developer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "command-center-ui": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dashboard-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "discord-bot-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "enhance-prompt": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "full-output-enforcement": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "image-studio": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "imagen": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "interactive-portfolio": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "landing-page-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "spatial-computing-ui": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "transformers-js": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vercel-ai-sdk-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "web-artifacts-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "nextjs-best-practices": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "react-best-practices": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "react-component-performance": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "react-flow-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "react-flow-node-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "react-modernization": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "react-native-architecture": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "react-native-skills": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "react-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "react-state-management": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "react-ui-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vercel-react-view-transitions": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "zustand-store-ts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "api-and-interface-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "api-designer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "before-you-build": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cmux": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "code-showcase-react-ui-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "community-building": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "design-philosophy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "design-spatial": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "design-thinking": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "design-ux": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "emil-design-eng": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "expo-ui": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-ui-engineering": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "grok-build": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "interview-style-doc-building": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "smartui-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "styleseed-design-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ui-lint": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ui-motion": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ui-score": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ui-skills-root": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ui-update": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "update-swiftui-apis": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wjttc-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ckw-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "design-it": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "design-md": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "design-orchestration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "design-spells": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "design-taste-frontend": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "editorial-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gpt-taste": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "stitch-design-taste": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "stitch-ui-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ui-ux-designer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ui-ux-pro-max": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "user-thoughts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ux-copy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ux-feedback": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ux-flow": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "uxui-principles": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "box-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cal-com-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "calendly-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "docusign-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dropbox-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gmail-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "google-calendar-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "google-sheets-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "google-slides-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "googlesheets-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "office-productivity": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "one-drive-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "calc": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "doc-coauthoring": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "docx-official": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-slides": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "impress": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "nanobanana-ppt-skills": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pdf-official": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pptx-official": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "writer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "xlsx-official": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ask-matt": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "daily-gift": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "emergency-card": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "examprep-ai": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "interview-coach": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "learn": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "lesson-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "papers-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "puzzle-activity-planner": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "teach": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "family-health-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "fitness-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "food-database-query": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "health-trend-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mental-health-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "monte-carlo-asset-health": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "nutrition-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "occupational-health-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "oral-health-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "rehabilitation-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sexual-health-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skin-health-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sleep-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tcm-constitution-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "travel-health-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "weightloss-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "grill-me": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "grill-with-docs": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "grilling": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "handoff": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "rich-elicitation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "survey-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "article-illustrations": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "image-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "remotion": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "remotion-best-practices": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "stability-ai": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "video-content-extractor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "videodb": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "videodb-skills": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "youtube-notetaker": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bulletmind": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "faf-wizard": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "file-organizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "goal-analyzer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ii-commons": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "news-sentiment-engine": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "satori": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "unslop": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "viboscope": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wiki-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "astropy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "biopython": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cirq": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "matplotlib": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "networkx": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "qiskit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "scanpy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seaborn": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "statsmodels": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sympy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "documentation-and-adrs": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "frontend-slides-frontend-slides": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "youtube-transcript": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "agentflow": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ai-ml": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "andrej-karpathy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "anti-sycophancy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "antigravity-agent-manager": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "antigravity-skill-orchestrator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "antigravity-workflows": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "avoid-ai-writing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bill-gates": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "clerk-auth": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "crewai": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "elon-musk": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "emblemai-crypto-wallet": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "geoffrey-hinton": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "helium-mcp": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "inngest": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "it-manager-hospital": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "it-manager-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "itil-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "jobgpt": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "langfuse": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "machine-learning-ops-ml-pipeline": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "matematico-tao": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mercury-mcp": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ml-pipeline-workflow": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "prompt-library": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "rag-implementation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "steve-jobs": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "subagent-orchestrator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "trigger-dev": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "warren-buffett": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "c4-architecture-c4-architecture": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "c4-code": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "c4-component": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "c4-container": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "c4-context": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cc-skill-backend-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cc-skill-clickhouse-io": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cc-skill-coding-standards": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cc-skill-continuous-learning": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cc-skill-frontend-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cc-skill-project-guidelines-example": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cc-skill-security-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cc-skill-strategic-compact": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "nerdzao-elite": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "nerdzao-elite-gemini-high": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "nodejs-best-practices": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "asana-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "basecamp-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "billing-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "changelog-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "close-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "coda-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "confluence-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "daily": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "daily-news-report": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "diary": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "email-systems": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "event-staffing-compliance": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "event-staffing-ordering": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "freshservice-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "internal-comms": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "internal-comms-anthropic": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "internal-comms-community": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "jira-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "linear-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "linear-claude-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "logistics-exception-management": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mailtrap-managing-contacts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mailtrap-sending-emails": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mailtrap-setting-up-sending-domain": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "miro-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "monday-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "slack-gif-creator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "supabase-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "team-collaboration-issue": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "team-collaboration-standup-notes": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "todoist-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "track-management": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "trello-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wellally-tech": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wrike-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "conductor-implement": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "conductor-manage": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "conductor-new-track": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "conductor-revert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "conductor-setup": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "conductor-status": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "conductor-validator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "crossframe": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "crossframe-casebook": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "crossframe-critical": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "crossframe-debate": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "crossframe-dialogue": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "crossframe-essay": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "crossframe-notebook": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "crossframe-public": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "crossframe-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "crossframe-suite": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "crossframe-teach": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "amplitude-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "analytics-product": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "analytics-tracking": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "atlas-ledger": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "axiom": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "data-engineer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "data-engineering-data-driven-feature": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "data-engineering-data-pipeline": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "data-quality-frameworks": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "data-scientist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "data-storytelling": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "data-structure-protocol": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "database": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mixpanel-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "monte-carlo-monitor-creation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "monte-carlo-prevent": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "monte-carlo-push-ingestion": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "monte-carlo-validation-notebook": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "plotly": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "polars": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "postgresql-optimization": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "posthog-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "prometheus-configuration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "segment-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "segment-cdp": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "spark-optimization": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "upstash-qstash": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "address-github-comments": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bitbucket-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "commit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "create-branch": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "create-issue-gate": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "create-pr": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "finishing-a-development-branch": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "geminiignore-finops": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gh-review-requests": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "git-advanced-workflows": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "git-hooks-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "git-pr-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "git-pr-workflows-git-workflow": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "git-pr-workflows-onboard": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "git-pr-workflows-pr-enhance": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "git-pushing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "git-workflow-and-versioning": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "github": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "github-actions-debugger": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "github-actions-templates": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "github-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "github-issue-creator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "github-presence": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "github-workflow-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "issues": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "iterate-pr": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "last30days": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "manifest": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pr-merge-champion": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pr-writer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "push-skill-to-github": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "receiving-code-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "requesting-code-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wordpress-centric-high-seo-optimized-blogwriting-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gitlab-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "gitlab-ci-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "json-canvas": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "obsidian-bases": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "obsidian-cli": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "obsidian-clipper-template-creator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "obsidian-markdown": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ai-agent-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "analyze-project": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ask-questions-if-underspecified": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "audit-context-building": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "behavioral-modes": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "blockrun": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "blueprint": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brainstorming": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "build": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "closed-loop-delivery": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cloud-devops": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "complexity-cuts": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "concise-planning": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "decision-navigator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "defuddle": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dep": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "deterministic-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "earllm-build": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "evolution": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "executing-plans": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "filesystem-context": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "full-stack-orchestration-full-stack-feature": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "idea-darwin": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "idea-os": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "identity-mirror": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "kubernetes-deployment": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "linear": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "linux-troubleshooting": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "lookdev": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "lookdev-auto": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "lovable-cleanup": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "macos-menubar-tuist-app": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "macos-screen-recorder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "macos-spm-app-packaging": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "magic-animator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mason": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "max": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "maxia": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mmx-cli": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "new-rails-project": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "not-a-vibe-coder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "orchestrate-batch-refactor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pagespeed-enhancer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "personal-tool-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "photopea-embedded-editor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "plan-writing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "planning-and-task-breakdown": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "planning-with-files": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "production-code-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "progressive-estimation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "project-skill-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "python-fastapi-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "react-nextjs-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "reference-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "scale-benchmarks": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "screenstudio-alt": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sharp-coder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sharp-edges": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "simplify-code": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "snowflake-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "speed": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "stitch-loop": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "subagent-driven-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "super-code": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "task-intelligence": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tech-matrix": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "telegram-mini-app": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "terraform-infrastructure": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "to-issues": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "to-prd": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "trust-calibrator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "variant-analysis": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "workflow-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "workflow-orchestration-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "workflow-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "writing-plans": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bash": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bash-scripting": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "c": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cpp": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "csharp": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dart": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "elixir": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "go": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "java": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "kotlin": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "os-scripting": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "php": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "posix-shell-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "powershell-windows": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "python": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "rex": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ruby": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "rust": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "scala": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "shader-programming-glsl": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sql-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "swift": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "swift-concurrency-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "typescript": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "windows-shell-reliability": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "adhx": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "alpha-vantage": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "apple-notes-search": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "context7-auto-research": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "efficient-web-research": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "firecrawl-scraper": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hasdata": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "hasdata-cli": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ingest-youtube": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "oss-hunter": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "search-specialist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "web-media-getter": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "web-scraper": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "x-twitter-scraper": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "xvary-stock-research": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "youtube-summarizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ad-creative": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "awareness-stage-mapper": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "brand-perception-psychologist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "churn-prevention": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cold-email": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "content-marketer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "content-strategy": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "copywriting-psychologist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "customer-psychographic-profiler": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "emotional-arc-designer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "favicon": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "headline-psychologist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "jobs-to-be-done-analyst": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "lead-magnets": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "loss-aversion-designer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "objection-preemptor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "onboarding-psychologist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pitch-psychologist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "price-psychology-strategist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sales-enablement": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "scarcity-urgency-psychologist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-aeo-blog-writer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-aeo-content-cluster": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-aeo-content-quality-auditor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-aeo-internal-linking": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-aeo-keyword-research": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-aeo-landing-page-writer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-aeo-meta-description-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-aeo-schema-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-authority-builder": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-cannibalization-detector": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-competitor-pages": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-content": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-content-auditor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-content-planner": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-content-refresher": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-content-writer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-dataforseo": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-forensic-incident-response": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-fundamentals": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-geo": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-hreflang": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-image-gen": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-images": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-keyword-strategist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-meta-optimizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-page": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-plan": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-programmatic": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-schema": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-sitemap": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-snippet-hunter": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "seo-structure-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sequence-psychologist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "social-proof-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "subject-line-psychologist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ux-persuasion-engineer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "visual-emotion-engineer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "yield-intelligence": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "youtube-seo-optimizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skill-creator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skill-creator-ms": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skill-developer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skill-improver": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skill-installer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skill-issue": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skill-optimizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skill-rails-upgrade": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skill-router": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skill-scanner": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skill-seekers": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skill-sentinel": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skill-suggester": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "skill-writer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "superpowers-lab": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "using-superpowers": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "writing-great-skills": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "writing-skills": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "yao-meta-skill": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "airflow-dag-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "architect-review": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "architecture": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "architecture-decision-records": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "architecture-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bevy-ecs-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "codebase-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "composition-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cqrs-implementation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "dbt-transformation-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ddd-context-mapping": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ddd-strategic-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "ddd-tactical-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "domain-driven-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "domain-modeling": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "event-sourcing-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "event-store-design": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "graphql-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "linkerd-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "microservices-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "monopoly": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "network-engineer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "nextjs-supabase-auth": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "nft-standards": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "projection-patterns": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "saga-orchestration": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "site-architecture": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "software-architecture": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sred-project-organizer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "sred-work-summary": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "temporal-golang-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "temporal-python-pro": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "acceptance-orchestrator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "accesslint-diff": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "accesslint-scan": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "akf-trust-metadata": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "alex": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "api-security-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "aria": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "bugs-are-annoying": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "debug-buttercup": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "e2e-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "invariant-guard": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "lint-and-validate": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "luna": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mailtrap-testing-with-sandbox": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mathguard": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "permission-manager": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "phase-gated-debugging": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "protect-mcp-governance": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "quinn": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "security-audit": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "security-checklist": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "speckit-updater": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "supply-chain-risk-auditor": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "testing-qa": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "verification-before-completion": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "web-security-testing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "web-project-brainstorming": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vercel-automation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vercel-cli-with-tokens": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vercel-deployment": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "vercel-optimize": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wiki-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wiki-changelog": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wiki-onboarding": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wiki-page-writer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wiki-qa": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wiki-researcher": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wiki-vitepress": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wordpress": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wordpress-plugin-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wordpress-theme-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "wordpress-woocommerce-development": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "api-documentation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "app-store-changelog": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "beautiful-prose": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "blog-writing-guide": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "citation-management": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "cv-generator": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "doc2math": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "docs-architect": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "documentation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "documentation-generation-doc-generate": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "documentation-templates": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "explain-like-socrates": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "humanize-chinese": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "latex-paper-conversion": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "lemmaly": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "mermaid-expert": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "pdf-conversion-router": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "podcast-generation": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "professional-proofreader": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "readme": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "scientific-writing": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "tutorial-engineer": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "yes-md": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "nika": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "uizze-ui-research": {
+    "owner": "sickn33",
+    "also": []
+  },
+  "idea-autopsy": {
+    "owner": "sickn33",
+    "also": []
+  }
+}

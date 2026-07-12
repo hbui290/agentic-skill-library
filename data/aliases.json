@@ -1,0 +1,5 @@
+{
+  "schemaVersion": 1,
+  "comment": "Curation decisions for duplicate/similar skills: alias name -> canonical skill name. Filled by human/agent review of reports/dedup-review.md; consumed by build_librarian_index.py so decisions persist across updates.",
+  "aliases": {}
+}

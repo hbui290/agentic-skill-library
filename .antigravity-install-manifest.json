@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-07-11T05:11:31.729Z",
+  "updatedAt": "2026-07-12T09:31:29.189Z",
   "entries": [
     "ai-and-data/admin-and-utilities/ai-md",
     "ai-and-data/admin-and-utilities/clarity-gate",
@@ -200,6 +200,7 @@
     "ai-and-data/rag-and-search/rag-engineer",
     "ai-and-data/rag-and-search/similarity-search-patterns",
     "ai-and-data/rag-and-search/tavily-web",
+    "ai-and-data/rag-and-search/uizze-ui-research",
     "ai-and-data/rag-and-search/vector-database-engineer",
     "ai-and-data/rag-and-search/vector-index-tuning",
     "ai-and-data/uncategorized-and-misc/ai-loop",
@@ -1067,6 +1068,7 @@
     "engineering/uncategorized-and-misc/hf-mem",
     "engineering/uncategorized-and-misc/hugo-to-markdown",
     "engineering/uncategorized-and-misc/hyperexecute-skill",
+    "engineering/uncategorized-and-misc/idea-autopsy",
     "engineering/uncategorized-and-misc/idea-refine",
     "engineering/uncategorized-and-misc/implement",
     "engineering/uncategorized-and-misc/incremental-implementation",
@@ -1089,6 +1091,7 @@
     "engineering/uncategorized-and-misc/monte-carlo-remediation",
     "engineering/uncategorized-and-misc/neon-functions",
     "engineering/uncategorized-and-misc/newman-cicd-integration",
+    "engineering/uncategorized-and-misc/nika",
     "engineering/uncategorized-and-misc/observability-and-instrumentation",
     "engineering/uncategorized-and-misc/odw",
     "engineering/uncategorized-and-misc/offers",

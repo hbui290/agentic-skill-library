@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "name": "sickn33",
+      "git_url": "https://github.com/sickn33/agentic-awesome-skills.git",
+      "layout": "skills-subdir",
+      "priority": 1,
+      "license_note": "Per-skill licenses tracked upstream in docs/sources/sources.md and LICENSE-CONTENT",
+      "index_file": "skills_index.json"
+    }
+  ]
+}

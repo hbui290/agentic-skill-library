@@ -111,7 +111,29 @@ Refer to the matrix below to select the appropriate **Macro Category** for a new
 ## ⚙️ Configuration & Manifest Contract
 
 *   **Source Manifest:** [.antigravity-install-manifest.json](./.antigravity-install-manifest.json)
-*   **Total Registered Skills:** **1,949**
+*   **Total Registered Skills:** **1,952**
+
+---
+
+## 📚 Librarian Index & Multi-Source
+
+This library is an **encyclopedia**: it aggregates skills from multiple upstream repositories while never loading the whole catalog into an agent's context. Two components make that work:
+
+### Librarian Index — [librarian-index.json](./librarian-index.json)
+Machine-readable search index rebuilt on every update. Each entry carries `name`, `taxonomy` (macro/subcategory path), `description`, `category_fine`, `risk`, `source_repo`, `origin`, `license`, `content_hash`, `similar_to`, and `canonical`. Agents search it by keyword (grep — ~0 tokens) instead of listing skills. Rebuild standalone (no network):
+```bash
+python3 ~/.agents/skills/scripts/build_librarian_index.py
+```
+
+### Source Registry — [sources.json](./sources.json)
+Every upstream repo is one entry (`name`, `git_url`, `layout`, `priority`, `license_note`). `update_skills.py` pulls each source in priority order. Adding a source = appending an entry and re-running the update script.
+
+### Deduplication (3 layers)
+1. **Identical content** (SHA256 dir hash) → skipped; extra origin recorded in `data/origins.json`.
+2. **Same name, different content** → stored as `<name>__<source>`, never overwritten; reported.
+3. **Similar descriptions** (token overlap) → flagged in `data/similars.json`; reported.
+
+Findings land in `reports/dedup-review.md`. The pipeline only *marks* duplicates — a human/agent review resolves them via `alias → canonical` mappings in [data/aliases.json](./data/aliases.json), and decisions persist across updates.
 
 ---
 
@@ -162,12 +184,13 @@ Use the automation script to fetch updates from upstream without breaking the ca
     ```
 
 ### ⚙️ Update Pipeline:
-1.  **Shallow Clone:** Clones the upstream awesome-skills repository to a temporary directory.
-2.  **In-place Update:** Updates content for existing skills within their current category folders.
-3.  **Auto-Classification:** Places new upstream skills into appropriate categories using keyword rules. Unknown skills fall back to `uncategorized-and-misc`.
+1.  **Multi-Source Clone:** Shallow-clones every repository listed in `sources.json`, in priority order.
+2.  **Dedup + In-place Update:** Hash-skips unchanged skills, updates changed skills within their current category folders, namespaces name collisions, flags semantic similars (see Deduplication above).
+3.  **Auto-Classification:** Places new skills into appropriate categories using keyword rules. Unknown skills fall back to `uncategorized-and-misc`.
 4.  **Rebuild Manifest:** Re-indexes the directory structure to `.antigravity-install-manifest.json`.
 5.  **Rebuild README:** Updates the ASCII directory tree in `README.md`.
-6.  **Flat Sync:** Executes `sync_flat_skills.py` to rebuild symlinks in the flat directory for MCP and plugin cache.
+6.  **Flat Sync:** Executes `sync_flat_skills.py` to rebuild symlinks in the flat directory for MCP.
+7.  **Librarian Index:** Executes `build_librarian_index.py` to rebuild `librarian-index.json` (upstream index JOIN local taxonomy, frontmatter fallback).
 
 ---
 
@@ -179,7 +202,7 @@ python3 ~/.agents/skills/scripts/verify_exact_skills.py
 ```
 If the output is:
 ```text
-Manifest has 1949 entries.
+Manifest has 1952 entries.
 SUCCESS: No duplicate entries in manifest.
 SUCCESS: Every manifest entry exists on disk!
 ```
