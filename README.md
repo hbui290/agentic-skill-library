@@ -1,145 +1,96 @@
-# 🌌 Agentic Skills Library (Categorized)
+# Agentic Library
 
-> [!IMPORTANT]
-> **Attribution Notice:** This repository is a restructured fork of [sickn33/agentic-awesome-skills](https://github.com/sickn33/agentic-awesome-skills) (formerly `antigravity-awesome-skills`). The original skills are authored by the contributors of the upstream repository. This fork reorganizes the flat folder structure into a categorized multi-tier hierarchy to optimize context search and prevent flat-directory parsing performance bottlenecks for AI agents in Antigravity IDE, Claude Code, and other environments.
+A categorized, multi-source library of ~2,000 agent skills (`SKILL.md` playbooks) for AI coding agents — Claude Code, Antigravity, Codex CLI, Cursor, Gemini CLI, and others. The whole library lives on disk; an agent never loads all of it into context. A machine-readable **librarian index** lets an agent find the one skill it needs by keyword search, then load just that skill on demand via MCP.
 
-Welcome to the **Skills Library** for agentic tools (Antigravity IDE & CLI, Claude Code, Codex CLI, Cursor, Gemini CLI...). This repository contains behavior playbooks (`SKILL.md`) that help AI agents perform automated tasks, planning, debugging, and system optimization.
-
-To improve search efficiency and avoid I/O bottlenecks in flat directories, the skills are categorized into a multi-tier folder structure.
+> **Attribution:** This is a restructured, multi-source fork. The founding collection comes from [sickn33/agentic-awesome-skills](https://github.com/sickn33/agentic-awesome-skills) (itself an aggregation of ~79 upstream repositories, with per-skill licenses tracked there). The original skills belong to their authors. This fork adds: the 9-category hierarchy, the librarian index, multi-source ingestion, and deduplication.
 
 ---
 
-## 📥 Quick Setup
-
-To set up the skills library on a new machine, run this single command in your terminal:
+## Quick Setup
 
 ```bash
-git clone https://github.com/hbui290/agentic-categorized-skills.git ~/.agents/skills && python3 ~/.agents/skills/scripts/update_skills.py
+# 1. Clone and populate
+git clone https://github.com/hbui290/agentic-library.git ~/.agents/skills
+python3 ~/.agents/skills/scripts/update_skills.py
+
+# 2. Register the MCP loader (Claude Code)
+claude mcp add skills-library --scope user \
+  --env SKILLS_PATH="$HOME/.agents/flat-skills" \
+  --env SUPERPOWERS_SKILLS_DIR="$HOME/.agents/flat-skills" \
+  -- npx -y superpowers-mcp@6.0.1 start
 ```
 
-This command will:
-1. Clone the repository to your local directory `~/.agents/skills`.
-2. Automatically pull the latest upstream skills, run auto-classification, rebuild index/manifests, and establish the flat-linking directory `~/.agents/flat-skills` for MCP.
-
-Next, configure the **`superpowers`** MCP server in your IDE's `mcp_config.json` as described in the [MCP Integration](#-mcp-integration) section below.
+The update script clones every source in `sources.json`, auto-classifies new skills, deduplicates, and rebuilds the manifest, directory tree, flat-link directory (`~/.agents/flat-skills`, for MCP), and the librarian index.
 
 ---
 
-## 🌲 Detailed Directory Tree
+## How It Works (4 layers)
 
-To view the complete list and nested structure of all registered skills with direct file links, please refer to the dedicated [DIRECTORY_TREE.md](./DIRECTORY_TREE.md) file.
+| Layer | What | Where |
+|---|---|---|
+| **1. Collect** | `update_skills.py` pulls every repo in `sources.json` and auto-classifies | this repo |
+| **2. Index** | `librarian-index.json` — each skill's name, category path, description, risk, source, license | `librarian-index.json` |
+| **3. Search** | An agent greps the index by keyword (~0 tokens) to pick 1–3 candidates | any grep tool / a `find-skill` meta-skill |
+| **4. Load** | Load only the chosen skill via MCP `read_skill`, or read `~/.agents/flat-skills/<name>/SKILL.md` | `skills-library` MCP server |
 
-## 📂 Directory Structure Details
-
-The library is organized into **9 Macro Categories**, each containing specialized subcategories:
-
-### 1. [ai-and-data](./ai-and-data)
-Skills related to Artificial Intelligence, Data Processing, MLOps, RAG, and Large Language Models (LLMs).
-
-### 2. [andruia](./andruia)
-Consultancy, expert skill design, and niche intelligence playbooks for Andruia.
-
-### 3. [business-and-finance](./business-and-finance)
-Business analysis, finance, Odoo development, legal compliance, and operations.
-
-### 4. [devops-and-security](./devops-and-security)
-Security, pentesting, cloud infrastructure management, automation, and CI/CD pipelines.
-
-### 5. [engineering](./engineering)
-Software development, algorithms, system architecture, mobile/game development, and codebase management.
-
-### 6. [marketing-and-seo](./marketing-and-seo)
-Marketing strategies, SEO, Conversion Rate Optimization (CRO), and social media outreach.
-
-### 7. [product-and-design](./product-and-design)
-UI/UX design, aesthetic styles, 3D motion, animation, and frontend performance.
-
-### 8. [productivity-and-content](./productivity-and-content)
-Office automation, health and wellness, educational content, and scientific computing.
-
-### 9. [workflows-and-management](./workflows-and-management)
-Project management, collaboration workflows, agent execution paths, and technical documentation.
+The point: the agent searches a compact index instead of listing ~2,000 skills into context, then loads exactly one.
 
 ---
 
-## 🎯 Agent Taxonomy & Classification Rules
+## Directory Structure
 
-To help AI agents maintain consistency when adding or moving skills, adhere to the following classification guidelines:
+Skills are organized into **9 macro categories**, each with subcategories:
 
-### 1. Domain Mapping Decision Matrix
+| Category | Covers |
+|---|---|
+| [ai-and-data](./ai-and-data) | AI, LLMs, prompts, RAG, MLOps, data processing |
+| [andruia](./andruia) | Andru.ia consultancy and niche-intelligence skills |
+| [business-and-finance](./business-and-finance) | Business, finance, legal, Odoo ERP, operations |
+| [devops-and-security](./devops-and-security) | Cloud, Docker, CI/CD, pentesting, security |
+| [engineering](./engineering) | Programming, algorithms, databases, debugging, architecture |
+| [marketing-and-seo](./marketing-and-seo) | SEO, marketing, copywriting, CRO, social |
+| [product-and-design](./product-and-design) | UI/UX, aesthetics, 3D/motion, design systems |
+| [productivity-and-content](./productivity-and-content) | Office automation, health, education, scientific computing |
+| [workflows-and-management](./workflows-and-management) | Project management, Git, planning, documentation |
 
-Refer to the matrix below to select the appropriate **Macro Category** for a new skill:
+Full nested tree with file links: [DIRECTORY_TREE.md](./DIRECTORY_TREE.md).
 
-| Skill Task Domain | Macro Category | Example Subcategories |
-| :--- | :--- | :--- |
-| AI, LLMs, Prompts, MLOps, Data | `ai-and-data` | `agents-and-orchestration`, `rag-and-search` |
-| Consultancy, Niche Intelligence for Andruia | `andruia` | `00-andruia-consultant` |
-| Business, Finance, Legal, Odoo ERP | `business-and-finance` | `odoo-development`, `startup-and-business-analysis` |
-| AWS/Azure Cloud, Docker, CI/CD, Pentesting, Security | `devops-and-security` | `cybersecurity-and-pentesting`, `azure-cloud` |
-| Programming, Languages, Algorithms, DB, Low-level | `engineering` | `languages-and-syntax`, `code-quality-and-refactoring` |
-| SEO, Marketing, Copywriting, Social media, CRO | `marketing-and-seo` | `search-engine-optimization`, `marketing-strategy-and-copy` |
-| UI/UX Design, Aesthetics, 3D/Motion, Figma | `product-and-design` | `ux-principles-and-design-taste`, `design-systems-and-components` |
-| Office tools, Health, Education, Math/Science | `productivity-and-content` | `cloud-and-office-automation`, `scientific-computing` |
-| Project management, DDD, Git, Planning, Docs | `workflows-and-management` | `planning-and-execution`, `git-and-github-workflows` |
-
-### 2. Folder Naming Rules
-*   **Kebab-case:** All subcategories and skill folder names must be lowercase and separated by hyphens (e.g., `code-quality-and-refactoring`).
-*   **Conjunctions (`*-and-*`):** Use `and` to combine closely related concepts (e.g., `languages-and-syntax`). Do not use symbols like `&` or `+`.
-*   **Special Prefixes:** Use numerical prefixes for sequential project-specific skills (e.g., `00-andruia-consultant`, `10-andruia-skill-smith`).
-
-### 3. Adding a New Skill
-1.  **Select Destination:** Match the task against the matrix to find the correct `Macro/Subcategory` path (e.g., `./ai-and-data/prompt-engineering-group/your-skill`).
-2.  **Create Structure:** Create the skill directory and place a structured `SKILL.md` inside it.
-3.  **Register in Manifest:** Add the relative path to the `entries` array in [.antigravity-install-manifest.json](./.antigravity-install-manifest.json) in alphabetical order, and update the `updatedAt` timestamp.
+**Naming rules:** kebab-case folders; `-and-` to join related concepts; numeric prefixes for sequential project skills (e.g. `00-andruia-consultant`). Structure is a strict 3 levels: `Macro → Subcategory → Skill`.
 
 ---
 
-## 🧭 Classification & Search Principles
-
-### 1. Classification Principles
-*   **Context-driven Grouping:** Skills are grouped by their practical application context.
-*   **Strict 3-level Hierarchy:** To prevent recursive scanning loops and file I/O bottlenecks, the structure is restricted to 3 levels: `Root` ➔ `Macro Category` ➔ `Subcategory` ➔ `Skill Directory`.
-*   **Disk-to-Manifest Sync:** Physical directory structure must always match the index in `.antigravity-install-manifest.json` 100%.
-
-### 2. Search & Resolution Principles
-*   **Manifest-First Lookup:** AI agents should load `.antigravity-install-manifest.json` in memory to locate skills instead of recursively scanning the disk with shell tools.
-*   **Relative Path Filtering:** Filter the manifest list by keywords (e.g., `react`) to resolve relevant skills.
-*   **Identifier Separation:** The calling token (e.g., `@clean-code`) is defined in the frontmatter metadata of `SKILL.md` independently of the physical folder path.
-
----
-
-## ⚙️ Configuration & Manifest Contract
+## Configuration & Manifest Contract
 
 *   **Source Manifest:** [.antigravity-install-manifest.json](./.antigravity-install-manifest.json)
 *   **Total Registered Skills:** **1,952**
 
+Physical directory structure must always match the manifest 100%.
+
 ---
 
-## 📚 Librarian Index & Multi-Source
-
-This library is an **encyclopedia**: it aggregates skills from multiple upstream repositories while never loading the whole catalog into an agent's context. Two components make that work:
+## Librarian Index & Multi-Source
 
 ### Librarian Index — [librarian-index.json](./librarian-index.json)
-Machine-readable search index rebuilt on every update. Each entry carries `name`, `taxonomy` (macro/subcategory path), `description`, `category_fine`, `risk`, `source_repo`, `origin`, `license`, `content_hash`, `similar_to`, and `canonical`. Agents search it by keyword (grep — ~0 tokens) instead of listing skills. Rebuild standalone (no network):
+Rebuilt on every update. Each entry: `name`, `taxonomy` (macro/subcategory path), `description`, `category_fine`, `risk`, `source_repo`, `origin`, `license`, `content_hash`, `similar_to`, `canonical`. Agents search it by keyword instead of listing skills. Rebuild standalone (no network):
 ```bash
 python3 ~/.agents/skills/scripts/build_librarian_index.py
 ```
 
 ### Source Registry — [sources.json](./sources.json)
-Every upstream repo is one entry (`name`, `git_url`, `layout`, `priority`, `license_note`). `update_skills.py` pulls each source in priority order. Adding a source = appending an entry and re-running the update script.
+Each upstream repo is one entry (`name`, `git_url`, `layout`, `priority`, `license_note`). `update_skills.py` pulls sources in priority order. To add a source, append an entry and re-run the update script.
 
 ### Deduplication (3 layers)
-1. **Identical content** (SHA256 dir hash) → skipped; extra origin recorded in `data/origins.json`.
+1. **Identical content** (SHA256 directory hash) → skipped; the extra origin is recorded in `data/origins.json`.
 2. **Same name, different content** → stored as `<name>__<source>`, never overwritten; reported.
 3. **Similar descriptions** (token overlap) → flagged in `data/similars.json`; reported.
 
-Findings land in `reports/dedup-review.md`. The pipeline only *marks* duplicates — a human/agent review resolves them via `alias → canonical` mappings in [data/aliases.json](./data/aliases.json), and decisions persist across updates.
+Findings are written to `reports/dedup-review.md`. The pipeline only *marks* duplicates — a human (or reviewing agent) resolves them by adding `alias → canonical` mappings to [data/aliases.json](./data/aliases.json), and the decision persists across updates.
 
 ---
 
-## 🔗 MCP Integration
+## MCP Integration
 
-To enable AI agents to automatically discover and use these skills, connect them using the **`superpowers`** MCP server:
+To let an agent discover and load skills on demand, run the `superpowers-mcp` server against the flat directory.
 
 1.  **Claude Code (recommended):**
     ```bash
@@ -148,9 +99,9 @@ To enable AI agents to automatically discover and use these skills, connect them
       --env SUPERPOWERS_SKILLS_DIR="$HOME/.agents/flat-skills" \
       -- npx -y superpowers-mcp@6.0.1 start
     ```
-    The server name `skills-library` and the pinned `superpowers-mcp@6.0.1` are what the librarian skill and verify tooling expect — keep them in sync if you change either.
+    The server name `skills-library` and the pinned `superpowers-mcp@6.0.1` are what the librarian tooling expects — keep them in sync if you change either.
 
-2.  **Other IDEs — configure `mcp_config.json`:**
+2.  **Other IDEs — `mcp_config.json`:**
     ```json
     "skills-library": {
       "command": "npx",
@@ -161,58 +112,40 @@ To enable AI agents to automatically discover and use these skills, connect them
       }
     }
     ```
-    Use `read_skill` to load one skill on demand; avoid `list_skills` (it returns the full ~2k catalog and defeats the token-efficiency design).
+    Use `read_skill` to load one skill on demand. Avoid `list_skills` — it returns the whole ~2,000-skill catalog and defeats the token-efficiency design.
 
-### 💡 Why is this structure optimized?
-*   **Token Efficiency:**
-    1.  *MCP Gateway:* The agent loads only the specific `SKILL.md` needed for the active task rather than reading the entire library.
-    2.  *Categorization:* Dividing skills into directories allows semantic search tools to target relevant categories, filtering out noise and saving token overhead.
-
-### ❓ Do I need to copy or symlink skills into each project?
-*   **No, normally not:** The global `superpowers` MCP server maps the flat skills directory globally. You can invoke any skill using `@<skill-name>` (in the IDE chat) or `/` commands (where supported by CLI).
-*   **When to copy/symlink locally:**
-    1.  *Team Collaboration (Git):* To share skills with team members in the same repository.
-    2.  *Scope Restricting:* To lock agent capabilities to a specific subset of local skills.
-    3.  *Environments without MCP:* For runtimes that do not support MCP server installations.
+### Do I need to copy skills into each project?
+No. The MCP server maps the flat directory globally, so any skill is reachable by `@<skill-name>` (IDE chat) or `/` commands (where supported). Copy locally only for: team sharing via Git, restricting an agent to a subset, or environments without MCP.
 
 ---
 
-## 🚀 How to Use Skills
+## Update Pipeline
 
-AI agents map skills by the name defined in the `SKILL.md` frontmatter, independent of the folder path:
-*   **IDE Chat:** Use `@<skill-name>` (e.g., `@clean-code`, `@figma-automation`).
-*   **CLI Commands:** Use `/` commands (where supported).
-
-## 🔄 Auto-Update Script
-
-Use the automation script to fetch updates from upstream without breaking the categorization structure:
-*   **Script Path:** [update_skills.py](./scripts/update_skills.py)
-*   **Execution Command:**
-    ```bash
-    python3 ~/.agents/skills/scripts/update_skills.py
-    ```
-
-### ⚙️ Update Pipeline:
-1.  **Multi-Source Clone:** Shallow-clones every repository listed in `sources.json`, in priority order.
-2.  **Dedup + In-place Update:** Hash-skips unchanged skills, updates changed skills within their current category folders, namespaces name collisions, flags semantic similars (see Deduplication above).
-3.  **Auto-Classification:** Places new skills into appropriate categories using keyword rules. Unknown skills fall back to `uncategorized-and-misc`.
-4.  **Rebuild Manifest:** Re-indexes the directory structure to `.antigravity-install-manifest.json`.
-5.  **Rebuild README:** Updates the ASCII directory tree in `README.md`.
-6.  **Flat Sync:** Executes `sync_flat_skills.py` to rebuild symlinks in the flat directory for MCP.
-7.  **Librarian Index:** Executes `build_librarian_index.py` to rebuild `librarian-index.json` (upstream index JOIN local taxonomy, frontmatter fallback).
-
----
-
-## 🛡️ Verification
-
-Verify the integrity of the local skills library:
 ```bash
-python3 ~/.agents/skills/scripts/verify_exact_skills.py
+python3 ~/.agents/skills/scripts/update_skills.py
 ```
-If the output reports the current entry count with both SUCCESS lines:
+
+1.  **Multi-source clone:** shallow-clones every repo in `sources.json`, in priority order.
+2.  **Dedup + in-place update:** hash-skips unchanged skills, updates changed ones in place (atomic swap — no data-loss window), namespaces name collisions, flags semantic similars.
+3.  **Auto-classification:** places new skills into categories by keyword rules; unknowns fall back to `uncategorized-and-misc`.
+4.  **Rebuild manifest:** re-indexes to `.antigravity-install-manifest.json`.
+5.  **Rebuild tree:** updates `DIRECTORY_TREE.md` and the skill count here.
+6.  **Flat sync:** `sync_flat_skills.py` rebuilds the symlinks in `~/.agents/flat-skills`.
+7.  **Librarian index:** `build_librarian_index.py` rebuilds `librarian-index.json`.
+
+---
+
+## Verification
+
+```bash
+python3 ~/.agents/skills/scripts/verify_exact_skills.py   # manifest ↔ disk
+python3 ~/.agents/skills/scripts/test_pipeline.py         # pipeline unit tests
+```
+
+`verify_exact_skills.py` should report the current entry count with both SUCCESS lines:
 ```text
 Manifest has N entries.
 SUCCESS: No duplicate entries in manifest.
 SUCCESS: Every manifest entry exists on disk!
 ```
-$\rightarrow$ Your skills library is 100% verified (N = the count shown in [Configuration & Manifest Contract](#%EF%B8%8F-configuration--manifest-contract)).
+`test_pipeline.py` runs stdlib-only reproduction tests for the dedup/hash/index logic (all should pass).
