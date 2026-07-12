@@ -49,32 +49,26 @@ def main():
         data = json.load(f)
         
     entries = data.get("entries", [])
-    
+
     # Clean flat_dir
     clean_dir(flat_dir)
-    
-    # Count occurrences of base names to detect duplicates
-    base_names = {}
-    for entry in entries:
-        base = os.path.basename(entry)
-        base_names[base] = base_names.get(base, 0) + 1
-        
+
+    # Shared flat-naming rule (same helper the librarian index uses)
+    from update_skills import flat_name_map
+    fmap = flat_name_map(entries)
+
     created_flat = 0
     duplicates_resolved = 0
-    
+
     for entry in entries:
         src_path = os.path.join(skills_dir, entry)
         if not os.path.isdir(src_path):
             continue
-            
-        base = os.path.basename(entry)
-        # If duplicated, use slug name
-        if base_names[base] > 1:
-            symlink_name = entry.replace("/", "-")
+
+        symlink_name = fmap[entry]
+        if symlink_name != os.path.basename(entry):
             duplicates_resolved += 1
-        else:
-            symlink_name = base
-            
+
         # Sync to flat_dir
         dest_flat_dir = os.path.join(flat_dir, symlink_name)
         sync_skill(src_path, dest_flat_dir)

@@ -25,9 +25,10 @@ MACRO_CATEGORIES = [
 ]
 
 def run_cmd(cmd, cwd=None):
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True, cwd=cwd)
+    # cmd is an argv list — never a shell string (source URLs are untrusted input).
+    result = subprocess.run(cmd, capture_output=True, text=True, cwd=cwd)
     if result.returncode != 0:
-        print(f"Error executing: {cmd}")
+        print(f"Error executing: {' '.join(cmd)}")
         print(result.stderr)
         return False, result.stderr
     return True, result.stdout
@@ -49,8 +50,14 @@ def find_leaf_skills():
 def get_current_skill_mapping():
     # Map from skill_folder_name -> absolute_path of its parent directory
     mapping = {}
+    dups = set()
     for rel in find_leaf_skills():
-        mapping[os.path.basename(rel)] = os.path.join(skills_dir, os.path.dirname(rel))
+        base = os.path.basename(rel)
+        if base in mapping:
+            dups.add(base)
+        mapping[base] = os.path.join(skills_dir, os.path.dirname(rel))
+    if dups:
+        print(f"⚠️  duplicate skill basenames collapse in mapping: {sorted(dups)}")
     return mapping
 
 def auto_classify_skill(skill_name):
@@ -149,6 +156,8 @@ def save_json(path, data):
 
 def dir_hash(path):
     # Content identity of a skill dir: relative paths + file bytes (dotfiles excluded).
+    # NUL delimiters keep {ab:"c"} and {a:"bc"} distinct; symlinks hash their
+    # target string so dangling links cannot crash the walk.
     h = hashlib.sha256()
     for dirpath, dirs, files in os.walk(path):
         dirs.sort()
@@ -156,9 +165,16 @@ def dir_hash(path):
             if f.startswith('.'):
                 continue
             fp = os.path.join(dirpath, f)
-            h.update(os.path.relpath(fp, path).encode())
-            with open(fp, "rb") as fh:
-                h.update(fh.read())
+            h.update(os.path.relpath(fp, path).encode() + b"\0")
+            # copytree dereferences symlinks into regular files, so hash a live
+            # symlink by its resolved content to stay stable across install;
+            # only a dangling link falls back to its target string (no crash).
+            if os.path.islink(fp) and not os.path.exists(fp):
+                h.update(b"dangling:" + os.readlink(fp).encode())
+            else:
+                with open(fp, "rb") as fh:
+                    h.update(fh.read())
+            h.update(b"\0")
     return h.hexdigest()
 
 def frontmatter_description(skill_path):
@@ -179,34 +195,69 @@ def desc_tokens(desc):
     return {w for w in re.findall(r"[a-z0-9]+", desc.lower()) if len(w) > 2}
 
 def collect_source_skills(repo_dir, layout):
-    # Returns [(skill_name, src_path)] with container units expanded:
-    # an upstream dir with regular files is one skill; a container dir
-    # (subdirs only, e.g. libreoffice, security) contributes each child.
-    base = os.path.join(repo_dir, "skills") if layout == "skills-subdir" else repo_dir
-    if not os.path.exists(base):
+    # Returns [(skill_name, src_path)] with container units expanded recursively
+    # to the same leaf definition find_leaf_skills uses: a dir that directly
+    # contains regular files is one skill; a container (subdirs only) recurses.
+    if layout == "skills-subdir":
+        base = os.path.join(repo_dir, "skills")
+        if not os.path.isdir(base):
+            print("⚠️  declared layout 'skills-subdir' but no skills/ dir found — skipping source")
+            return []
+    else:
         base = repo_dir
     skills = []
+
+    def walk_unit(name, path):
+        entries = [e for e in os.listdir(path) if not e.startswith('.')]
+        if any(os.path.isfile(os.path.join(path, e)) for e in entries):
+            skills.append((name, path))
+            return
+        for child in entries:
+            child_path = os.path.join(path, child)
+            if os.path.isdir(child_path):
+                walk_unit(child, child_path)
+
     for unit in os.listdir(base):
         unit_path = os.path.join(base, unit)
-        if not os.path.isdir(unit_path) or unit.startswith('.'):
-            continue
-        entries = [e for e in os.listdir(unit_path) if not e.startswith('.')]
-        has_files = any(os.path.isfile(os.path.join(unit_path, e)) for e in entries)
-        if has_files:
-            skills.append((unit, unit_path))
-        else:
-            for child in entries:
-                child_path = os.path.join(unit_path, child)
-                if os.path.isdir(child_path):
-                    skills.append((child, child_path))
+        if os.path.isdir(unit_path) and not unit.startswith('.'):
+            walk_unit(unit, unit_path)
     return skills
 
 def install_skill(name, src_path):
+    # Returns the placed "macro/sub" path, or None if the destination already
+    # exists (duplicate leaf name within one source run — skip, never raise).
     macro, sub = auto_classify_skill(name)
     dest_parent = os.path.join(skills_dir, macro, sub)
+    dest = os.path.join(dest_parent, name)
+    if os.path.exists(dest):
+        return None
     os.makedirs(dest_parent, exist_ok=True)
-    shutil.copytree(src_path, os.path.join(dest_parent, name))
+    shutil.copytree(src_path, dest)
     return f"{macro}/{sub}"
+
+def replace_skill_dir(src_path, dest_path):
+    # Update a skill without a data-loss window: copy to a temp sibling first;
+    # only when the copy fully succeeded is the old version removed and swapped.
+    tmp = dest_path + ".tmp-upd"
+    if os.path.exists(tmp):
+        shutil.rmtree(tmp)
+    try:
+        shutil.copytree(src_path, tmp)
+    except Exception:
+        shutil.rmtree(tmp, ignore_errors=True)
+        raise
+    shutil.rmtree(dest_path)
+    os.rename(tmp, dest_path)
+
+def flat_name_map(entries):
+    # Shared flat-naming rule (used by sync_flat_skills and the librarian index):
+    # unique basenames keep their name; duplicates get the path slug.
+    counts = {}
+    for e in entries:
+        b = os.path.basename(e)
+        counts[b] = counts.get(b, 0) + 1
+    return {e: (e.replace("/", "-") if counts[os.path.basename(e)] > 1
+                else os.path.basename(e)) for e in entries}
 
 def main():
     cfg = load_json(sources_path, None)
@@ -218,21 +269,19 @@ def main():
 
     origins = load_json(origins_path, {})
     similars = load_json(similars_path, {})
-    prev_index = load_json(librarian_index_path, {"entries": []})
-    prev_desc = {e["name"]: e.get("description", "") for e in prev_index.get("entries", [])}
 
     # Backfill ownership: any pre-existing skill without a record belongs to the primary source.
     for rel in find_leaf_skills():
         origins.setdefault(os.path.basename(rel), {"owner": primary, "also": []})
 
-    report = {"collisions": [], "similars": [], "multi_origin": []}
+    report = {"collisions": [], "similars": [], "multi_origin": [], "errors": []}
     new_names = []
     totals = {"updated": 0, "unchanged": 0, "new": 0}
 
     for src in sources:
         print(f"🚀 Fetching source '{src['name']}' from {src['git_url']}...")
         temp_dir = tempfile.mkdtemp()
-        success, _ = run_cmd(f"git clone --depth 1 {src['git_url']} {temp_dir}")
+        success, _ = run_cmd(["git", "clone", "--depth", "1", src["git_url"], temp_dir])
         if not success:
             print(f"❌ Failed to clone {src['name']} — skipping this source.")
             shutil.rmtree(temp_dir)
@@ -248,73 +297,88 @@ def main():
         current_mapping = get_current_skill_mapping()
 
         for name, src_path in collect_source_skills(temp_dir, src.get("layout", "root")):
-            if name in current_mapping:
-                rec = origins.setdefault(name, {"owner": primary, "also": []})
-                existing = os.path.join(current_mapping[name], name)
-                if rec["owner"] == src["name"]:
-                    if dir_hash(src_path) != dir_hash(existing):
-                        shutil.rmtree(existing)
-                        shutil.copytree(src_path, existing)
-                        totals["updated"] += 1
-                    else:
-                        totals["unchanged"] += 1
-                else:
-                    # Layer 1: identical content from another source -> extra origin, no copy.
-                    if dir_hash(src_path) == dir_hash(existing):
-                        if src["name"] not in rec["also"]:
-                            rec["also"].append(src["name"])
-                            report["multi_origin"].append(f"{name} also provided identically by {src['name']}")
-                    else:
-                        # Layer 2: same name, different content -> namespace, never overwrite.
-                        ns = f"{name}__{src['name']}"
-                        if ns in current_mapping:
-                            ns_existing = os.path.join(current_mapping[ns], ns)
-                            if dir_hash(src_path) != dir_hash(ns_existing):
-                                shutil.rmtree(ns_existing)
-                                shutil.copytree(src_path, ns_existing)
-                                totals["updated"] += 1
+            try:
+                if name in current_mapping:
+                    rec = origins.setdefault(name, {"owner": primary, "also": []})
+                    existing = os.path.join(current_mapping[name], name)
+                    if rec["owner"] == src["name"]:
+                        if dir_hash(src_path) != dir_hash(existing):
+                            replace_skill_dir(src_path, existing)
+                            totals["updated"] += 1
                         else:
-                            placed = install_skill(ns, src_path)
-                            origins[ns] = {"owner": src["name"], "also": []}
-                            report["collisions"].append(
-                                f"{name}: name owned by {rec['owner']}, differing content from {src['name']} stored as {placed}/{ns}")
-                            new_names.append(ns)
-                            totals["new"] += 1
-            else:
-                placed = install_skill(name, src_path)
-                origins[name] = {"owner": src["name"], "also": []}
-                new_names.append(name)
-                totals["new"] += 1
-                print(f"🆕 New skill classified: {name} ➔ {placed}")
+                            totals["unchanged"] += 1
+                    else:
+                        # Layer 1: identical content from another source -> extra origin, no copy.
+                        if dir_hash(src_path) == dir_hash(existing):
+                            if src["name"] not in rec["also"]:
+                                rec["also"].append(src["name"])
+                                report["multi_origin"].append(f"{name} also provided identically by {src['name']}")
+                        else:
+                            # Layer 2: same name, different content -> namespace, never overwrite.
+                            ns = f"{name}__{src['name']}"
+                            if ns in current_mapping:
+                                ns_existing = os.path.join(current_mapping[ns], ns)
+                                if dir_hash(src_path) != dir_hash(ns_existing):
+                                    replace_skill_dir(src_path, ns_existing)
+                                    totals["updated"] += 1
+                            else:
+                                placed = install_skill(ns, src_path)
+                                if placed is None:
+                                    report["errors"].append(f"{ns}: destination already exists — skipped")
+                                    continue
+                                origins[ns] = {"owner": src["name"], "also": []}
+                                current_mapping[ns] = os.path.join(skills_dir, placed)
+                                report["collisions"].append(
+                                    f"{name}: name owned by {rec['owner']}, differing content from {src['name']} stored as {placed}/{ns}")
+                                new_names.append(ns)
+                                totals["new"] += 1
+                else:
+                    placed = install_skill(name, src_path)
+                    if placed is None:
+                        report["errors"].append(f"{name}: destination already exists — skipped")
+                        continue
+                    origins[name] = {"owner": src["name"], "also": []}
+                    current_mapping[name] = os.path.join(skills_dir, placed)
+                    new_names.append(name)
+                    totals["new"] += 1
+                    print(f"🆕 New skill classified: {name} ➔ {placed}")
+            except Exception as ex:
+                report["errors"].append(f"{name}: {type(ex).__name__}: {ex}")
+                print(f"⚠️  {name}: {type(ex).__name__}: {ex} — skipped, pipeline continues")
 
         shutil.rmtree(temp_dir)
 
-    # Layer 3: semantic similarity for newly added skills (description token overlap).
+    # Layer 3: semantic similarity for newly added skills, compared against the
+    # POST-update on-disk descriptions (so same-run additions can match each other).
     mapping = get_current_skill_mapping()
-    for name in new_names:
-        if name not in mapping:
-            continue
-        desc = frontmatter_description(os.path.join(mapping[name], name))
-        if not desc:
-            continue
-        toks = desc_tokens(desc)
-        if not toks:
-            continue
-        hits = []
-        for other, odesc in prev_desc.items():
-            if other == name or not odesc:
+    if new_names:
+        disk_desc = {}
+        for other, parent in mapping.items():
+            d = frontmatter_description(os.path.join(parent, other))
+            if d:
+                disk_desc[other] = desc_tokens(d)
+        for name in new_names:
+            toks = disk_desc.get(name)
+            if not toks:
                 continue
-            otoks = desc_tokens(odesc)
-            if not otoks:
-                continue
-            j = len(toks & otoks) / len(toks | otoks)
-            if j >= 0.5 and len(toks & otoks) > 5:
-                hits.append(other)
-        if hits:
-            similars[name] = sorted(set(similars.get(name, []) + hits))
-            report["similars"].append(f"{name} ~ {', '.join(hits)}")
+            hits = []
+            for other, otoks in disk_desc.items():
+                if other == name or not otoks:
+                    continue
+                j = len(toks & otoks) / len(toks | otoks)
+                if j >= 0.5 and len(toks & otoks) > 5:
+                    hits.append(other)
+            if hits:
+                similars[name] = sorted(set(similars.get(name, []) + hits))
+                report["similars"].append(f"{name} ~ {', '.join(hits)}")
 
     print(f"✅ Sources done: {totals['updated']} updated, {totals['unchanged']} unchanged, {totals['new']} new.")
+
+    # Prune records for skills that no longer exist on disk.
+    leaf_names = set(mapping)
+    origins = {k: v for k, v in origins.items() if k in leaf_names}
+    similars = {k: [s for s in v if s in leaf_names] for k, v in similars.items() if k in leaf_names}
+    similars = {k: v for k, v in similars.items() if v}
 
     save_json(origins_path, origins)
     save_json(similars_path, similars)
@@ -325,7 +389,8 @@ def main():
     lines = [f"# Dedup review — {stamp}", ""]
     for key, title in (("collisions", "Name collisions (namespaced, needs review)"),
                        ("similars", "Semantic similars (needs review)"),
-                       ("multi_origin", "Multi-origin confirmations")):
+                       ("multi_origin", "Multi-origin confirmations"),
+                       ("errors", "Errors (skill skipped, pipeline continued)")):
         lines.append(f"## {title}")
         lines += [f"- {x}" for x in report[key]] if report[key] else ["- none"]
         lines.append("")
@@ -345,18 +410,18 @@ def main():
     print(f"Manifest rebuilt with {len(manifest_entries)} entries.")
 
     print("📝 Updating README.md tree and categories...")
-    run_cmd(f"python3 {os.path.join(skills_dir, 'scripts', 'generate_full_ascii_tree.py')}")
+    run_cmd(["python3", os.path.join(skills_dir, "scripts", "generate_full_ascii_tree.py")])
 
     print("🛡️ Running path verification checks...")
-    success, verify_out = run_cmd(f"python3 {os.path.join(skills_dir, 'scripts', 'verify_exact_skills.py')}")
+    success, verify_out = run_cmd(["python3", os.path.join(skills_dir, "scripts", "verify_exact_skills.py")])
     print(verify_out)
 
     print("🔗 Syncing skills to flat directory...")
-    success, sync_out = run_cmd(f"python3 {os.path.join(skills_dir, 'scripts', 'sync_flat_skills.py')}")
+    success, sync_out = run_cmd(["python3", os.path.join(skills_dir, "scripts", "sync_flat_skills.py")])
     print(sync_out)
 
     print("📇 Building librarian-index.json...")
-    success, idx_out = run_cmd(f"python3 {os.path.join(skills_dir, 'scripts', 'build_librarian_index.py')}")
+    success, idx_out = run_cmd(["python3", os.path.join(skills_dir, "scripts", "build_librarian_index.py")])
     print(idx_out)
 
 if __name__ == "__main__":

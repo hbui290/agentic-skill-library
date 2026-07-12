@@ -2,3 +2,6 @@
 Thumbs.db
 __pycache__/
 *.pyc
+
+# Regenerable upstream index cache (rebuilt by update_skills.py each run)
+data/upstream_index_*.json

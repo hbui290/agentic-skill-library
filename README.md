@@ -141,18 +141,27 @@ Findings land in `reports/dedup-review.md`. The pipeline only *marks* duplicates
 
 To enable AI agents to automatically discover and use these skills, connect them using the **`superpowers`** MCP server:
 
-1.  **Configure `mcp_config.json`:**
-    Link the flat directory by specifying `SKILLS_PATH` and `SUPERPOWERS_SKILLS_DIR` in your IDE's MCP config:
+1.  **Claude Code (recommended):**
+    ```bash
+    claude mcp add skills-library --scope user \
+      --env SKILLS_PATH="$HOME/.agents/flat-skills" \
+      --env SUPERPOWERS_SKILLS_DIR="$HOME/.agents/flat-skills" \
+      -- npx -y superpowers-mcp@6.0.1 start
+    ```
+    The server name `skills-library` and the pinned `superpowers-mcp@6.0.1` are what the librarian skill and verify tooling expect — keep them in sync if you change either.
+
+2.  **Other IDEs — configure `mcp_config.json`:**
     ```json
-    "superpowers": {
+    "skills-library": {
       "command": "npx",
-      "args": ["-y", "superpowers-mcp", "start"],
+      "args": ["-y", "superpowers-mcp@6.0.1", "start"],
       "env": {
         "SKILLS_PATH": "~/.agents/flat-skills",
         "SUPERPOWERS_SKILLS_DIR": "~/.agents/flat-skills"
       }
     }
     ```
+    Use `read_skill` to load one skill on demand; avoid `list_skills` (it returns the full ~2k catalog and defeats the token-efficiency design).
 
 ### 💡 Why is this structure optimized?
 *   **Token Efficiency:**
@@ -200,10 +209,10 @@ Verify the integrity of the local skills library:
 ```bash
 python3 ~/.agents/skills/scripts/verify_exact_skills.py
 ```
-If the output is:
+If the output reports the current entry count with both SUCCESS lines:
 ```text
-Manifest has 1952 entries.
+Manifest has N entries.
 SUCCESS: No duplicate entries in manifest.
 SUCCESS: Every manifest entry exists on disk!
 ```
-$\rightarrow$ Your skills library is 100% verified.
+$\rightarrow$ Your skills library is 100% verified (N = the count shown in [Configuration & Manifest Contract](#%EF%B8%8F-configuration--manifest-contract)).
