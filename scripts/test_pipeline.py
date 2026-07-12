@@ -4,6 +4,7 @@ Run: python3 scripts/test_pipeline.py  -> prints PASS/FAIL per case, exit 1 on a
 Never touches the real library: every case works in its own temp dir.
 """
 import os
+import json
 import shutil
 import sys
 import tempfile
@@ -26,6 +27,23 @@ def mkskill(base, *rel_files):
         os.makedirs(os.path.dirname(p), exist_ok=True)
         with open(p, "w") as f:
             f.write("content of " + rf)
+
+# --- R2#11: a crash mid-write must not corrupt existing JSON --------------
+@case("save_json: crash mid-dump leaves old file parseable")
+def _(tmp):
+    path = os.path.join(tmp, "data", "x.json")
+    U.save_json(path, {"ok": 1})
+    real_dump = json.dump
+    json.dump = lambda *a, **k: (_ for _ in ()).throw(OSError("boom"))
+    try:
+        try:
+            U.save_json(path, {"ok": 2})
+        except OSError:
+            pass
+    finally:
+        json.dump = real_dump
+    with open(path, encoding="utf-8") as f:
+        assert json.load(f) == {"ok": 1}, "old content must survive the crash"
 
 # --- F#4: dir_hash must survive dangling symlinks -------------------------
 @case("dir_hash tolerates dangling symlink")

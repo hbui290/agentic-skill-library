@@ -4,6 +4,7 @@ __pycache__/
 *.pyc
 *.tmp-upd/
 *.bak-upd/
+*.json.tmp
 
 # Regenerable upstream index cache (rebuilt by update_skills.py each run)
 data/upstream_index_*.json

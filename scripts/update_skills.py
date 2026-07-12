@@ -152,8 +152,17 @@ def load_json(path, default):
 
 def save_json(path, data):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
+    tmp = path + ".tmp"
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+        os.replace(tmp, path)
+    except Exception:
+        try:
+            os.remove(tmp)
+        except FileNotFoundError:
+            pass
+        raise
 
 def dir_hash(path):
     # Content identity matching what copytree installs: live symlinks are
@@ -459,8 +468,7 @@ def main():
         "updatedAt": datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z"),
         "entries": manifest_entries
     }
-    with open(manifest_path, 'w', encoding='utf-8') as f:
-        json.dump(manifest_data, f, indent=2, ensure_ascii=False)
+    save_json(manifest_path, manifest_data)
     print(f"Manifest rebuilt with {len(manifest_entries)} entries.")
 
     print("📝 Updating README.md tree and categories...")
