@@ -42,6 +42,7 @@ def find_leaf_skills():
         if not os.path.exists(macro_path):
             continue
         for dirpath, dirs, files in os.walk(macro_path):
+            dirs[:] = [d for d in dirs if not d.startswith('.')]
             if dirpath != macro_path and any(not f.startswith('.') for f in files):
                 leafs.append(os.path.relpath(dirpath, skills_dir))
                 dirs[:] = []  # do not descend into a skill
@@ -255,18 +256,51 @@ def install_skill(name, src_path):
     return f"{macro}/{sub}"
 
 def replace_skill_dir(src_path, dest_path):
-    # Update a skill without a data-loss window: copy to a temp sibling first;
-    # only when the copy fully succeeded is the old version removed and swapped.
-    tmp = dest_path + ".tmp-upd"
-    if os.path.exists(tmp):
-        shutil.rmtree(tmp)
+    # Stage the new version, retain the old one as a rollback backup, then
+    # swap. Dot-prefixed siblings stay invisible to library discovery.
+    parent, base = os.path.split(dest_path)
+    stage = os.path.join(parent, f".{base}.tmp-upd")
+    backup = os.path.join(parent, f".{base}.bak-upd")
+    if os.path.exists(stage):
+        shutil.rmtree(stage)
+    if os.path.exists(backup):
+        if os.path.exists(dest_path):
+            shutil.rmtree(backup)
+        else:
+            os.rename(backup, dest_path)
     try:
-        shutil.copytree(src_path, tmp)
+        shutil.copytree(src_path, stage)
     except Exception:
-        shutil.rmtree(tmp, ignore_errors=True)
+        shutil.rmtree(stage, ignore_errors=True)
         raise
-    shutil.rmtree(dest_path)
-    os.rename(tmp, dest_path)
+    os.rename(dest_path, backup)
+    try:
+        os.rename(stage, dest_path)
+    except Exception:
+        if not os.path.exists(dest_path) and os.path.exists(backup):
+            os.rename(backup, dest_path)
+        shutil.rmtree(stage, ignore_errors=True)
+        raise
+    shutil.rmtree(backup)
+
+def sweep_tmp_dirs():
+    # Recover interrupted swaps before discovery can observe the taxonomy.
+    for macro in MACRO_CATEGORIES:
+        root = os.path.join(skills_dir, macro)
+        if not os.path.isdir(root):
+            continue
+        for dirpath, dirs, _ in os.walk(root, topdown=False):
+            for name in list(dirs):
+                path = os.path.join(dirpath, name)
+                if name.startswith('.') and name.endswith(".bak-upd"):
+                    base = name[1:-len(".bak-upd")]
+                    dest = os.path.join(dirpath, base)
+                    if os.path.exists(dest):
+                        shutil.rmtree(path, ignore_errors=True)
+                    else:
+                        os.rename(path, dest)
+                elif name.startswith('.') and name.endswith(".tmp-upd"):
+                    shutil.rmtree(path, ignore_errors=True)
 
 def flat_name_map(entries):
     # Shared flat-naming rule (used by sync_flat_skills and the librarian index):
@@ -288,6 +322,7 @@ def main():
 
     origins = load_json(origins_path, {})
     similars = load_json(similars_path, {})
+    sweep_tmp_dirs()
 
     # Backfill ownership: any pre-existing skill without a record belongs to the primary source.
     for rel in find_leaf_skills():

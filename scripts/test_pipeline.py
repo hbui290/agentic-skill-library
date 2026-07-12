@@ -123,6 +123,74 @@ def _(tmp):
         pass  # failure allowed — but old content must survive
     assert open(os.path.join(dest, "skill", "SKILL.md")).read() == "v2", "old version lost"
 
+# --- R2#2: replacement failures and crash leftovers are recoverable -------
+@case("replace_skill_dir: copy failure leaves old version and no visible junk")
+def _(tmp):
+    dest = os.path.join(tmp, "cat", "sub", "myskill")
+    src = os.path.join(tmp, "src")
+    mkskill(tmp, "cat/sub/myskill/SKILL.md", "src/SKILL.md")
+    real_copytree = shutil.copytree
+    shutil.copytree = lambda *a, **k: (_ for _ in ()).throw(OSError("disk full"))
+    try:
+        try:
+            U.replace_skill_dir(src, dest)
+        except OSError:
+            pass
+    finally:
+        shutil.copytree = real_copytree
+    visible = [e for e in os.listdir(os.path.dirname(dest)) if not e.startswith('.')]
+    assert visible == ["myskill"], f"visible junk: {visible}"
+    assert os.path.exists(os.path.join(dest, "SKILL.md")), "old version must survive"
+
+@case("replace_skill_dir: stage rename failure rolls old version back")
+def _(tmp):
+    dest = os.path.join(tmp, "dest")
+    src = os.path.join(tmp, "src")
+    mkskill(tmp, "dest/SKILL.md", "src/SKILL.md")
+    with open(os.path.join(dest, "SKILL.md"), "w") as f:
+        f.write("old")
+    with open(os.path.join(src, "SKILL.md"), "w") as f:
+        f.write("new")
+    real_rename = os.rename
+    failed = False
+
+    def fail_stage_once(old, new):
+        nonlocal failed
+        if old.endswith(".tmp-upd") and new == dest and not failed:
+            failed = True
+            raise OSError("rename failed")
+        return real_rename(old, new)
+
+    os.rename = fail_stage_once
+    try:
+        try:
+            U.replace_skill_dir(src, dest)
+        except OSError:
+            pass
+    finally:
+        os.rename = real_rename
+    assert open(os.path.join(dest, "SKILL.md")).read() == "old"
+
+@case("sweep_tmp_dirs restores backup and removes stale stage")
+def _(tmp):
+    macro = U.MACRO_CATEGORIES[0]
+    parent = os.path.join(tmp, macro, "sub")
+    backup = os.path.join(parent, ".dead.bak-upd")
+    stage = os.path.join(parent, ".other.tmp-upd")
+    mkskill(tmp, f"{macro}/sub/.dead.bak-upd/SKILL.md",
+            f"{macro}/sub/.other.tmp-upd/SKILL.md")
+    old = U.skills_dir
+    U.skills_dir = tmp
+    try:
+        assert not any(".bak-upd" in rel or ".tmp-upd" in rel
+                       for rel in U.find_leaf_skills())
+        U.sweep_tmp_dirs()
+    finally:
+        U.skills_dir = old
+    assert os.path.exists(os.path.join(parent, "dead", "SKILL.md"))
+    assert not os.path.exists(backup)
+    assert not os.path.exists(stage)
+
 # --- F#3: run_cmd takes argv list, no shell interpretation ------------------
 @case("run_cmd uses argv list without shell")
 def _(tmp):
