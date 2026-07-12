@@ -43,6 +43,38 @@ def _(tmp):
     with open(os.path.join(b, "a"), "w") as f: f.write("bc")
     assert U.dir_hash(a) != U.dir_hash(b), "hash collision between {ab:c} and {a:bc}"
 
+# --- R2#1: dir_hash follows live symlink-to-DIR like copytree ------------
+@case("dir_hash: symlink-to-dir hashes same as copytree result")
+def _(tmp):
+    src = os.path.join(tmp, "src")
+    mkskill(src, "SKILL.md", "sub/real.md")
+    os.symlink(os.path.join(src, "sub"), os.path.join(src, "linked"))
+    dst = os.path.join(tmp, "dst")
+    shutil.copytree(src, dst)
+    assert U.dir_hash(src) == U.dir_hash(dst), "hash must see through symlink-dir"
+
+# --- R2#6: dotfile changes must be visible to the hash --------------------
+@case("dir_hash: dotfile content change changes the hash")
+def _(tmp):
+    a, b = os.path.join(tmp, "a"), os.path.join(tmp, "b")
+    for d, value in ((a, "one"), (b, "two")):
+        os.makedirs(d)
+        with open(os.path.join(d, "SKILL.md"), "w") as f:
+            f.write("same")
+        with open(os.path.join(d, ".env.example"), "w") as f:
+            f.write(value)
+    assert U.dir_hash(a) != U.dir_hash(b), "dotfile diff must change hash"
+
+# --- R2#1b: symlink loop must not hang ------------------------------------
+@case("dir_hash: symlink loop terminates")
+def _(tmp):
+    src = os.path.join(tmp, "src")
+    mkskill(src, "SKILL.md")
+    before = U.dir_hash(src)
+    os.symlink(src, os.path.join(src, "loop"))
+    after = U.dir_hash(src)
+    assert after != before, "cycle path must be represented without recursion"
+
 # --- F#5: declared layout dir missing -> no root fallback ------------------
 @case("collect_source_skills: missing skills/ dir yields nothing")
 def _(tmp):

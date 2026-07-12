@@ -155,26 +155,45 @@ def save_json(path, data):
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 def dir_hash(path):
-    # Content identity of a skill dir: relative paths + file bytes (dotfiles excluded).
-    # NUL delimiters keep {ab:"c"} and {a:"bc"} distinct; symlinks hash their
-    # target string so dangling links cannot crash the walk.
+    # Content identity matching what copytree installs: live symlinks are
+    # dereferenced, dotfiles are included, and only active ancestors are used
+    # for cycle detection so aliases to the same directory hash at each path.
     h = hashlib.sha256()
-    for dirpath, dirs, files in os.walk(path):
-        dirs.sort()
-        for f in sorted(files):
-            if f.startswith('.'):
+
+    def add_file(fp, rel):
+        h.update(rel.encode() + b"\0")
+        if os.path.islink(fp) and not os.path.exists(fp):
+            h.update(b"dangling:" + os.readlink(fp).encode())
+        else:
+            with open(fp, "rb") as fh:
+                h.update(fh.read())
+        h.update(b"\0")
+
+    def walk(current, rel_dir, ancestors):
+        st = os.stat(current)
+        inode = (st.st_dev, st.st_ino)
+        active = ancestors | {inode}
+        with os.scandir(current) as scan:
+            entries = sorted(scan, key=lambda e: e.name)
+        for entry in entries:
+            if entry.name == ".DS_Store":
                 continue
-            fp = os.path.join(dirpath, f)
-            h.update(os.path.relpath(fp, path).encode() + b"\0")
-            # copytree dereferences symlinks into regular files, so hash a live
-            # symlink by its resolved content to stay stable across install;
-            # only a dangling link falls back to its target string (no crash).
-            if os.path.islink(fp) and not os.path.exists(fp):
-                h.update(b"dangling:" + os.readlink(fp).encode())
-            else:
-                with open(fp, "rb") as fh:
-                    h.update(fh.read())
-            h.update(b"\0")
+            rel = os.path.join(rel_dir, entry.name) if rel_dir else entry.name
+            try:
+                is_dir = entry.is_dir(follow_symlinks=True)
+            except OSError:
+                is_dir = False
+            if not is_dir:
+                add_file(entry.path, rel)
+                continue
+            child_st = os.stat(entry.path)
+            child_inode = (child_st.st_dev, child_st.st_ino)
+            if child_inode in active:
+                h.update(rel.encode() + b"\0cycle\0")
+                continue
+            walk(entry.path, rel, active)
+
+    walk(path, "", set())
     return h.hexdigest()
 
 def frontmatter_description(skill_path):
