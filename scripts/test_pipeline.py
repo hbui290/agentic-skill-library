@@ -372,6 +372,34 @@ def _(tmp):
         capture_output=True, text=True)
     assert result.returncode == 0, result.stdout + result.stderr
 
+# --- R2#5: every declared upstream index cache is required -----------------
+@case("build_librarian_index: one missing source cache preserves old index")
+def _(tmp):
+    scripts = os.path.join(tmp, "scripts")
+    data = os.path.join(tmp, "data")
+    os.makedirs(scripts)
+    os.makedirs(data)
+    for name in ("build_librarian_index.py", "update_skills.py"):
+        shutil.copy2(os.path.join(os.path.dirname(__file__), name), scripts)
+    with open(os.path.join(tmp, "sources.json"), "w") as f:
+        json.dump({"sources": [
+            {"name": "a", "index_file": "index-a.json", "priority": 1},
+            {"name": "b", "index_file": "index-b.json", "priority": 2},
+        ]}, f)
+    with open(os.path.join(data, "upstream_index_a.json"), "w") as f:
+        json.dump([{"id": "present", "risk": "low"}], f)
+    sentinel = b'{"sentinel": true}\n'
+    index_path = os.path.join(tmp, "librarian-index.json")
+    with open(index_path, "wb") as f:
+        f.write(sentinel)
+    result = subprocess.run(
+        [sys.executable, os.path.join(scripts, "build_librarian_index.py")],
+        capture_output=True, text=True)
+    assert result.returncode != 0, result.stdout + result.stderr
+    assert "b" in (result.stdout + result.stderr).lower()
+    with open(index_path, "rb") as f:
+        assert f.read() == sentinel, "existing index must remain untouched"
+
 
 def main():
     failed = 0

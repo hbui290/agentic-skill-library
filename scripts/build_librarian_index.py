@@ -3,11 +3,13 @@
 Joins the cached upstream machine-readable index (descriptions, fine
 categories, risk, dates) with this repo's local taxonomy, and falls back to
 SKILL.md frontmatter for skills the upstream index does not know.
-Standalone: python3 scripts/build_librarian_index.py (no network needed —
-reads data/upstream_index_<source>.json cached by update_skills.py).
+Standalone: python3 scripts/build_librarian_index.py (no network needed, but
+requires every declared data/upstream_index_<source>.json cache created by
+update_skills.py).
 """
 import os
 import json
+import sys
 from datetime import datetime, timezone
 
 from update_skills import (skills_dir, data_dir, sources_path, manifest_path,
@@ -66,6 +68,18 @@ def make_entry(rel, root, upstream, origins, similars, aliases, sources,
 
 def main():
     cfg = load_json(sources_path, {"sources": []})
+    missing_cache = [
+        source["name"]
+        for source in cfg.get("sources", [])
+        if source.get("index_file") and not os.path.isfile(
+            os.path.join(data_dir, f"upstream_index_{source['name']}.json"))
+    ]
+    if missing_cache:
+        print("ERROR: upstream index cache missing for source(s): "
+              f"{', '.join(missing_cache)}. Run scripts/update_skills.py first.",
+              file=sys.stderr)
+        return 1
+
     sources = {s["name"]: s for s in cfg.get("sources", [])}
 
     # Merge cached upstream indexes, keyed by skill basename (priority order:
@@ -114,7 +128,8 @@ def main():
     print(f"librarian-index.json: {len(entries)} entries "
           f"({with_desc} with description, {with_fine} with fine category, "
           f"{len(missing_frontmatter)} missing frontmatter).")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
