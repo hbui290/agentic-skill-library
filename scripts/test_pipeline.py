@@ -101,6 +101,35 @@ def _(tmp):
     got = U.collect_source_skills(repo, "skills-subdir")
     assert got == [], f"fell back to repo root: {[n for n, _ in got]}"
 
+# --- SEC: hostile source symlinks must never escape the clone -------------
+@case("collect: symlinked unit escaping clone is rejected")
+def _(tmp):
+    outside = os.path.join(tmp, "outside")
+    os.makedirs(outside)
+    with open(os.path.join(outside, "SKILL.md"), "w") as f:
+        f.write("secret")
+    mkskill(tmp, "repo/skills/normal/SKILL.md")
+    os.symlink(outside, os.path.join(tmp, "repo", "skills", "evil"))
+    got = [n for n, _ in U.collect_source_skills(
+        os.path.join(tmp, "repo"), "skills-subdir")]
+    assert got == ["normal"], got
+
+@case("collect: nested file symlink escaping clone is rejected")
+def _(tmp):
+    secret = os.path.join(tmp, "host-secret.txt")
+    with open(secret, "w") as f:
+        f.write("x")
+    mkskill(tmp, "repo/skills/sneaky/SKILL.md",
+            "repo/skills/shared/placeholder.txt")
+    os.makedirs(os.path.join(tmp, "repo", "skills", "shared", "nested"))
+    os.symlink(secret, os.path.join(
+        tmp, "repo", "skills", "shared", "nested", "grab"))
+    os.symlink(os.path.join("..", "shared"), os.path.join(
+        tmp, "repo", "skills", "sneaky", "internal-link"))
+    got = [n for n, _ in U.collect_source_skills(
+        os.path.join(tmp, "repo"), "skills-subdir")]
+    assert "sneaky" not in got, got
+
 # --- F#6: container-of-containers recurses to real leafs -------------------
 @case("collect_source_skills: nested containers reach leaf skills")
 def _(tmp):

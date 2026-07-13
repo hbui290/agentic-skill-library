@@ -234,11 +234,46 @@ def collect_source_skills(repo_dir, layout):
             return []
     else:
         base = repo_dir
+    clone_root = os.path.realpath(repo_dir)
     skills = []
 
+    def inside_clone(path):
+        real = os.path.realpath(path)
+        return real == clone_root or real.startswith(clone_root + os.sep)
+
+    def tree_escapes(path):
+        # Follow internal directory symlinks because copytree dereferences
+        # them, but reject any nested link whose target leaves the clone.
+        def walk(current, ancestors):
+            st = os.stat(current)
+            inode = (st.st_dev, st.st_ino)
+            if inode in ancestors:
+                return False
+            active = ancestors | {inode}
+            with os.scandir(current) as scan:
+                entries = list(scan)
+            for entry in entries:
+                if entry.is_symlink() and not inside_clone(entry.path):
+                    return True
+                try:
+                    is_dir = entry.is_dir(follow_symlinks=True)
+                except OSError:
+                    is_dir = False
+                if is_dir and walk(entry.path, active):
+                    return True
+            return False
+
+        return walk(path, set())
+
     def walk_unit(name, path):
+        if os.path.islink(path) or not inside_clone(path):
+            print(f"⚠️  unit escapes source clone — rejected: {path}")
+            return
         entries = [e for e in os.listdir(path) if not e.startswith('.')]
         if any(os.path.isfile(os.path.join(path, e)) for e in entries):
+            if tree_escapes(path):
+                print(f"⚠️  skill '{name}' contains symlink escaping the clone — rejected")
+                return
             skills.append((name, path))
             return
         for child in entries:
