@@ -492,7 +492,8 @@ def _(tmp):
     index_path = os.path.join(clone, "index.json")
     try:
         for content in ("{not json", '{"skills": []}', '[1]',
-                        '[{"path": 1}]', '[{"id": ["x"]}]'):
+                        '[{"path": 1}]', '[{"id": ["x"]}]',
+                        '[{"id": ["x"], "path": "safe/tool"}]'):
             with open(index_path, "w") as f:
                 f.write(content)
             assert U.refresh_upstream_cache(

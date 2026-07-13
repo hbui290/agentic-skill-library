@@ -226,8 +226,10 @@ def refresh_upstream_cache(source, clone_dir):
                 return False
             skill_id = entry.get("id")
             path = entry.get("path")
-            if not ((isinstance(skill_id, str) and skill_id) or
-                    (isinstance(path, str) and path)):
+            if ((skill_id is not None and not isinstance(skill_id, str)) or
+                    (path is not None and not isinstance(path, str))):
+                return False
+            if not (skill_id or path):
                 return False
             return all(entry.get(field) is None or
                        isinstance(entry.get(field), str)
