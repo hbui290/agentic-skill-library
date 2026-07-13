@@ -199,6 +199,28 @@ def save_json(path, data):
             pass
         raise
 
+def refresh_upstream_cache(source, clone_dir):
+    index_file = source.get("index_file")
+    if not index_file:
+        return True
+    os.makedirs(data_dir, exist_ok=True)
+    cached = os.path.join(data_dir, f"upstream_index_{source['name']}.json")
+    upstream = os.path.join(clone_dir, index_file)
+    if not os.path.isfile(upstream):
+        if os.path.exists(cached):
+            os.unlink(cached)
+        print(f"❌ Source '{source['name']}' is missing declared index '{index_file}'.")
+        return False
+    tmp = cached + ".tmp"
+    try:
+        shutil.copy2(upstream, tmp)
+        os.replace(tmp, cached)
+    except Exception:
+        if os.path.exists(tmp):
+            os.unlink(tmp)
+        raise
+    return True
+
 def dir_hash(path):
     # Content identity matching what copytree installs: live symlinks are
     # dereferenced, dotfiles are included, and only active ancestors are used
@@ -440,12 +462,10 @@ def main():
             shutil.rmtree(temp_dir)
             continue
 
-        # Cache the source's machine-readable index for the librarian index build.
-        idx_file = src.get("index_file")
-        if idx_file and os.path.isfile(os.path.join(temp_dir, idx_file)):
-            os.makedirs(data_dir, exist_ok=True)
-            shutil.copy2(os.path.join(temp_dir, idx_file),
-                         os.path.join(data_dir, f"upstream_index_{src['name']}.json"))
+        # Refresh metadata atomically; never leave a stale cache when a source
+        # no longer provides its declared machine-readable index.
+        if not refresh_upstream_cache(src, temp_dir):
+            ok = False
 
         current_mapping, ambiguous_names = get_current_skill_mapping()
 

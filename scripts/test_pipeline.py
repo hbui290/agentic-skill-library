@@ -436,6 +436,23 @@ def _(tmp):
     with open(index_path, "rb") as f:
         assert f.read() == sentinel, "existing index must remain untouched"
 
+@case("upstream cache: missing declared index removes stale cache")
+def _(tmp):
+    old = U.data_dir
+    U.data_dir = os.path.join(tmp, "data")
+    os.makedirs(U.data_dir)
+    stale = os.path.join(U.data_dir, "upstream_index_source-b.json")
+    with open(stale, "w") as f:
+        f.write("stale")
+    try:
+        ok = U.refresh_upstream_cache(
+            {"name": "source-b", "index_file": "missing.json"},
+            os.path.join(tmp, "clone"))
+        assert ok is False
+        assert not os.path.exists(stale)
+    finally:
+        U.data_dir = old
+
 
 def main():
     failed = 0
