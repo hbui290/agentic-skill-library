@@ -360,6 +360,15 @@ def _(tmp):
     assert e["description"] == "own desc"
     assert e["risk"] != "dangerous" and e["category_fine"] != "cat-foo", e
 
+@case("make_entry: source_repo prefers exact upstream repository")
+def _(tmp):
+    mkskill(tmp, "eng/misc/tool/SKILL.md")
+    upstream = {"tool": {"source_repo": "owner/tool", "source": "community"}}
+    origins = {"tool": {"owner": "aggregator", "also": []}}
+    e = B.make_entry("eng/misc/tool", tmp, upstream, origins,
+                     {}, {}, {"aggregator": {}}, {"tool": 1})
+    assert e["source_repo"] == "owner/tool", e
+
 # --- F#9: dangling canonical is nulled --------------------------------------
 @case("make_entry: dangling canonical -> null")
 def _(tmp):
