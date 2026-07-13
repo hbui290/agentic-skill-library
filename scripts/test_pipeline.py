@@ -13,6 +13,7 @@ import tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import update_skills as U
 import build_librarian_index as B
+import sync_flat_skills as S
 
 RESULTS = []
 
@@ -319,6 +320,23 @@ def _(tmp):
     m = U.flat_name_map(["a/x/skill1", "b/y/skill1", "c/z/skill2"])
     assert m["a/x/skill1"] == "a-x-skill1" and m["b/y/skill1"] == "b-y-skill1"
     assert m["c/z/skill2"] == "skill2"
+
+@case("sync_flat_skills: symlink failure returns exit status 1")
+def _(tmp):
+    old = (S.skills_dir, S.flat_dir, S.manifest_path, S.os.symlink)
+    try:
+        S.skills_dir = os.path.join(tmp, "skills")
+        S.flat_dir = os.path.join(tmp, "flat")
+        S.manifest_path = os.path.join(
+            S.skills_dir, ".antigravity-install-manifest.json")
+        rel = "ai-and-data/misc/tool"
+        mkskill(S.skills_dir, f"{rel}/SKILL.md")
+        with open(S.manifest_path, "w") as f:
+            json.dump({"entries": [rel]}, f)
+        S.os.symlink = lambda *a: (_ for _ in ()).throw(OSError("forced"))
+        assert S.main() == 1
+    finally:
+        S.skills_dir, S.flat_dir, S.manifest_path, S.os.symlink = old
 
 # --- R2#4: anchored classification ignores namespace source ---------------
 @case("auto_classify: anchored tokens and __source suffix ignored")
