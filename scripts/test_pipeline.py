@@ -169,6 +169,14 @@ def _(tmp):
         os.path.join(tmp, "repo"), "skills-subdir"))
     assert got == ["alpha", "beta"], got
 
+@case("collect: support dir beside a marked skill is not a skill")
+def _(tmp):
+    mkskill(tmp, "repo/skills/bundle/alpha/SKILL.md",
+            "repo/skills/bundle/shared/reference.md")
+    got = [n for n, _ in U.collect_source_skills(
+        os.path.join(tmp, "repo"), "skills-subdir")]
+    assert got == ["alpha"], got
+
 @case("collect: duplicate names within one source keep first only")
 def _(tmp):
     mkskill(tmp, "repo/skills/cat1/tool/SKILL.md",

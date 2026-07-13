@@ -301,19 +301,21 @@ def collect_source_skills(repo_dir, layout):
                 return True
         return False
 
-    def walk_unit(name, path):
+    def walk_unit(name, path, allow_markerless=False):
         if os.path.islink(path) or not inside_clone(path):
             print(f"⚠️  unit escapes source clone — rejected: {path}")
             return
         entries = [e for e in os.listdir(path) if not e.startswith('.')]
         direct = [e for e in entries if os.path.isfile(os.path.join(path, e))]
         subdirs = [e for e in entries if os.path.isdir(os.path.join(path, e))]
-        # SKILL.md directly marks a canonical skill. A subtree with no marker
-        # is kept whole instead of fragmenting references/scripts. Otherwise
-        # this directory is a container and must be expanded recursively.
+        # SKILL.md directly marks a canonical skill. Preserve a markerless
+        # top-level legacy unit, but do not turn markerless support directories
+        # inside a container into standalone skills.
         if "SKILL.md" not in direct and has_skill_md(path):
             for child in subdirs:
-                walk_unit(child, os.path.join(path, child))
+                walk_unit(child, os.path.join(path, child), allow_markerless=False)
+            return
+        if "SKILL.md" not in direct and not allow_markerless:
             return
         if tree_escapes(path):
             print(f"⚠️  skill '{name}' contains symlink escaping the clone — rejected")
@@ -323,7 +325,7 @@ def collect_source_skills(repo_dir, layout):
     for unit in os.listdir(base):
         unit_path = os.path.join(base, unit)
         if os.path.isdir(unit_path) and not unit.startswith('.'):
-            walk_unit(unit, unit_path)
+            walk_unit(unit, unit_path, allow_markerless=True)
     seen, out = set(), []
     for name, path in skills:
         if name in seen:
