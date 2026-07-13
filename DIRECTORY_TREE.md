@@ -2,7 +2,7 @@
 
 This file contains the complete nested structure and direct file links of all registered skills in this library.
 
-- 🌌 **[~/.agents/skills](./)** (1952 skills)
+- 🌌 **[~/.agents/skills](./)** (1954 skills)
   - 📂 **[ai-and-data](./ai-and-data)** (204 skills)
     - 📁 *[admin-and-utilities](./ai-and-data/admin-and-utilities)* (3 skills)
       - 📄 [ai-md](./ai-and-data/admin-and-utilities/ai-md)
@@ -683,7 +683,7 @@ This file contains the complete nested structure and direct file links of all re
       - 📄 [webapp-testing](./devops-and-security/testing-and-validation/webapp-testing)
     - 📁 *[uncategorized-and-misc](./devops-and-security/uncategorized-and-misc)* (1 skills)
       - 📄 [monte-carlo-monitoring-advisor](./devops-and-security/uncategorized-and-misc/monte-carlo-monitoring-advisor)
-  - 📂 **[engineering](./engineering)** (504 skills)
+  - 📂 **[engineering](./engineering)** (506 skills)
     - 📁 *[backend-and-apis](./engineering/backend-and-apis)* (36 skills)
       - 📄 [api-analyzer](./engineering/backend-and-apis/api-analyzer)
       - 📄 [api-design-principles](./engineering/backend-and-apis/api-design-principles)
@@ -1060,7 +1060,7 @@ This file contains the complete nested structure and direct file links of all re
       - 📄 [using-git-worktrees](./engineering/tooling-and-monorepos/using-git-worktrees)
       - 📄 [uv-package-manager](./engineering/tooling-and-monorepos/uv-package-manager)
       - 📄 [xlsx](./engineering/tooling-and-monorepos/xlsx)
-    - 📁 *[uncategorized-and-misc](./engineering/uncategorized-and-misc)* (142 skills)
+    - 📁 *[uncategorized-and-misc](./engineering/uncategorized-and-misc)* (144 skills)
       - 📄 [ab-testing](./engineering/uncategorized-and-misc/ab-testing)
       - 📄 [accint-commitments](./engineering/uncategorized-and-misc/accint-commitments)
       - 📄 [accint-frames](./engineering/uncategorized-and-misc/accint-frames)
@@ -1137,6 +1137,7 @@ This file contains the complete nested structure and direct file links of all re
       - 📄 [longbridge-fundamentals](./engineering/uncategorized-and-misc/longbridge-fundamentals)
       - 📄 [longbridge-market-data](./engineering/uncategorized-and-misc/longbridge-market-data)
       - 📄 [loopy](./engineering/uncategorized-and-misc/loopy)
+      - 📄 [lore](./engineering/uncategorized-and-misc/lore)
       - 📄 [markdown-rendering](./engineering/uncategorized-and-misc/markdown-rendering)
       - 📄 [mdpr-skill](./engineering/uncategorized-and-misc/mdpr-skill)
       - 📄 [monte-carlo-analyze-root-cause](./engineering/uncategorized-and-misc/monte-carlo-analyze-root-cause)
@@ -1162,6 +1163,7 @@ This file contains the complete nested structure and direct file links of all re
       - 📄 [public-relations](./engineering/uncategorized-and-misc/public-relations)
       - 📄 [puppeteer-skill](./engineering/uncategorized-and-misc/puppeteer-skill)
       - 📄 [pytest-skill](./engineering/uncategorized-and-misc/pytest-skill)
+      - 📄 [quit-sponsor](./engineering/uncategorized-and-misc/quit-sponsor)
       - 📄 [rclone-cli](./engineering/uncategorized-and-misc/rclone-cli)
       - 📄 [re-create](./engineering/uncategorized-and-misc/re-create)
       - 📄 [read-all-adrs](./engineering/uncategorized-and-misc/read-all-adrs)

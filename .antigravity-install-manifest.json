@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-07-12T12:29:03.596Z",
+  "updatedAt": "2026-07-13T11:00:24.532Z",
   "entries": [
     "ai-and-data/admin-and-utilities/ai-md",
     "ai-and-data/admin-and-utilities/clarity-gate",
@@ -1084,6 +1084,7 @@
     "engineering/uncategorized-and-misc/longbridge-fundamentals",
     "engineering/uncategorized-and-misc/longbridge-market-data",
     "engineering/uncategorized-and-misc/loopy",
+    "engineering/uncategorized-and-misc/lore",
     "engineering/uncategorized-and-misc/markdown-rendering",
     "engineering/uncategorized-and-misc/mdpr-skill",
     "engineering/uncategorized-and-misc/monte-carlo-analyze-root-cause",
@@ -1109,6 +1110,7 @@
     "engineering/uncategorized-and-misc/public-relations",
     "engineering/uncategorized-and-misc/puppeteer-skill",
     "engineering/uncategorized-and-misc/pytest-skill",
+    "engineering/uncategorized-and-misc/quit-sponsor",
     "engineering/uncategorized-and-misc/rclone-cli",
     "engineering/uncategorized-and-misc/re-create",
     "engineering/uncategorized-and-misc/read-all-adrs",

@@ -62,7 +62,7 @@ Full nested tree with file links: [DIRECTORY_TREE.md](./DIRECTORY_TREE.md).
 ## Configuration & Manifest Contract
 
 *   **Source Manifest:** [.antigravity-install-manifest.json](./.antigravity-install-manifest.json)
-*   **Total Registered Skills:** **1,952**
+*   **Total Registered Skills:** **1,954**
 
 Physical directory structure must always match the manifest 100%.
 
