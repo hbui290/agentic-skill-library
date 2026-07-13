@@ -265,27 +265,43 @@ def collect_source_skills(repo_dir, layout):
 
         return walk(path, set())
 
+    def has_skill_md(path):
+        for _, _, files in os.walk(path):
+            if "SKILL.md" in files:
+                return True
+        return False
+
     def walk_unit(name, path):
         if os.path.islink(path) or not inside_clone(path):
             print(f"⚠️  unit escapes source clone — rejected: {path}")
             return
         entries = [e for e in os.listdir(path) if not e.startswith('.')]
-        if any(os.path.isfile(os.path.join(path, e)) for e in entries):
-            if tree_escapes(path):
-                print(f"⚠️  skill '{name}' contains symlink escaping the clone — rejected")
-                return
-            skills.append((name, path))
+        direct = [e for e in entries if os.path.isfile(os.path.join(path, e))]
+        subdirs = [e for e in entries if os.path.isdir(os.path.join(path, e))]
+        # SKILL.md directly marks a canonical skill. A subtree with no marker
+        # is kept whole instead of fragmenting references/scripts. Otherwise
+        # this directory is a container and must be expanded recursively.
+        if "SKILL.md" not in direct and has_skill_md(path):
+            for child in subdirs:
+                walk_unit(child, os.path.join(path, child))
             return
-        for child in entries:
-            child_path = os.path.join(path, child)
-            if os.path.isdir(child_path):
-                walk_unit(child, child_path)
+        if tree_escapes(path):
+            print(f"⚠️  skill '{name}' contains symlink escaping the clone — rejected")
+            return
+        skills.append((name, path))
 
     for unit in os.listdir(base):
         unit_path = os.path.join(base, unit)
         if os.path.isdir(unit_path) and not unit.startswith('.'):
             walk_unit(unit, unit_path)
-    return skills
+    seen, out = set(), []
+    for name, path in skills:
+        if name in seen:
+            print(f"⚠️  duplicate unit name '{name}' within source — skipped {path}")
+            continue
+        seen.add(name)
+        out.append((name, path))
+    return out
 
 def install_skill(name, src_path):
     # Returns the placed "macro/sub" path, or None if the destination already

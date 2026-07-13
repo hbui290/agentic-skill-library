@@ -142,6 +142,40 @@ def _(tmp):
     names = sorted(n for n, _ in U.collect_source_skills(repo, "skills-subdir"))
     assert names == ["alpha", "beta", "deep", "plain"], names
 
+# --- R2#3: canonical and file-less source units stay whole ----------------
+@case("collect: skill with SKILL.md at root keeps support dirs as one unit")
+def _(tmp):
+    mkskill(tmp, "repo/skills/myskill/SKILL.md",
+            "repo/skills/myskill/references/a.md",
+            "repo/skills/myskill/scripts/run.sh")
+    got = [n for n, _ in U.collect_source_skills(
+        os.path.join(tmp, "repo"), "skills-subdir")]
+    assert got == ["myskill"], got
+
+@case("collect: file-less unit without any SKILL.md stays one unit")
+def _(tmp):
+    mkskill(tmp, "repo/skills/frag/references/a.md",
+            "repo/skills/frag/scripts/b.sh")
+    got = [n for n, _ in U.collect_source_skills(
+        os.path.join(tmp, "repo"), "skills-subdir")]
+    assert got == ["frag"], got
+
+@case("collect: container of two skills recurses to each SKILL.md dir")
+def _(tmp):
+    mkskill(tmp, "repo/skills/cat/alpha/SKILL.md",
+            "repo/skills/cat/beta/SKILL.md")
+    got = sorted(n for n, _ in U.collect_source_skills(
+        os.path.join(tmp, "repo"), "skills-subdir"))
+    assert got == ["alpha", "beta"], got
+
+@case("collect: duplicate names within one source keep first only")
+def _(tmp):
+    mkskill(tmp, "repo/skills/cat1/tool/SKILL.md",
+            "repo/skills/cat2/tool/SKILL.md")
+    got = [n for n, _ in U.collect_source_skills(
+        os.path.join(tmp, "repo"), "skills-subdir")]
+    assert got == ["tool"], got
+
 # --- F#2: install_skill must not raise on existing destination -------------
 @case("install_skill skips existing destination")
 def _(tmp):
