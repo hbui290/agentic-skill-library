@@ -71,7 +71,7 @@ Physical directory structure must always match the manifest 100%.
 ## Librarian Index & Multi-Source
 
 ### Librarian Index — [librarian-index.json](./librarian-index.json)
-Rebuilt on every update. Each entry: `name`, `taxonomy` (macro/subcategory path), `description`, `category_fine`, `risk`, `source_repo`, `origin`, `license`, `content_hash`, `similar_to`, `canonical`. Agents search it by keyword instead of listing skills. Rebuild standalone (no network):
+Rebuilt on every update. Each entry: `name`, `flat_name` (loadable flat-directory slug), `taxonomy` (macro/subcategory path), `description`, `category_fine`, `risk`, `source_repo`, `origin`, `license`, `content_hash`, `date_added`, `similar_to`, `canonical`. Agents search it by keyword instead of listing skills. Rebuild standalone (no network, but requires every `data/upstream_index_<source>.json` cache created by `update_skills.py`):
 ```bash
 python3 ~/.agents/skills/scripts/build_librarian_index.py
 ```
@@ -107,12 +107,12 @@ To let an agent discover and load skills on demand, run the `superpowers-mcp` se
       "command": "npx",
       "args": ["-y", "superpowers-mcp@6.0.1", "start"],
       "env": {
-        "SKILLS_PATH": "~/.agents/flat-skills",
-        "SUPERPOWERS_SKILLS_DIR": "~/.agents/flat-skills"
+        "SKILLS_PATH": "/Users/<you>/.agents/flat-skills",
+        "SUPERPOWERS_SKILLS_DIR": "/Users/<you>/.agents/flat-skills"
       }
     }
     ```
-    Use `read_skill` to load one skill on demand. Avoid `list_skills` — it returns the whole ~2,000-skill catalog and defeats the token-efficiency design.
+    Replace `<you>` with the local username. Use absolute paths because some IDE MCP clients do not expand `~`. Use `read_skill` to load one skill on demand. Avoid `list_skills` — it returns the whole ~2,000-skill catalog and defeats the token-efficiency design.
 
 ### Do I need to copy skills into each project?
 No. The MCP server maps the flat directory globally, so any skill is reachable by `@<skill-name>` (IDE chat) or `/` commands (where supported). Copy locally only for: team sharing via Git, restricting an agent to a subset, or environments without MCP.
