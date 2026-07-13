@@ -483,6 +483,22 @@ def _(tmp):
     finally:
         U.data_dir = old
 
+@case("upstream cache: malformed or wrong-shape JSON is rejected")
+def _(tmp):
+    old = U.data_dir
+    U.data_dir = os.path.join(tmp, "data")
+    clone = os.path.join(tmp, "clone")
+    os.makedirs(clone)
+    index_path = os.path.join(clone, "index.json")
+    try:
+        for content in ("{not json", '{"skills": []}', '[1]'):
+            with open(index_path, "w") as f:
+                f.write(content)
+            assert U.refresh_upstream_cache(
+                {"name": "bad", "index_file": "index.json"}, clone) is False
+    finally:
+        U.data_dir = old
+
 @case("pipeline preflight: missing source index aborts before collection")
 def _(tmp):
     attrs = ("skills_dir", "manifest_path", "readme_path", "sources_path",
@@ -491,6 +507,9 @@ def _(tmp):
     old = {name: getattr(U, name) for name in attrs}
     root = os.path.join(tmp, "library")
     os.makedirs(root)
+    backup = os.path.join(
+        root, U.MACRO_CATEGORIES[0], "misc", ".tool.bak-upd")
+    mkskill(backup, "SKILL.md")
     calls = []
     try:
         U.skills_dir = root
@@ -509,6 +528,8 @@ def _(tmp):
         U.collect_source_skills = lambda *a, **k: calls.append(a) or []
         assert U.main() == 1
         assert calls == [], "collector ran after metadata preflight failed"
+        assert os.path.isfile(os.path.join(
+            root, U.MACRO_CATEGORIES[0], "misc", "tool", "SKILL.md"))
     finally:
         for name, value in old.items():
             setattr(U, name, value)

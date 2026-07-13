@@ -216,6 +216,19 @@ def refresh_upstream_cache(source, clone_dir):
         print(f"❌ Source '{source['name']}' has missing or unsafe declared index "
               f"'{index_file}'.")
         return False
+    try:
+        with open(upstream, encoding="utf-8") as f:
+            payload = json.load(f)
+        valid_schema = isinstance(payload, list) and all(
+            isinstance(entry, dict) for entry in payload)
+    except (OSError, json.JSONDecodeError):
+        valid_schema = False
+    if not valid_schema:
+        if os.path.exists(cached):
+            os.unlink(cached)
+        print(f"❌ Source '{source['name']}' has invalid JSON/schema in declared "
+              f"index '{index_file}'.")
+        return False
     tmp = cached + ".tmp"
     try:
         shutil.copy2(upstream, tmp)
@@ -464,6 +477,7 @@ def main():
         return 1
     sources = sorted(cfg["sources"], key=lambda s: s.get("priority", 99))
     primary = sources[0]["name"]
+    sweep_tmp_dirs()
 
     prepared_sources, clones_ok, metadata_ok = preflight_sources(sources)
     if not metadata_ok:
@@ -474,7 +488,6 @@ def main():
 
     origins = load_json(origins_path, {})
     similars = load_json(similars_path, {})
-    sweep_tmp_dirs()
 
     # Backfill ownership: any pre-existing skill without a record belongs to the primary source.
     for rel in find_leaf_skills():
