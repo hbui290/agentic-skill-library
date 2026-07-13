@@ -61,82 +61,110 @@ def get_current_skill_mapping():
         print(f"⚠️  duplicate skill basenames collapse in mapping: {sorted(dups)}")
     return mapping
 
+def _kw_hit(kws, name, tokens):
+    padded = "-" + name.replace("_", "-") + "-"
+    for kw in kws:
+        if "-" in kw:
+            if "-" + kw.strip("-") + "-" in padded:
+                return True
+        elif any(token == kw or (len(kw) >= 4 and token.startswith(kw))
+                 for token in tokens):
+            return True
+    return False
+
 def auto_classify_skill(skill_name):
-    # Determine which macro and subcategory a new skill should go into based on keywords
-    name = skill_name.lower()
+    # Classify the bare skill name; a collision's __source suffix is provenance,
+    # not a taxonomy signal.
+    name = skill_name.split("__")[0].lower()
+    tokens = [token for token in re.split(r"[-_]", name) if token]
+
+    def has(*kws):
+        return _kw_hit(kws, name, tokens)
 
     # 1. First, determine the Macro Category using broader keyword checks
     macro = "engineering" # Default macro
 
-    if "andruia" in name:
+    if has("andruia"):
         macro = "andruia"
-    elif any(kw in name for kw in ["agent", "prompt", "llm", "rag", "ai-", "-ai", "ml-", "-ml", "hugging", "claude", "gemini", "memory", "search", "vector", "embed", "mcp", "orchestrat", "langgraph", "pydantic", "context", "token", "cache"]):
+    elif has("agent", "prompt", "llm", "rag", "ai", "ml", "hugging",
+             "claude", "gemini", "memory", "search", "vector", "embed",
+             "mcp", "orchestrat", "langgraph", "pydantic", "context",
+             "token", "cache"):
         macro = "ai-and-data"
-    elif any(kw in name for kw in ["docker", "kubernetes", "aws", "azure", "cloud", "ci-cd", "security", "pentest", "hacking", "vulnerability", "monitoring", "pipeline", "deploy", "dns", "ssl"]):
+    elif has("docker", "kubernetes", "aws", "azure", "cloud", "ci-cd",
+             "security", "pentest", "hacking", "vulnerability", "monitoring",
+             "pipeline", "deploy", "dns", "ssl"):
         macro = "devops-and-security"
-    elif any(kw in name for kw in ["seo", "marketing", "copywrit", "conversion", "cro", "email", "social", "linkedin", "ads", "growth"]):
+    elif has("seo", "marketing", "copywrit", "conversion", "cro", "email",
+             "social", "linkedin", "ads", "growth"):
         macro = "marketing-and-seo"
-    elif any(kw in name for kw in ["design", "ui", "ux", "aesthetics", "figma", "3d", "motion", "animation", "radix", "tailwind", "css", "theme"]):
+    elif has("design", "ui", "ux", "aesthetics", "figma", "3d", "motion",
+             "animation", "radix", "tailwind", "css", "theme"):
         macro = "product-and-design"
-    elif any(kw in name for kw in ["finance", "trading", "business", "hr", "odoo", "legal", "compliance", "startup", "sales", "audit", "billing", "revenue"]):
+    elif has("finance", "trading", "business", "hr", "odoo", "legal",
+             "compliance", "startup", "sales", "audit", "billing", "revenue"):
         macro = "business-and-finance"
-    elif any(kw in name for kw in ["office", "slide", "document", "excel", "word", "health", "fitness", "wellness", "edu", "coach", "scientific", "math", "video", "transcribe", "youtube"]):
+    elif has("office", "slide", "document", "excel", "word", "health",
+             "fitness", "wellness", "educat", "coach", "scientific", "math",
+             "video", "transcribe", "youtube"):
         macro = "productivity-and-content"
-    elif any(kw in name for kw in ["workflow", "planning", "project", "git", "github", "wiki", "documentation", "standards", "ddd", "agile", "notes", "jira", "linear"]):
+    elif has("workflow", "planning", "project", "git", "github", "wiki",
+             "documentation", "standards", "ddd", "agile", "notes", "jira",
+             "linear"):
         macro = "workflows-and-management"
 
     # 2. Next, match the specific Subcategory within that Macro Category
     sub = "uncategorized-and-misc" # Default subcategory
 
     if macro == "andruia":
-        if "consultant" in name: sub = "00-andruia-consultant"
-        elif "smith" in name: sub = "10-andruia-skill-smith"
-        elif "niche" in name or "intel" in name: sub = "20-andruia-niche-intelligence"
+        if has("consultant"): sub = "00-andruia-consultant"
+        elif has("smith"): sub = "10-andruia-skill-smith"
+        elif has("niche", "intel"): sub = "20-andruia-niche-intelligence"
         else: sub = "uncategorized"
 
     elif macro == "ai-and-data":
-        if "prompt" in name: sub = "prompt-engineering-group"
-        elif "hugging" in name or "hug-" in name: sub = "hugging-face"
-        elif "mcp" in name or "framework" in name: sub = "llm-frameworks-and-mcp"
-        elif "rag" in name or "search" in name or "vector" in name or "embed" in name: sub = "rag-and-search"
-        elif "memory" in name or "context" in name: sub = "context-and-memory"
-        elif "claude" in name or "gemini" in name or "notebooklm" in name: sub = "claude-and-assistants"
-        elif "agent" in name or "orchestrat" in name: sub = "agents-and-orchestration"
+        if has("prompt"): sub = "prompt-engineering-group"
+        elif has("hugging"): sub = "hugging-face"
+        elif has("mcp", "framework"): sub = "llm-frameworks-and-mcp"
+        elif has("rag", "search", "vector", "embed"): sub = "rag-and-search"
+        elif has("memory", "context"): sub = "context-and-memory"
+        elif has("claude", "gemini", "notebooklm"): sub = "claude-and-assistants"
+        elif has("agent", "orchestrat"): sub = "agents-and-orchestration"
 
     elif macro == "devops-and-security":
-        if "aws" in name: sub = "aws-cloud"
-        elif "azure" in name: sub = "azure-cloud"
-        elif "security" in name or "pentest" in name or "hacking" in name or "vulner" in name: sub = "cybersecurity-and-pentesting"
-        elif "pipeline" in name or "ci-cd" in name or "github-actions" in name: sub = "ci-cd-and-pipelines"
+        if has("aws"): sub = "aws-cloud"
+        elif has("azure"): sub = "azure-cloud"
+        elif has("security", "pentest", "hacking", "vulner"): sub = "cybersecurity-and-pentesting"
+        elif has("pipeline", "ci-cd", "github-actions"): sub = "ci-cd-and-pipelines"
 
     elif macro == "marketing-and-seo":
-        if "seo" in name: sub = "search-engine-optimization"
-        elif "cro" in name or "conversion" in name: sub = "conversion-rate-optimization"
-        elif "marketing" in name or "strategy" in name or "copy" in name: sub = "marketing-strategy-and-copy"
+        if has("seo"): sub = "search-engine-optimization"
+        elif has("cro", "conversion"): sub = "conversion-rate-optimization"
+        elif has("marketing", "strategy", "copy"): sub = "marketing-strategy-and-copy"
 
     elif macro == "product-and-design":
-        if "3d" in name or "animation" in name: sub = "3d-motion-and-animation"
-        elif "tailwind" in name or "radix" in name or "system" in name: sub = "design-systems-and-components"
+        if has("3d", "animation"): sub = "3d-motion-and-animation"
+        elif has("tailwind", "radix", "system"): sub = "design-systems-and-components"
 
     elif macro == "business-and-finance":
-        if "odoo" in name: sub = "odoo-development"
-        elif "finance" in name or "trading" in name: sub = "finance-and-trading"
-        elif "startup" in name or "business" in name: sub = "startup-and-business-analysis"
+        if has("odoo"): sub = "odoo-development"
+        elif has("finance", "trading"): sub = "finance-and-trading"
+        elif has("startup", "business"): sub = "startup-and-business-analysis"
 
     elif macro == "productivity-and-content":
-        if "health" in name or "wellness" in name or "fit" in name: sub = "health-and-wellness-analyzers"
+        if has("health", "wellness", "fitness"): sub = "health-and-wellness-analyzers"
 
     elif macro == "workflows-and-management":
-        if "git" in name or "github" in name: sub = "git-and-github-workflows"
-        elif "plan" in name or "execut" in name: sub = "planning-and-execution"
+        if has("git", "github"): sub = "git-and-github-workflows"
+        elif has("plan", "execut"): sub = "planning-and-execution"
 
     elif macro == "engineering":
-        if "refactor" in name or "clean" in name or "quality" in name: sub = "code-quality-and-refactoring"
-        elif "database" in name or "postgres" in name or "sql" in name: sub = "databases-and-migrations"
-        elif "debug" in name or "error" in name or "bug" in name: sub = "debugging-and-error-handling"
-        elif "frontend" in name or "ui" in name: sub = "frontend-and-ui"
-        elif "game" in name or "unity" in name or "godot" in name: sub = "game-dev"
-        elif "api" in name or "route" in name: sub = "backend-and-apis"
+        if has("refactor", "clean", "quality"): sub = "code-quality-and-refactoring"
+        elif has("database", "postgres", "sql"): sub = "databases-and-migrations"
+        elif has("debug", "error", "bug"): sub = "debugging-and-error-handling"
+        elif has("frontend", "ui"): sub = "frontend-and-ui"
+        elif has("game", "unity", "godot"): sub = "game-dev"
+        elif has("api", "route"): sub = "backend-and-apis"
 
     return macro, sub
 

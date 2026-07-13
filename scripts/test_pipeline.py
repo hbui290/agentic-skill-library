@@ -286,6 +286,15 @@ def _(tmp):
     assert m["a/x/skill1"] == "a-x-skill1" and m["b/y/skill1"] == "b-y-skill1"
     assert m["c/z/skill2"] == "skill2"
 
+# --- R2#4: anchored classification ignores namespace source ---------------
+@case("auto_classify: anchored tokens and __source suffix ignored")
+def _(tmp):
+    assert U.auto_classify_skill("chrome-devtools")[0] != "business-and-finance"
+    assert (U.auto_classify_skill("database-migrations__claude-skills")
+            == U.auto_classify_skill("database-migrations"))
+    assert U.auto_classify_skill("hr-onboarding")[0] == "business-and-finance"
+    assert U.auto_classify_skill("copywriting-basics")[0] == "marketing-and-seo"
+
 # --- F#7: namespaced entry must not inherit another skill's metadata --------
 @case("make_entry: no metadata bleed into namespaced skill")
 def _(tmp):
