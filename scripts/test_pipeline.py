@@ -176,6 +176,21 @@ def _(tmp):
         os.path.join(tmp, "repo"), "skills-subdir")]
     assert got == ["tool"], got
 
+# --- R2#8: duplicate installed basenames are unsafe update targets --------
+@case("get_current_skill_mapping: dup basenames returned as ambiguous")
+def _(tmp):
+    old = U.skills_dir
+    U.skills_dir = tmp
+    try:
+        mkskill(tmp,
+                f"{U.MACRO_CATEGORIES[0]}/s1/tool/SKILL.md",
+                f"{U.MACRO_CATEGORIES[4]}/s2/tool/SKILL.md")
+        mapping, ambiguous = U.get_current_skill_mapping()
+        assert "tool" in mapping
+        assert "tool" in ambiguous
+    finally:
+        U.skills_dir = old
+
 # --- F#2: install_skill must not raise on existing destination -------------
 @case("install_skill skips existing destination")
 def _(tmp):

@@ -49,7 +49,8 @@ def find_leaf_skills():
     return sorted(leafs)
 
 def get_current_skill_mapping():
-    # Map from skill_folder_name -> absolute_path of its parent directory
+    # Map from skill_folder_name -> absolute_path of its parent directory,
+    # plus names that occur at more than one path and are unsafe to update.
     mapping = {}
     dups = set()
     for rel in find_leaf_skills():
@@ -58,8 +59,8 @@ def get_current_skill_mapping():
             dups.add(base)
         mapping[base] = os.path.join(skills_dir, os.path.dirname(rel))
     if dups:
-        print(f"⚠️  duplicate skill basenames collapse in mapping: {sorted(dups)}")
-    return mapping
+        print(f"⚠️  duplicate skill basenames are ambiguous: {sorted(dups)}")
+    return mapping, dups
 
 def _kw_hit(kws, name, tokens):
     padded = "-" + name.replace("_", "-") + "-"
@@ -436,10 +437,15 @@ def main():
             shutil.copy2(os.path.join(temp_dir, idx_file),
                          os.path.join(data_dir, f"upstream_index_{src['name']}.json"))
 
-        current_mapping = get_current_skill_mapping()
+        current_mapping, ambiguous_names = get_current_skill_mapping()
 
         for name, src_path in collect_source_skills(temp_dir, src.get("layout", "root")):
             try:
+                if name in ambiguous_names:
+                    report["errors"].append(
+                        f"{name}: duplicate installed basenames are ambiguous — skipped")
+                    print(f"⚠️  {name}: duplicate installed basenames are ambiguous — skipped")
+                    continue
                 if name in current_mapping:
                     rec = origins.setdefault(name, {"owner": primary, "also": []})
                     existing = os.path.join(current_mapping[name], name)
@@ -492,7 +498,7 @@ def main():
 
     # Layer 3: semantic similarity for newly added skills, compared against the
     # POST-update on-disk descriptions (so same-run additions can match each other).
-    mapping = get_current_skill_mapping()
+    mapping, _ = get_current_skill_mapping()
     if new_names:
         disk_desc = {}
         for other, parent in mapping.items():
