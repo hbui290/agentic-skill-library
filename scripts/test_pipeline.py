@@ -464,6 +464,25 @@ def _(tmp):
     finally:
         U.data_dir = old
 
+@case("upstream cache: index symlink escaping clone is rejected")
+def _(tmp):
+    old = U.data_dir
+    U.data_dir = os.path.join(tmp, "data")
+    clone = os.path.join(tmp, "clone")
+    os.makedirs(clone)
+    outside = os.path.join(tmp, "outside.json")
+    with open(outside, "w") as f:
+        f.write("[]")
+    os.symlink(outside, os.path.join(clone, "index.json"))
+    try:
+        ok = U.refresh_upstream_cache(
+            {"name": "hostile", "index_file": "index.json"}, clone)
+        assert ok is False
+        assert not os.path.exists(os.path.join(
+            U.data_dir, "upstream_index_hostile.json"))
+    finally:
+        U.data_dir = old
+
 
 def main():
     failed = 0

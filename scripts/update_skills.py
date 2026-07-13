@@ -206,10 +206,15 @@ def refresh_upstream_cache(source, clone_dir):
     os.makedirs(data_dir, exist_ok=True)
     cached = os.path.join(data_dir, f"upstream_index_{source['name']}.json")
     upstream = os.path.join(clone_dir, index_file)
-    if not os.path.isfile(upstream):
+    clone_root = os.path.realpath(clone_dir)
+    upstream_real = os.path.realpath(upstream)
+    inside_clone = (upstream_real == clone_root or
+                    upstream_real.startswith(clone_root + os.sep))
+    if not os.path.isfile(upstream) or not inside_clone:
         if os.path.exists(cached):
             os.unlink(cached)
-        print(f"❌ Source '{source['name']}' is missing declared index '{index_file}'.")
+        print(f"❌ Source '{source['name']}' has missing or unsafe declared index "
+              f"'{index_file}'.")
         return False
     tmp = cached + ".tmp"
     try:
