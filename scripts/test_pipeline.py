@@ -6,6 +6,7 @@ Never touches the real library: every case works in its own temp dir.
 import os
 import json
 import shutil
+import subprocess
 import sys
 import tempfile
 
@@ -339,6 +340,37 @@ def _(tmp):
     mkskill(tmp, "eng/misc/SPDD/1-research.md", "eng/misc/SPDD/2-spec.md")
     e = B.make_entry("eng/misc/SPDD", tmp, {}, {}, {}, {}, {}, {"SPDD": 1})
     assert "1-research.md" in e["description"], e["description"]
+
+# --- R2#7: exact verification is bidirectional and returns real status -----
+@case("verify_exact_skills: missing and extra disk entries exit 1")
+def _(tmp):
+    scripts = os.path.join(tmp, "scripts")
+    os.makedirs(scripts)
+    for name in ("verify_exact_skills.py", "update_skills.py"):
+        shutil.copy2(os.path.join(os.path.dirname(__file__), name), scripts)
+    mkskill(tmp, f"{U.MACRO_CATEGORIES[0]}/misc/extra/SKILL.md")
+    with open(os.path.join(tmp, ".antigravity-install-manifest.json"), "w") as f:
+        json.dump({"entries": [f"{U.MACRO_CATEGORIES[0]}/misc/ghost"]}, f)
+    result = subprocess.run(
+        [sys.executable, os.path.join(scripts, "verify_exact_skills.py")],
+        capture_output=True, text=True)
+    assert result.returncode == 1, result.stdout + result.stderr
+    assert "extra" in result.stdout.lower(), result.stdout
+
+@case("verify_exact_skills: matching manifest and disk exit 0")
+def _(tmp):
+    scripts = os.path.join(tmp, "scripts")
+    os.makedirs(scripts)
+    for name in ("verify_exact_skills.py", "update_skills.py"):
+        shutil.copy2(os.path.join(os.path.dirname(__file__), name), scripts)
+    rel = f"{U.MACRO_CATEGORIES[0]}/misc/tool"
+    mkskill(tmp, f"{rel}/SKILL.md")
+    with open(os.path.join(tmp, ".antigravity-install-manifest.json"), "w") as f:
+        json.dump({"entries": [rel]}, f)
+    result = subprocess.run(
+        [sys.executable, os.path.join(scripts, "verify_exact_skills.py")],
+        capture_output=True, text=True)
+    assert result.returncode == 0, result.stdout + result.stderr
 
 
 def main():

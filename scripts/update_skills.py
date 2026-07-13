@@ -4,6 +4,7 @@ import shutil
 import subprocess
 import json
 import hashlib
+import sys
 import tempfile
 from datetime import datetime, timezone
 
@@ -405,7 +406,7 @@ def main():
     cfg = load_json(sources_path, None)
     if not cfg or not cfg.get("sources"):
         print("❌ sources.json missing or empty.")
-        return
+        return 1
     sources = sorted(cfg["sources"], key=lambda s: s.get("priority", 99))
     primary = sources[0]["name"]
 
@@ -420,12 +421,14 @@ def main():
     report = {"collisions": [], "similars": [], "multi_origin": [], "errors": []}
     new_names = []
     totals = {"updated": 0, "unchanged": 0, "new": 0}
+    ok = True
 
     for src in sources:
         print(f"🚀 Fetching source '{src['name']}' from {src['git_url']}...")
         temp_dir = tempfile.mkdtemp()
         success, _ = run_cmd(["git", "clone", "--depth", "1", src["git_url"], temp_dir])
         if not success:
+            ok = False
             print(f"❌ Failed to clone {src['name']} — skipping this source.")
             shutil.rmtree(temp_dir)
             continue
@@ -557,19 +560,26 @@ def main():
     print(f"Manifest rebuilt with {len(manifest_entries)} entries.")
 
     print("📝 Updating README.md tree and categories...")
-    run_cmd(["python3", os.path.join(skills_dir, "scripts", "generate_full_ascii_tree.py")])
+    ok_tree, tree_out = run_cmd(
+        ["python3", os.path.join(skills_dir, "scripts", "generate_full_ascii_tree.py")])
+    print(tree_out)
 
     print("🛡️ Running path verification checks...")
-    success, verify_out = run_cmd(["python3", os.path.join(skills_dir, "scripts", "verify_exact_skills.py")])
+    ok_verify, verify_out = run_cmd(
+        ["python3", os.path.join(skills_dir, "scripts", "verify_exact_skills.py")])
     print(verify_out)
 
     print("🔗 Syncing skills to flat directory...")
-    success, sync_out = run_cmd(["python3", os.path.join(skills_dir, "scripts", "sync_flat_skills.py")])
+    ok_sync, sync_out = run_cmd(
+        ["python3", os.path.join(skills_dir, "scripts", "sync_flat_skills.py")])
     print(sync_out)
 
     print("📇 Building librarian-index.json...")
-    success, idx_out = run_cmd(["python3", os.path.join(skills_dir, "scripts", "build_librarian_index.py")])
+    ok_idx, idx_out = run_cmd(
+        ["python3", os.path.join(skills_dir, "scripts", "build_librarian_index.py")])
     print(idx_out)
 
+    return 0 if ok and ok_tree and ok_verify and ok_sync and ok_idx else 1
+
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
