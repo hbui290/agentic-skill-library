@@ -219,8 +219,21 @@ def refresh_upstream_cache(source, clone_dir):
     try:
         with open(upstream, encoding="utf-8") as f:
             payload = json.load(f)
+        string_fields = ("description", "category", "risk", "source_repo",
+                         "source", "license", "date_added")
+        def valid_entry(entry):
+            if not isinstance(entry, dict):
+                return False
+            skill_id = entry.get("id")
+            path = entry.get("path")
+            if not ((isinstance(skill_id, str) and skill_id) or
+                    (isinstance(path, str) and path)):
+                return False
+            return all(entry.get(field) is None or
+                       isinstance(entry.get(field), str)
+                       for field in string_fields)
         valid_schema = isinstance(payload, list) and all(
-            isinstance(entry, dict) for entry in payload)
+            valid_entry(entry) for entry in payload)
     except (OSError, json.JSONDecodeError):
         valid_schema = False
     if not valid_schema:

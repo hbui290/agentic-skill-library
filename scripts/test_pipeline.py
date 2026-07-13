@@ -491,7 +491,8 @@ def _(tmp):
     os.makedirs(clone)
     index_path = os.path.join(clone, "index.json")
     try:
-        for content in ("{not json", '{"skills": []}', '[1]'):
+        for content in ("{not json", '{"skills": []}', '[1]',
+                        '[{"path": 1}]', '[{"id": ["x"]}]'):
             with open(index_path, "w") as f:
                 f.write(content)
             assert U.refresh_upstream_cache(
