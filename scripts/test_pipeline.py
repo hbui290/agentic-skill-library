@@ -200,6 +200,16 @@ def _(tmp):
     finally:
         U.skills_dir = old
 
+@case("mapping lookup refuses an ambiguous derived namespace")
+def _(tmp):
+    name = "tool__secondary"
+    try:
+        U.get_update_parent(name, {name: "/last/path"}, {name})
+    except ValueError as ex:
+        assert name in str(ex)
+    else:
+        raise AssertionError("ambiguous namespace was accepted")
+
 # --- F#2: install_skill must not raise on existing destination -------------
 @case("install_skill skips existing destination")
 def _(tmp):

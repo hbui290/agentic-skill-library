@@ -63,6 +63,11 @@ def get_current_skill_mapping():
         print(f"⚠️  duplicate skill basenames are ambiguous: {sorted(dups)}")
     return mapping, dups
 
+def get_update_parent(name, mapping, ambiguous_names):
+    if name in ambiguous_names:
+        raise ValueError(f"duplicate installed basename '{name}' is ambiguous")
+    return mapping.get(name)
+
 def _kw_hit(kws, name, tokens):
     padded = "-" + name.replace("_", "-") + "-"
     for kw in kws:
@@ -446,14 +451,11 @@ def main():
 
         for name, src_path in collect_source_skills(temp_dir, src.get("layout", "root")):
             try:
-                if name in ambiguous_names:
-                    report["errors"].append(
-                        f"{name}: duplicate installed basenames are ambiguous — skipped")
-                    print(f"⚠️  {name}: duplicate installed basenames are ambiguous — skipped")
-                    continue
-                if name in current_mapping:
+                current_parent = get_update_parent(
+                    name, current_mapping, ambiguous_names)
+                if current_parent is not None:
                     rec = origins.setdefault(name, {"owner": primary, "also": []})
-                    existing = os.path.join(current_mapping[name], name)
+                    existing = os.path.join(current_parent, name)
                     if rec["owner"] == src["name"]:
                         if dir_hash(src_path) != dir_hash(existing):
                             replace_skill_dir(src_path, existing)
@@ -469,8 +471,10 @@ def main():
                         else:
                             # Layer 2: same name, different content -> namespace, never overwrite.
                             ns = f"{name}__{src['name']}"
-                            if ns in current_mapping:
-                                ns_existing = os.path.join(current_mapping[ns], ns)
+                            ns_parent = get_update_parent(
+                                ns, current_mapping, ambiguous_names)
+                            if ns_parent is not None:
+                                ns_existing = os.path.join(ns_parent, ns)
                                 if dir_hash(src_path) != dir_hash(ns_existing):
                                     replace_skill_dir(src_path, ns_existing)
                                     totals["updated"] += 1
