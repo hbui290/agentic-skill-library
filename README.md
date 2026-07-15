@@ -1,35 +1,111 @@
 # Agentic Skill Registry
 
-This is the successor to `hbui290/agentic-library`. It preserves the full
-1,954-record catalog while rebuilding the operational pipeline around a pinned,
-reviewable registry and a small Core distribution.
+A verified, source-aware registry for AI agent skills.
 
-## Migration in progress
+This repository keeps a large legacy catalog usable without pretending that
+every entry is safe. Each skill has an identity, provenance, content hash,
+license metadata, risk state, and review history.
 
-The complete legacy catalog now lives under `catalog/`. The old in-place update
-pipeline is disabled and archived under `legacy/scripts/`; do not use it against
-this layout. The original `hbui290/agentic-library` repository remains unchanged
-and is the read-only `upstream` source.
+## Current status
 
-Current read-only verification:
+- 1,954 legacy records preserved.
+- 1,952 active catalog entries.
+- 2 markerless entries quarantined: `SPDD` and `linear`.
+- 1 audited Core skill: `moyu`.
+- Strict offline verification available.
+- Read-only upstream freshness checks available.
+- Automatic bulk import and automatic Core promotion are disabled.
+
+Core is deliberately small. A skill enters Core only after its content,
+license, capabilities, provenance, and risk have been reviewed.
+
+## Quick start
+
+Requirements: Python 3.11 or newer and Git.
 
 ```bash
-python3 tools/verify_migration.py
-python3 -m pytest tests/migration tests/contracts
+git clone https://github.com/hbui290/agentic-skill-registry.git
+cd agentic-skill-registry
+
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e '.[dev]'
+
+skill-registry verify --strict
 ```
 
-The expected migration reconciliation is:
+A successful verification prints:
 
 ```text
-1954 legacy records
-1952 active candidates with SKILL.md
-2 markerless records held for quarantine
+result=pass failed=0
 ```
 
-Operational source refresh, Core admission, package installation, and MCP
-integration remain intentionally unavailable until their corresponding registry
-gates are delivered.
+## Check upstream freshness
 
-See [migration documentation](docs/migration-from-agentic-library.md) for the
-compatibility boundary and [the implementation blueprint](docs/superpowers/specs/2026-07-15-agentic-skill-registry-design.md)
-for the staged delivery contract.
+This command compares the pinned source commits with the current upstream
+commits:
+
+```bash
+skill-registry refresh --format json
+```
+
+It is read-only. It does not download, overwrite, promote, or change the
+catalog. A newer upstream commit must be reviewed and imported in a separate
+change before the source lock is updated.
+
+## Repository layout
+
+| Path | Purpose |
+| --- | --- |
+| `catalog/` | Skill content preserved in the successor repository |
+| `registry/skills.json` | Identity, provenance, hash, license, risk, and state for each skill |
+| `registry/core.json` | Explicit allow-list of audited Core skill IDs |
+| `registry/quarantine.json` | Entries blocked from normal use pending remediation |
+| `registry/upstream-review.json` | Evidence and decisions for upstream changes |
+| `pipeline/skill_registry/` | Registry models, hashing, discovery, refresh, and verification |
+| `tests/` | Unit, contract, migration, and integration tests |
+| `legacy/` | Disabled compatibility and migration material |
+
+## Safety model
+
+The catalog and Core are different things:
+
+- Catalog: preserved material that may still need review.
+- Active: structurally valid and available in the registry; not automatically safe.
+- Review: requires human or targeted technical review before promotion.
+- Quarantined: blocked because a required contract is missing or a risk rule fired.
+- Core: explicitly audited and allowed for trusted default use.
+
+Do not copy an entire upstream repository into this catalog. Upstream changes
+may include plugins, workflows, web applications, scripts, or dependency
+changes—not just skill instructions.
+
+## Development
+
+Run the complete test suite:
+
+```bash
+python -m pytest -q
+```
+
+Run the strict registry contract:
+
+```bash
+skill-registry verify --strict
+```
+
+The strict verifier checks registry structure, skill frontmatter, identities,
+load names, content hashes, provenance, aliases, quarantine, Core membership,
+source review records, and exceptions.
+
+## Non-goals
+
+This repository is not:
+
+- a guarantee that every catalog entry is safe;
+- an automatic installer for arbitrary third-party skills;
+- a replacement for reviewing code, scripts, credentials, or external actions;
+- a license to update pinned sources without importing and verifying content.
+
+For the migration boundary and operating rules, see
+[docs/migration-from-agentic-library.md](docs/migration-from-agentic-library.md).
