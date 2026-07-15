@@ -89,3 +89,11 @@ def test_strict_contract_rejects_invalid_upstream_review(repo_root, tmp_path):
     (root / "registry/upstream-review.json").write_text(json.dumps(payload))
     check_ids = {finding["check_id"] for finding in verify_repository(root).findings}
     assert "registry.upstream-review" in check_ids
+
+
+def test_default_core_contains_only_audited_safe_skill(repo_root):
+    core = json.loads((repo_root / "registry/core.json").read_text())["skill_ids"]
+    skills = {record["skill_id"]: record for record in json.loads((repo_root / "registry/skills.json").read_text())["skills"]}
+    assert core == ["asr_8b273fe4fe068d88"]
+    assert skills[core[0]]["risk"] == "safe"
+    assert "core-audit" in skills[core[0]]["risk_reasons"]

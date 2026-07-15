@@ -41,3 +41,10 @@ until its contents and license have been reviewed in a separate change.
 Phase 5 reviewed the 10 new Markdown-only entries. Nine are marked `critical`
 by upstream metadata and one is marked `offensive`; none is eligible for import
 or Core admission under this registry's safety policy.
+
+## First Core member
+
+Phase 6 promoted only `moyu` to Core after a content audit: its source
+frontmatter is `safe`, its license is MIT, it declares no tools, contains only
+documentation, and contains no network or credential instructions. No other
+skill was promoted merely to make the Core list longer.

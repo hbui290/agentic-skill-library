@@ -18873,9 +18873,14 @@
       "license": "MIT",
       "load_name": "moyu",
       "name": "moyu",
-      "risk": "unknown",
+      "risk": "safe",
       "risk_reasons": [
-        "initial-review-required"
+        "core-audit",
+        "document-only",
+        "license-mit",
+        "no-declared-tools",
+        "no-network-or-credential-instructions",
+        "source-frontmatter-safe"
       ],
       "skill_id": "asr_8b273fe4fe068d88",
       "source_commit": "82c86e65677aa1b40fa8207f95bc43766494a3db",
