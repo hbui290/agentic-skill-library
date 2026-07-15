@@ -43,7 +43,7 @@ def _score(query: set[str], record: dict[str, object], metadata: dict[str, objec
         8 * (term in names)
         + 4 * (term in taxonomy)
         + 3 * (term in category)
-        + 1 * (term in description)
+        + 8 * (term in description)
         for term in query
     )
 
