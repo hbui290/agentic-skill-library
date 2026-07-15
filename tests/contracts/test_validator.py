@@ -80,3 +80,12 @@ def test_strict_contract_rejects_malformed_core_members(repo_root, tmp_path):
     (root / "registry/core.json").write_text(json.dumps({"schema_version": 1, "skill_ids": [[]]}))
     check_ids = {finding["check_id"] for finding in verify_repository(root).findings}
     assert "registry.core" in check_ids
+
+
+def test_strict_contract_rejects_invalid_upstream_review(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    payload = json.loads((root / "registry/upstream-review.json").read_text())
+    payload["records"][0]["disposition"] = "accepted"
+    (root / "registry/upstream-review.json").write_text(json.dumps(payload))
+    check_ids = {finding["check_id"] for finding in verify_repository(root).findings}
+    assert "registry.upstream-review" in check_ids
