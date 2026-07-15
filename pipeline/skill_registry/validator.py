@@ -47,7 +47,7 @@ def verify_repository(root: Path) -> VerificationReport:
     if not skills_path.is_file():
         add(findings, "registry.present", ["DR-08"])
         return VerificationReport("fail", 0, 1, 0, 0, tuple(findings))
-    required = ("sources.lock.json", "aliases.json", "quarantine.json", "risk-overrides.json", "exceptions.json", "schema-version.json", "core.json")
+    required = ("sources.lock.json", "aliases.json", "quarantine.json", "risk-overrides.json", "exceptions.json", "schema-version.json", "core.json", "upstream-review.json")
     missing = [name for name in required if not (registry / name).is_file()]
     if missing:
         add(findings, "registry.present", ["DR-08"], missing=missing)
@@ -80,6 +80,35 @@ def verify_repository(root: Path) -> VerificationReport:
         for source in sources if isinstance(source, dict)
     ):
         add(findings, "registry.source-lock", ["DR-04", "UR-01"])
+    try:
+        review_payload = json.loads((registry / "upstream-review.json").read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        review_payload = {}
+    review_records = review_payload.get("records") if isinstance(review_payload, dict) else None
+    review_source = next((source for source in sources if isinstance(source, dict) and source.get("source_id") == review_payload.get("source_id")), None)
+    review_valid = (
+        isinstance(review_records, list)
+        and review_payload.get("schema_version") == 1
+        and isinstance(review_source, dict)
+        and review_payload.get("pinned_commit") == review_source.get("commit")
+        and COMMIT.fullmatch(str(review_payload.get("observed_commit", ""))) is not None
+        and all(
+            isinstance(record, dict)
+            and isinstance(record.get("source_path"), str)
+            and record["source_path"].startswith("skills/")
+            and ".." not in record["source_path"].split("/")
+            and record.get("change") in {"added", "modified"}
+            and record.get("disposition") in {"review", "quarantined"}
+            and isinstance(record.get("reason"), str)
+            and bool(record["reason"].strip())
+            for record in review_records or []
+        )
+    )
+    if review_valid:
+        review_paths = [record["source_path"] for record in review_records]
+        review_valid = len(review_paths) == len(set(review_paths))
+    if not review_valid:
+        add(findings, "registry.upstream-review", ["UR-01"])
     ids: set[str] = set()
     load_names: set[str] = set()
     for record in skills:
