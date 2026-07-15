@@ -2,6 +2,7 @@ import argparse
 import json
 from pathlib import Path
 
+from skill_registry.refresh import SourceRefreshError, refresh_sources
 from skill_registry.validator import verify_repository
 
 
@@ -13,11 +14,30 @@ def build_parser() -> argparse.ArgumentParser:
     verify.add_argument("--root", type=Path, default=Path.cwd())
     verify.add_argument("--format", choices=("text", "json"), default="text")
     verify.add_argument("--output", type=Path)
+    refresh = commands.add_parser("refresh")
+    refresh.add_argument("--root", type=Path, default=Path.cwd())
+    refresh.add_argument("--format", choices=("text", "json"), default="text")
+    refresh.add_argument("--output", type=Path)
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
+    if args.command == "refresh":
+        try:
+            payload = refresh_sources(args.root.resolve())
+        except SourceRefreshError as error:
+            print(f"error={error}")
+            return 1
+        rendered = json.dumps(payload, indent=2, sort_keys=True) + "\n"
+        if args.output:
+            args.output.write_text(rendered, encoding="utf-8")
+        elif args.format == "json":
+            print(rendered, end="")
+        else:
+            for source in payload["sources"]:
+                print(f"source={source['source_id']} status={source['status']}")
+        return 0
     report = verify_repository(args.root.resolve())
     payload = report.to_dict()
     rendered = json.dumps(payload, indent=2, sort_keys=True) + "\n"

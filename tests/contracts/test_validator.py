@@ -65,3 +65,18 @@ def test_strict_contract_rejects_unknown_schema_version(repo_root, tmp_path):
     root = clone_repository_fixture(repo_root, tmp_path)
     (root / "registry/schema-version.json").write_text(json.dumps({"schema_version": 999}))
     assert any(finding["check_id"] == "registry.schema-version" for finding in verify_repository(root).findings)
+
+
+def test_strict_contract_rejects_core_record_that_is_not_safe(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    record = json.loads((root / "registry/skills.json").read_text())["skills"][0]
+    (root / "registry/core.json").write_text(json.dumps({"schema_version": 1, "skill_ids": [record["skill_id"]]}))
+    check_ids = {finding["check_id"] for finding in verify_repository(root).findings}
+    assert "registry.core" in check_ids
+
+
+def test_strict_contract_rejects_malformed_core_members(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    (root / "registry/core.json").write_text(json.dumps({"schema_version": 1, "skill_ids": [[]]}))
+    check_ids = {finding["check_id"] for finding in verify_repository(root).findings}
+    assert "registry.core" in check_ids
