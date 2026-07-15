@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "source_repository": "hbui290/agentic-library",
+  "source_commit": "a3f3ac3bb434884b9847cf6df43a534ec00a6d71",
+  "legacy_record_count": 1954,
+  "files": {
+    "manifest_sha256": "1bb2c37c83e31e67b50663f6f2ec4957cb3247f82048a0486b1c0f5f794a1701",
+    "index_sha256": "41bd972c04ed9b39ddf16d03f520029ac877af69e7fcdbbf28c20762c544837c",
+    "sources_sha256": "3d446fdf8266a2f3b450e9f5e42bca26dce0164bac118a03025c42b8d3098f97"
+  }
+}
