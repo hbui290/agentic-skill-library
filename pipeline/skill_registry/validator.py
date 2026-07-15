@@ -47,7 +47,7 @@ def verify_repository(root: Path) -> VerificationReport:
     if not skills_path.is_file():
         add(findings, "registry.present", ["DR-08"])
         return VerificationReport("fail", 0, 1, 0, 0, tuple(findings))
-    required = ("sources.lock.json", "aliases.json", "quarantine.json", "risk-overrides.json", "exceptions.json", "schema-version.json")
+    required = ("sources.lock.json", "aliases.json", "quarantine.json", "risk-overrides.json", "exceptions.json", "schema-version.json", "core.json")
     missing = [name for name in required if not (registry / name).is_file()]
     if missing:
         add(findings, "registry.present", ["DR-08"], missing=missing)
@@ -57,6 +57,21 @@ def verify_repository(root: Path) -> VerificationReport:
     quarantine = read_records(registry / "quarantine.json", "records")
     aliases = read_records(registry / "aliases.json", "aliases")
     exceptions = read_records(registry / "exceptions.json", "exceptions")
+    core_payload = json.loads((registry / "core.json").read_text()) if (registry / "core.json").is_file() else {}
+    core = core_payload.get("skill_ids") if isinstance(core_payload, dict) else None
+    known_skills = {record.get("skill_id"): record for record in skills}
+    if (
+        core_payload.get("schema_version") != 1
+        or not isinstance(core, list)
+        or not all(isinstance(skill_id, str) for skill_id in core or [])
+        or len(core) != len(set(core))
+        or any(
+            known_skills.get(skill_id, {}).get("state") != "active"
+            or known_skills.get(skill_id, {}).get("risk") != "safe"
+            for skill_id in core or []
+        )
+    ):
+        add(findings, "registry.core", ["DR-08"])
     lock_payload = json.loads((registry / "sources.lock.json").read_text()) if (registry / "sources.lock.json").is_file() else {"sources": []}
     sources = lock_payload.get("sources", []) if isinstance(lock_payload, dict) else []
     source_ids = {source.get("source_id") for source in sources if isinstance(source, dict)}
