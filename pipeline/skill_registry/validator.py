@@ -51,6 +51,8 @@ def verify_repository(root: Path) -> VerificationReport:
     missing = [name for name in required if not (registry / name).is_file()]
     if missing:
         add(findings, "registry.present", ["DR-08"], missing=missing)
+    elif json.loads((registry / "schema-version.json").read_text(encoding="utf-8")).get("schema_version") != 1:
+        add(findings, "registry.schema-version", ["DR-08"])
     skills = read_records(skills_path, "skills")
     quarantine = read_records(registry / "quarantine.json", "records")
     aliases = read_records(registry / "aliases.json", "aliases")

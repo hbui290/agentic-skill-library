@@ -59,3 +59,9 @@ def test_strict_contract_rejects_expired_exception(repo_root, tmp_path):
         "rationale": "fixture", "created_at": "2026-01-01", "expires_at": "2026-01-02",
     }]}))
     assert any(finding["check_id"] == "governance.exception" for finding in verify_repository(root).findings)
+
+
+def test_strict_contract_rejects_unknown_schema_version(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    (root / "registry/schema-version.json").write_text(json.dumps({"schema_version": 999}))
+    assert any(finding["check_id"] == "registry.schema-version" for finding in verify_repository(root).findings)
