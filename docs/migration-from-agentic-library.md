@@ -1,9 +1,9 @@
 # Migration from agentic-library
 
 The successor preserves Git history and all 1,954 legacy records. Skill content
-now lives under `catalog/`. The original repository remains unchanged and is
-configured as the read-only `upstream` remote. Operational updates remain
-disabled until the pinned proposal pipeline is delivered.
+now lives under `catalog/`. The superseded `hbui290/agentic-library` repository
+was permanently deleted after this migration was verified; this repository is
+the only maintained source of truth.
 
 ## Runtime replacement
 
