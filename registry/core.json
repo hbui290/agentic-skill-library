@@ -1,4 +1,6 @@
 {
   "schema_version": 1,
-  "skill_ids": []
+  "skill_ids": [
+    "asr_8b273fe4fe068d88"
+  ]
 }
