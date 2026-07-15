@@ -11,5 +11,14 @@ dependencies = ["PyYAML>=6,<7"]
 [project.optional-dependencies]
 dev = ["pytest>=8,<9"]
 
+[project.scripts]
+skill-registry = "skill_registry.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "pipeline"}
+
+[tool.setuptools.packages.find]
+where = ["pipeline"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
