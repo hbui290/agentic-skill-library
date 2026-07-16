@@ -35141,6 +35141,24 @@
       "source_id": "sickn33-agentic-awesome-skills",
       "source_path": "skills/fsi-compliance-checker",
       "state": "active"
+    },
+    {
+      "canonical_skill_id": null,
+      "catalog_path": "catalog/devops-and-security/azure-cloud/azure-blob-storage",
+      "content_sha256": "1f9cd109c50ee7c19189cba5d2fa5c305feccdfe086965d663d9a38338402238",
+      "first_seen_version": "0.2.0",
+      "license": "CC-BY-4.0",
+      "load_name": "azure-blob-storage",
+      "name": "azure-blob-storage",
+      "risk": "unknown",
+      "risk_reasons": [
+        "initial-review-required"
+      ],
+      "skill_id": "asr_f6570c58dea83d06",
+      "source_commit": "e03d6ea0dab78954ca902bad9f6556cafe772515",
+      "source_id": "microsoftdocs-agent-skills",
+      "source_path": "skills/azure-blob-storage",
+      "state": "active"
     }
   ]
 }

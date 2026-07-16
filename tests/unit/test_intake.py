@@ -1390,3 +1390,13 @@ def test_dump_json_atomic_uses_distinct_temporary_files_for_concurrent_writers(
         {"writer": 1},
         {"writer": 2},
     ]
+
+
+def test_dump_json_atomic_preserves_mapping_order(tmp_path):
+    target = tmp_path / "payload.json"
+
+    filesystem.dump_json_atomic(target, {"z_existing": 1, "a_new": 2})
+
+    assert target.read_text(encoding="utf-8").index('"z_existing"') < target.read_text(
+        encoding="utf-8"
+    ).index('"a_new"')

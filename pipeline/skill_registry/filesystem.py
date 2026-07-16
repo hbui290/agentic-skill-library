@@ -25,7 +25,7 @@ def dump_json_atomic(path: Path, value: object) -> None:
         ) as handle:
             temporary = Path(handle.name)
             handle.write(
-                json.dumps(value, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
+                json.dumps(value, indent=2, ensure_ascii=False) + "\n"
             )
         temporary.replace(path)
     except Exception:
