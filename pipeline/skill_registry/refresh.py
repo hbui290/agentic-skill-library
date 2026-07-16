@@ -26,7 +26,20 @@ def refresh_sources(root: Path, runner: Callable[..., str] = subprocess.check_ou
             source["status"]
             source["refreshable"]
             source["timeout_seconds"]
-    except (OSError, json.JSONDecodeError, KeyError, TypeError) as error:
+            if source["status"] not in {"active", "retired"}:
+                raise ValueError
+            if not isinstance(source["refreshable"], bool):
+                raise TypeError
+            timeout_seconds = source["timeout_seconds"]
+            if (
+                isinstance(timeout_seconds, bool)
+                or not isinstance(timeout_seconds, int)
+                or not 1 <= timeout_seconds <= 60
+            ):
+                raise TypeError
+            if source["status"] == "retired" and source["refreshable"]:
+                raise ValueError
+    except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError) as error:
         raise SourceRefreshError("invalid source lock") from error
 
     records: list[dict[str, object]] = []

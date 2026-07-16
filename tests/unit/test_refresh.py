@@ -2,7 +2,9 @@ import json
 import subprocess
 from pathlib import Path
 
-from skill_registry.refresh import refresh_sources
+import pytest
+
+from skill_registry.refresh import SourceRefreshError, refresh_sources
 
 
 def write_lock(root: Path, sources: list[dict[str, object]]) -> Path:
@@ -85,6 +87,43 @@ def test_refresh_skips_retired_source(tmp_path: Path):
             "status": "retired",
         }],
     }
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("status", "unknown"),
+        ("refreshable", "false"),
+        ("timeout_seconds", "15"),
+        ("timeout_seconds", 0),
+        ("timeout_seconds", 61),
+        ("timeout_seconds", True),
+    ],
+)
+def test_refresh_rejects_invalid_source_lifecycle_before_running(
+    tmp_path: Path, field: str, value: object
+):
+    source = active_source("example", "https://example.invalid/source.git", "a" * 40)
+    source[field] = value
+    root = write_lock(tmp_path, [source])
+    calls = []
+
+    with pytest.raises(SourceRefreshError, match="invalid source lock"):
+        refresh_sources(root, runner=lambda *args, **kwargs: calls.append((args, kwargs)))
+
+    assert calls == []
+
+
+def test_refresh_rejects_refreshable_retired_source_before_running(tmp_path: Path):
+    source = active_source("legacy", "https://example.invalid/source.git", "a" * 40)
+    source["status"] = "retired"
+    root = write_lock(tmp_path, [source])
+    calls = []
+
+    with pytest.raises(SourceRefreshError, match="invalid source lock"):
+        refresh_sources(root, runner=lambda *args, **kwargs: calls.append((args, kwargs)))
+
+    assert calls == []
 
 
 def test_refresh_reports_error_and_continues(tmp_path: Path):
