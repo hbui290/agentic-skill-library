@@ -11,7 +11,8 @@
       ],
       "skill_id": "asr_a94f930da863c865",
       "source_commit": "a3f3ac3bb434884b9847cf6df43a534ec00a6d71",
-      "source_id": "legacy-local"
+      "source_id": "legacy-local",
+      "source_path": "workflows-and-management/planning-and-execution/linear"
     },
     {
       "catalog_path": "catalog/engineering/tooling-and-monorepos/SPDD",
@@ -24,7 +25,8 @@
       ],
       "skill_id": "asr_c5910b994e034997",
       "source_commit": "a3f3ac3bb434884b9847cf6df43a534ec00a6d71",
-      "source_id": "legacy-local"
+      "source_id": "legacy-local",
+      "source_path": "engineering/tooling-and-monorepos/SPDD"
     }
   ],
   "schema_version": 1
