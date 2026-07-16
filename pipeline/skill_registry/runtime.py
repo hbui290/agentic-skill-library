@@ -13,7 +13,12 @@ class RegistryRuntimeError(RuntimeError):
 
 
 class SkillConfirmationRequired(RegistryRuntimeError):
-    pass
+    def __init__(self, payload: dict[str, object]) -> None:
+        skill = payload["skill"]
+        super().__init__(
+            f"confirmation required for {skill['risk']} skill: {skill['load_name']}"
+        )
+        self.payload = payload
 
 
 class SkillBlocked(RegistryRuntimeError):
@@ -115,6 +120,21 @@ def _records(root: Path, filename: str, key: str) -> list[dict[str, object]]:
     return value
 
 
+def _skill_metadata(record: dict[str, object], core: set[str]) -> dict[str, object]:
+    return {
+        "skill_id": record["skill_id"],
+        "load_name": record["load_name"],
+        "risk": record["risk"],
+        "risk_reasons": record["risk_reasons"],
+        "core": record["skill_id"] in core,
+        "source_id": record["source_id"],
+        "source_commit": record["source_commit"],
+        "source_path": record["source_path"],
+        "license": record["license"],
+        "content_sha256": record["content_sha256"],
+    }
+
+
 def read_skill(root: Path, identifier: str, allow_unreviewed: bool = False) -> dict[str, object]:
     skills = _records(root, "skills.json", "skills")
     quarantine = _records(root, "quarantine.json", "records")
@@ -139,7 +159,9 @@ def read_skill(root: Path, identifier: str, allow_unreviewed: bool = False) -> d
     if risk == "dangerous":
         raise SkillBlocked(f"dangerous skill blocked: {identifier}")
     if risk in {"unknown", "review"} and not allow_unreviewed:
-        raise SkillConfirmationRequired(f"confirmation required for {risk} skill: {identifier}")
+        raise SkillConfirmationRequired(
+            {"error": "confirmation_required", "skill": _skill_metadata(record, core)}
+        )
     if risk not in {"safe", "unknown", "review"}:
         raise SkillBlocked(f"unsupported risk state: {risk}")
 
@@ -158,15 +180,6 @@ def read_skill(root: Path, identifier: str, allow_unreviewed: bool = False) -> d
         raise SkillBlocked(f"hash mismatch: {identifier}")
 
     return {
-        "skill": {
-            "skill_id": record["skill_id"],
-            "load_name": record["load_name"],
-            "risk": risk,
-            "risk_reasons": record["risk_reasons"],
-            "core": record["skill_id"] in core,
-            "source_id": record["source_id"],
-            "source_commit": record["source_commit"],
-            "license": record["license"],
-        },
+        "skill": _skill_metadata(record, core),
         "instructions": marker.read_text(encoding="utf-8"),
     }

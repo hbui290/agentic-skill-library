@@ -64,7 +64,18 @@ def main(argv: list[str] | None = None) -> int:
                 args.root.resolve(), args.identifier, args.allow_unreviewed
             )
         except SkillConfirmationRequired as error:
-            print(f"confirmation_required={error}", file=sys.stderr)
+            if args.format == "json":
+                print(json.dumps(error.payload, indent=2, sort_keys=True), file=sys.stderr)
+            else:
+                skill = error.payload["skill"]
+                reasons = ",".join(skill["risk_reasons"])
+                print(
+                    f"confirmation_required={skill['load_name']} "
+                    f"risk={skill['risk']} reasons={reasons} "
+                    f"source={skill['source_id']}@{skill['source_commit']} "
+                    f"license={skill['license']} hash={skill['content_sha256']}",
+                    file=sys.stderr,
+                )
             return 3
         except (SkillBlocked, RegistryRuntimeError) as error:
             print(f"error={error}", file=sys.stderr)

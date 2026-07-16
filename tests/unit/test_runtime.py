@@ -175,6 +175,36 @@ def test_read_allows_safe_skill_and_returns_only_instructions(tmp_path):
     assert result["instructions"].startswith("---\nname: safe-doc")
 
 
+def test_unknown_read_returns_structured_confirmation(tmp_path):
+    record = build_registry(tmp_path, [{"name": "unknown-skill", "risk": "unknown"}])[0]
+    with pytest.raises(SkillConfirmationRequired) as caught:
+        read_skill(tmp_path, "unknown-skill")
+
+    assert caught.value.payload == {
+        "error": "confirmation_required",
+        "skill": {
+            "skill_id": record["skill_id"],
+            "load_name": "unknown-skill",
+            "risk": "unknown",
+            "risk_reasons": ["fixture"],
+            "core": False,
+            "source_id": "fixture",
+            "source_commit": "a" * 40,
+            "source_path": "skills/unknown-skill",
+            "license": "MIT",
+            "content_sha256": record["content_sha256"],
+        },
+    }
+    assert "instructions" not in caught.value.payload
+
+
+def test_safe_read_exposes_integrity_metadata(tmp_path):
+    record = build_registry(tmp_path, [{"name": "safe-skill", "risk": "safe"}])[0]
+    result = read_skill(tmp_path, "safe-skill")
+    assert result["skill"]["source_path"] == record["source_path"]
+    assert result["skill"]["content_sha256"] == record["content_sha256"]
+
+
 @pytest.mark.parametrize("risk", ["unknown", "review"])
 def test_read_requires_confirmation_for_unreviewed_skill(tmp_path, risk):
     record = build_registry(tmp_path, [{"name": "unreviewed", "risk": risk}])[0]
