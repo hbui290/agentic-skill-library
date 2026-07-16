@@ -767,7 +767,8 @@ State plainly:
 git diff --check
 ! test -e DIRECTORY_TREE.md
 ! rg -n "superpowers-mcp@|list_skills|mcpServers" \
-  README.md docs pipeline skills
+  README.md docs pipeline skills \
+  --glob '!docs/superpowers/plans/**'
 ```
 
 Expected: all exit `0`.

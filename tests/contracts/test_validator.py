@@ -1,6 +1,8 @@
 import json
 import shutil
 
+import pytest
+
 from skill_registry.validator import verify_repository
 from skill_registry.identity import stable_skill_id
 
@@ -146,6 +148,24 @@ def test_verify_rejects_boolean_source_timeout(repo_root, tmp_path):
     lock = json.loads((root / "registry/sources.lock.json").read_text())
     lock["sources"][0]["timeout_seconds"] = True
     write_json(root / "registry/sources.lock.json", lock)
+    assert "registry.source-lock" in check_ids(root)
+
+
+def test_verify_rejects_non_refreshable_active_source(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    lock = json.loads((root / "registry/sources.lock.json").read_text())
+    lock["sources"][1]["refreshable"] = False
+    write_json(root / "registry/sources.lock.json", lock)
+    assert "registry.source-lock" in check_ids(root)
+
+
+@pytest.mark.parametrize("sources", [None, 1, {}, "invalid"])
+def test_verify_reports_malformed_source_collection(repo_root, tmp_path, sources):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    write_json(
+        root / "registry/sources.lock.json",
+        {"schema_version": 1, "sources": sources},
+    )
     assert "registry.source-lock" in check_ids(root)
 
 

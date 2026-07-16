@@ -126,6 +126,18 @@ def test_refresh_rejects_refreshable_retired_source_before_running(tmp_path: Pat
     assert calls == []
 
 
+def test_refresh_rejects_non_refreshable_active_source_before_running(tmp_path: Path):
+    source = active_source("example", "https://example.invalid/source.git", "a" * 40)
+    source["refreshable"] = False
+    root = write_lock(tmp_path, [source])
+    calls = []
+
+    with pytest.raises(SourceRefreshError, match="invalid source lock"):
+        refresh_sources(root, runner=lambda *args, **kwargs: calls.append((args, kwargs)))
+
+    assert calls == []
+
+
 def test_refresh_reports_error_and_continues(tmp_path: Path):
     root = write_lock(tmp_path, [
         active_source("broken", "https://example.invalid/broken.git", "a" * 40),

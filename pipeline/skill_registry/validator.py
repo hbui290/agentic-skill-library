@@ -75,14 +75,16 @@ def verify_repository(root: Path) -> VerificationReport:
     ):
         add(findings, "registry.core", ["DR-08"])
     lock_payload = json.loads((registry / "sources.lock.json").read_text()) if (registry / "sources.lock.json").is_file() else {"sources": []}
-    sources = lock_payload.get("sources", []) if isinstance(lock_payload, dict) else []
+    raw_sources = lock_payload.get("sources", []) if isinstance(lock_payload, dict) else []
+    sources_valid = isinstance(raw_sources, list)
+    sources = raw_sources if sources_valid else []
     source_by_id = {
         source["source_id"]: source
         for source in sources
         if isinstance(source, dict) and isinstance(source.get("source_id"), str)
     }
     source_ids = set(source_by_id)
-    if lock_payload.get("schema_version") != 1 or len(source_by_id) != len(sources) or any(
+    if not sources_valid or lock_payload.get("schema_version") != 1 or len(source_by_id) != len(sources) or any(
         not all(source.get(field) for field in ("source_id", "url", "layout", "license_note"))
         or not COMMIT.fullmatch(str(source.get("commit", "")))
         or source.get("status") not in {"active", "retired"}
@@ -90,7 +92,7 @@ def verify_repository(root: Path) -> VerificationReport:
         or isinstance(source.get("timeout_seconds"), bool)
         or not isinstance(source.get("timeout_seconds"), int)
         or not 1 <= source["timeout_seconds"] <= 60
-        or (source["status"] == "retired" and source["refreshable"])
+        or source["refreshable"] != (source["status"] == "active")
         for source in sources if isinstance(source, dict)
     ):
         add(findings, "registry.source-lock", ["DR-04", "UR-01"])

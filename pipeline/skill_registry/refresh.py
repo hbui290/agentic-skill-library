@@ -37,7 +37,7 @@ def refresh_sources(root: Path, runner: Callable[..., str] = subprocess.check_ou
                 or not 1 <= timeout_seconds <= 60
             ):
                 raise TypeError
-            if source["status"] == "retired" and source["refreshable"]:
+            if source["refreshable"] != (source["status"] == "active"):
                 raise ValueError
     except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError) as error:
         raise SourceRefreshError("invalid source lock") from error
