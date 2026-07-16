@@ -74,6 +74,19 @@ skill-registry read \
   --format json --allow-unreviewed youtube-transcript
 ```
 
+To confirm a candidate without receiving its instructions, omit the approval
+flag:
+
+```bash
+skill-registry read --root "$AGENTIC_SKILL_REGISTRY_ROOT" \
+  --format json youtube-transcript
+echo "$?"  # 3: confirmation required; no instructions returned
+```
+
+The confirmation response includes the source ID, pinned commit, source path,
+license, registered hash, risk, and risk reasons. `--allow-unreviewed` reruns
+the read after approval; it does not bypass integrity checks.
+
 Dangerous, quarantined, inactive, escaped-path, unsafe-symlink, and hash-failed
 skills are blocked and have no override.
 
@@ -94,6 +107,11 @@ skill-registry refresh --format json
 It is read-only. It does not download, overwrite, promote, or change the
 catalog. A newer upstream commit must be reviewed and imported in a separate
 change before the source lock is updated.
+
+`legacy-local` is retained only as retired provenance and is never queried.
+Active refreshable sources are checked independently. `refresh` reports every
+source and exits `1` if any active source errors; it never imports or updates
+catalog content.
 
 ## Repository layout
 
