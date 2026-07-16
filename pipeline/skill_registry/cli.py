@@ -89,7 +89,7 @@ def main(argv: list[str] | None = None) -> int:
         try:
             payload = refresh_sources(args.root.resolve())
         except SourceRefreshError as error:
-            print(f"error={error}")
+            print(f"error={error}", file=sys.stderr)
             return 1
         rendered = json.dumps(payload, indent=2, sort_keys=True) + "\n"
         if args.output:
@@ -99,7 +99,7 @@ def main(argv: list[str] | None = None) -> int:
         else:
             for source in payload["sources"]:
                 print(f"source={source['source_id']} status={source['status']}")
-        return 0
+        return 1 if payload["result"] == "error" else 0
     report = verify_repository(args.root.resolve())
     payload = report.to_dict()
     rendered = json.dumps(payload, indent=2, sort_keys=True) + "\n"

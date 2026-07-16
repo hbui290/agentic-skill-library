@@ -8,7 +8,10 @@
       "layout": "legacy-snapshot",
       "skills_root": "",
       "metadata_index": "librarian-index.json",
-      "license_note": "Per-skill metadata preserved from the migration snapshot"
+      "license_note": "Per-skill metadata preserved from the migration snapshot",
+      "status": "retired",
+      "refreshable": false,
+      "timeout_seconds": 15
     },
     {
       "source_id": "sickn33-agentic-awesome-skills",
@@ -17,7 +20,10 @@
       "layout": "skills-subdir",
       "skills_root": "skills",
       "metadata_index": "skills_index.json",
-      "license_note": "Per-skill licenses tracked by the source index"
+      "license_note": "Per-skill licenses tracked by the source index",
+      "status": "active",
+      "refreshable": true,
+      "timeout_seconds": 15
     }
   ]
 }
