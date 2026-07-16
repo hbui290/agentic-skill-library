@@ -64,7 +64,18 @@ def main(argv: list[str] | None = None) -> int:
                 args.root.resolve(), args.identifier, args.allow_unreviewed
             )
         except SkillConfirmationRequired as error:
-            print(f"confirmation_required={error}", file=sys.stderr)
+            if args.format == "json":
+                print(json.dumps(error.payload, indent=2, sort_keys=True), file=sys.stderr)
+            else:
+                skill = error.payload["skill"]
+                reasons = ",".join(skill["risk_reasons"])
+                print(
+                    f"confirmation_required={skill['load_name']} "
+                    f"risk={skill['risk']} reasons={reasons} "
+                    f"source={skill['source_id']}@{skill['source_commit']} "
+                    f"license={skill['license']} hash={skill['content_sha256']}",
+                    file=sys.stderr,
+                )
             return 3
         except (SkillBlocked, RegistryRuntimeError) as error:
             print(f"error={error}", file=sys.stderr)
@@ -78,7 +89,7 @@ def main(argv: list[str] | None = None) -> int:
         try:
             payload = refresh_sources(args.root.resolve())
         except SourceRefreshError as error:
-            print(f"error={error}")
+            print(f"error={error}", file=sys.stderr)
             return 1
         rendered = json.dumps(payload, indent=2, sort_keys=True) + "\n"
         if args.output:
@@ -88,7 +99,7 @@ def main(argv: list[str] | None = None) -> int:
         else:
             for source in payload["sources"]:
                 print(f"source={source['source_id']} status={source['status']}")
-        return 0
+        return 1 if payload["result"] == "error" else 0
     report = verify_repository(args.root.resolve())
     payload = report.to_dict()
     rendered = json.dumps(payload, indent=2, sort_keys=True) + "\n"

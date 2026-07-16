@@ -1,5 +1,6 @@
 import json
 import re
+from collections import Counter
 from datetime import date
 from pathlib import Path
 
@@ -7,6 +8,7 @@ import yaml
 
 from skill_registry.collector import discover_catalog
 from skill_registry.hashing import UnsafeCatalogPath, tree_sha256
+from skill_registry.identity import stable_skill_id
 from skill_registry.reporting import VerificationReport
 
 
@@ -73,13 +75,42 @@ def verify_repository(root: Path) -> VerificationReport:
     ):
         add(findings, "registry.core", ["DR-08"])
     lock_payload = json.loads((registry / "sources.lock.json").read_text()) if (registry / "sources.lock.json").is_file() else {"sources": []}
-    sources = lock_payload.get("sources", []) if isinstance(lock_payload, dict) else []
-    source_ids = {source.get("source_id") for source in sources if isinstance(source, dict)}
-    if lock_payload.get("schema_version") != 1 or len(source_ids) != len(sources) or any(
-        not all(source.get(field) for field in ("source_id", "url", "layout", "license_note")) or not COMMIT.fullmatch(str(source.get("commit", "")))
+    raw_sources = lock_payload.get("sources", []) if isinstance(lock_payload, dict) else []
+    sources_valid = isinstance(raw_sources, list)
+    sources = raw_sources if sources_valid else []
+    source_by_id = {
+        source["source_id"]: source
+        for source in sources
+        if isinstance(source, dict) and isinstance(source.get("source_id"), str)
+    }
+    source_ids = set(source_by_id)
+    if not sources_valid or lock_payload.get("schema_version") != 1 or len(source_by_id) != len(sources) or any(
+        not all(source.get(field) for field in ("source_id", "url", "layout", "license_note"))
+        or not COMMIT.fullmatch(str(source.get("commit", "")))
+        or source.get("status") not in {"active", "retired"}
+        or not isinstance(source.get("refreshable"), bool)
+        or isinstance(source.get("timeout_seconds"), bool)
+        or not isinstance(source.get("timeout_seconds"), int)
+        or not 1 <= source["timeout_seconds"] <= 60
+        or source["refreshable"] != (source["status"] == "active")
         for source in sources if isinstance(source, dict)
     ):
         add(findings, "registry.source-lock", ["DR-04", "UR-01"])
+    source_pair_counts = Counter((record.get("source_id"), record.get("source_path")) for record in skills + quarantine)
+    for record in skills + quarantine:
+        source = source_by_id.get(record.get("source_id"))
+        source_path = record.get("source_path")
+        if source is None or record.get("source_commit") != source.get("commit"):
+            add(findings, "registry.provenance", ["DR-04"], skill_id=record.get("skill_id"))
+        if (
+            not isinstance(source_path, str)
+            or source_path.startswith("/")
+            or ".." in source_path.split("/")
+            or source_pair_counts[(record.get("source_id"), source_path)] > 1
+        ):
+            add(findings, "registry.source-path", ["DR-04"], skill_id=record.get("skill_id"))
+        elif record.get("skill_id") != stable_skill_id(str(record.get("source_id")), source_path):
+            add(findings, "registry.identity", ["DR-04"], skill_id=record.get("skill_id"))
     try:
         review_payload = json.loads((registry / "upstream-review.json").read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):

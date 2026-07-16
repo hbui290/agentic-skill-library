@@ -1,13 +1,24 @@
 import json
 import shutil
 
+import pytest
+
 from skill_registry.validator import verify_repository
+from skill_registry.identity import stable_skill_id
 
 
 def clone_repository_fixture(repo_root, tmp_path):
     shutil.copytree(repo_root / "catalog", tmp_path / "catalog")
     shutil.copytree(repo_root / "registry", tmp_path / "registry")
     return tmp_path
+
+
+def write_json(path, payload):
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+
+def check_ids(root):
+    return {finding["check_id"] for finding in verify_repository(root).findings}
 
 
 def test_complete_repository_passes(repo_root):
@@ -97,3 +108,70 @@ def test_default_core_contains_only_audited_safe_skill(repo_root):
     assert core == ["asr_8b273fe4fe068d88"]
     assert skills[core[0]]["risk"] == "safe"
     assert "core-audit" in skills[core[0]]["risk_reasons"]
+
+
+def test_verify_rejects_record_commit_not_equal_to_source_lock(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    payload = json.loads((root / "registry/skills.json").read_text())
+    payload["skills"][0]["source_commit"] = "b" * 40
+    write_json(root / "registry/skills.json", payload)
+    assert "registry.provenance" in check_ids(root)
+
+
+def test_verify_rejects_skill_id_not_derived_from_source(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    payload = json.loads((root / "registry/skills.json").read_text())
+    payload["skills"][0]["skill_id"] = "asr_0000000000000000"
+    write_json(root / "registry/skills.json", payload)
+    assert "registry.identity" in check_ids(root)
+
+
+def test_verify_rejects_duplicate_source_path_across_active_and_quarantine(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    active = json.loads((root / "registry/skills.json").read_text())["skills"][0]
+    quarantine = json.loads((root / "registry/quarantine.json").read_text())
+    quarantine["records"].append({**active, "disposition": "quarantined"})
+    write_json(root / "registry/quarantine.json", quarantine)
+    assert "registry.source-path" in check_ids(root)
+
+
+def test_verify_rejects_invalid_source_lifecycle(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    lock = json.loads((root / "registry/sources.lock.json").read_text())
+    lock["sources"][0].update({"status": "retired", "refreshable": True})
+    write_json(root / "registry/sources.lock.json", lock)
+    assert "registry.source-lock" in check_ids(root)
+
+
+def test_verify_rejects_boolean_source_timeout(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    lock = json.loads((root / "registry/sources.lock.json").read_text())
+    lock["sources"][0]["timeout_seconds"] = True
+    write_json(root / "registry/sources.lock.json", lock)
+    assert "registry.source-lock" in check_ids(root)
+
+
+def test_verify_rejects_non_refreshable_active_source(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    lock = json.loads((root / "registry/sources.lock.json").read_text())
+    lock["sources"][1]["refreshable"] = False
+    write_json(root / "registry/sources.lock.json", lock)
+    assert "registry.source-lock" in check_ids(root)
+
+
+@pytest.mark.parametrize("sources", [None, 1, {}, "invalid"])
+def test_verify_reports_malformed_source_collection(repo_root, tmp_path, sources):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    write_json(
+        root / "registry/sources.lock.json",
+        {"schema_version": 1, "sources": sources},
+    )
+    assert "registry.source-lock" in check_ids(root)
+
+
+def test_quarantine_skill_ids_are_derived_from_source(repo_root):
+    records = json.loads((repo_root / "registry/quarantine.json").read_text())["records"]
+    assert all(
+        record["skill_id"] == stable_skill_id(record["source_id"], record["source_path"])
+        for record in records
+    )

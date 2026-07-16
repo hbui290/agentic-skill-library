@@ -46,6 +46,11 @@ PYTHONPATH=pipeline python -m skill_registry.cli refresh --format json
 reviewed, and re-hashed in a separate change before `sources.lock.json` can be
 updated.
 
+`legacy-local` is retained only as retired provenance and is never queried.
+Active refreshable sources are checked independently. `refresh` reports every
+source and exits `1` if any active source errors. Refresh never imports or
+updates catalog content.
+
 `registry/core.json` is intentionally empty after migration. A skill can enter
 Core only through a reviewed manifest change when it is active and its registry
 risk is `safe`; strict verification rejects every other Core member:

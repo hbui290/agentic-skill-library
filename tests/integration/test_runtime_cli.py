@@ -18,6 +18,27 @@ MATCH = {
 }
 
 
+CONFIRMATION = {
+    "error": "confirmation_required",
+    "skill": {
+        "skill_id": "asr_0000000000000001",
+        "load_name": "unknown-skill",
+        "risk": "unknown",
+        "risk_reasons": ["fixture"],
+        "core": False,
+        "source_id": "fixture",
+        "source_commit": "a" * 40,
+        "source_path": "skills/unknown-skill",
+        "license": "MIT",
+        "content_sha256": "b" * 64,
+    },
+}
+
+
+def needs_confirmation(root, identifier, allow):
+    raise SkillConfirmationRequired(CONFIRMATION)
+
+
 def test_search_cli_renders_json(monkeypatch, capsys, tmp_path):
     monkeypatch.setattr(
         cli,
@@ -60,15 +81,29 @@ def test_read_cli_renders_text_and_json(monkeypatch, capsys, tmp_path):
     assert json.loads(capsys.readouterr().out) == payload
 
 
-def test_read_cli_uses_confirmation_exit_without_instructions(monkeypatch, capsys, tmp_path):
-    def needs_confirmation(root, identifier, allow):
-        raise SkillConfirmationRequired("confirmation required for unknown skill: pdf")
-
+def test_read_unknown_json_emits_metadata_without_instructions(monkeypatch, tmp_path, capsys):
     monkeypatch.setattr(cli, "read_skill", needs_confirmation, raising=False)
-    assert cli.main(["read", "pdf", "--root", str(tmp_path)]) == 3
+    result = cli.main(
+        ["read", "unknown-skill", "--root", str(tmp_path), "--format", "json"]
+    )
     captured = capsys.readouterr()
+    payload = json.loads(captured.err)
+    assert result == 3
+    assert payload["error"] == "confirmation_required"
+    assert payload["skill"]["source_commit"] == "a" * 40
+    assert "instructions" not in payload
     assert captured.out == ""
-    assert "confirmation required" in captured.err
+
+
+def test_read_unknown_text_reports_decision_fields(monkeypatch, tmp_path, capsys):
+    monkeypatch.setattr(cli, "read_skill", needs_confirmation, raising=False)
+    result = cli.main(["read", "unknown-skill", "--root", str(tmp_path)])
+    captured = capsys.readouterr()
+    assert result == 3
+    assert "risk=unknown" in captured.err
+    assert "source=fixture@" in captured.err
+    assert "license=MIT" in captured.err
+    assert "fixture" in captured.err
 
 
 def test_read_cli_returns_one_for_blocked_skill(monkeypatch, capsys, tmp_path):
