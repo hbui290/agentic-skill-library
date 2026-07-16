@@ -24,6 +24,18 @@
       "status": "active",
       "refreshable": true,
       "timeout_seconds": 15
+    },
+    {
+      "commit": "e03d6ea0dab78954ca902bad9f6556cafe772515",
+      "layout": "skills-subdir",
+      "license_note": "GitHub reports CC-BY-4.0 for MicrosoftDocs/Agent-Skills at the pinned commit",
+      "metadata_index": null,
+      "refreshable": true,
+      "skills_root": "skills",
+      "source_id": "microsoftdocs-agent-skills",
+      "status": "active",
+      "timeout_seconds": 15,
+      "url": "https://github.com/MicrosoftDocs/Agent-Skills.git"
     }
   ]
 }

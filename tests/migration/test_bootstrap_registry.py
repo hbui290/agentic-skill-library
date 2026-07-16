@@ -21,7 +21,15 @@ def test_load_name_collision_is_namespaced():
 def test_bootstrap_reconciles_complete_repository(repo_root):
     skills = json.loads((repo_root / "registry/skills.json").read_text())["skills"]
     quarantine = json.loads((repo_root / "registry/quarantine.json").read_text())["records"]
-    assert len(skills) == 1952
+    legacy_sources = {"legacy-local", "sickn33-agentic-awesome-skills"}
+    legacy_skills = [record for record in skills if record["source_id"] in legacy_sources]
+    legacy_quarantine = [
+        record for record in quarantine if record["source_id"] in legacy_sources
+    ]
+    assert len(legacy_skills) == 1952
     assert len(quarantine) == 2
+    assert len(legacy_quarantine) == 2
     assert {record["name"] for record in quarantine} == {"SPDD", "linear"}
-    assert len({record["skill_id"] for record in skills + quarantine}) == 1954
+    assert len({record["skill_id"] for record in skills + quarantine}) == len(
+        skills + quarantine
+    )

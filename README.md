@@ -113,6 +113,15 @@ Active refreshable sources are checked independently. `refresh` reports every
 source and exits `1` if any active source errors; it never imports or updates
 catalog content.
 
+## Import a reviewed source
+
+Source intake is a review-gated `prepare` → human `review` → `commit` workflow.
+Preparation does not mutate the registry, and commit requires a clean Git
+worktree, validates the complete review, re-fetches the pinned commit, and
+leaves every imported record at `unknown` risk. Do not use credentials or
+private repositories. See [docs/source-intake.md](docs/source-intake.md) for the
+operator runbook, safety boundaries, and rollback procedure.
+
 ## Repository layout
 
 | Path | Purpose |

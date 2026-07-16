@@ -17,6 +17,7 @@ from skill_registry.runtime import search_skills
             "code review",
             {"code-review-checklist", "code-review-excellence", "differential-review"},
         ),
+        ("azure blob storage", {"azure-blob-storage"}),
     ],
 )
 def test_fixed_query_has_expected_skill_in_top_five(repo_root, query, expected):

@@ -159,6 +159,109 @@ def test_verify_rejects_non_refreshable_active_source(repo_root, tmp_path):
     assert "registry.source-lock" in check_ids(root)
 
 
+@pytest.mark.parametrize(
+    "case",
+    [
+        "extra_top_level_field",
+        "extra_record_field",
+        "missing_metadata_index",
+        "invalid_source_id",
+        "noncanonical_github_url",
+        "github_url_without_dot_git",
+        "unsupported_layout",
+        "invalid_layout_type",
+        "unsafe_skills_root",
+        "glob_skills_root",
+        "invalid_metadata_index_type",
+        "invalid_status_type",
+    ],
+)
+def test_verify_rejects_malformed_source_lock_schema(
+    repo_root, tmp_path, case
+):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    lock = json.loads((root / "registry/sources.lock.json").read_text())
+    source = lock["sources"][1]
+    if case == "extra_top_level_field":
+        lock["unexpected"] = True
+    elif case == "extra_record_field":
+        source["unexpected"] = True
+    elif case == "missing_metadata_index":
+        del source["metadata_index"]
+    elif case == "invalid_source_id":
+        source["source_id"] = "Bad_ID"
+    elif case == "noncanonical_github_url":
+        source["url"] = "https://gitlab.com/example/skills.git"
+    elif case == "github_url_without_dot_git":
+        source["url"] = "https://github.com/example/skills"
+    elif case == "unsupported_layout":
+        source["layout"] = "monorepo"
+    elif case == "invalid_layout_type":
+        source["layout"] = []
+    elif case == "unsafe_skills_root":
+        source["skills_root"] = "../skills"
+    elif case == "glob_skills_root":
+        source["skills_root"] = "skills/*"
+    elif case == "invalid_metadata_index_type":
+        source["metadata_index"] = 1
+    elif case == "invalid_status_type":
+        source["status"] = []
+    else:
+        raise AssertionError(case)
+    write_json(root / "registry/sources.lock.json", lock)
+
+    assert "registry.source-lock" in check_ids(root)
+
+
+def test_verify_requires_each_record_to_join_exactly_one_locked_source(
+    repo_root, tmp_path
+):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    lock = json.loads((root / "registry/sources.lock.json").read_text())
+    lock["sources"].append(dict(lock["sources"][1]))
+    write_json(root / "registry/sources.lock.json", lock)
+
+    ids = check_ids(root)
+
+    assert "registry.source-lock" in ids
+    assert "registry.provenance" in ids
+
+
+def test_verify_reports_unhashable_source_id_as_invalid_source_lock(
+    repo_root, tmp_path
+):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    lock = json.loads((root / "registry/sources.lock.json").read_text())
+    lock["sources"][0]["source_id"] = []
+    write_json(root / "registry/sources.lock.json", lock)
+
+    assert "registry.source-lock" in check_ids(root)
+
+
+def test_verify_reports_unhashable_record_source_id_as_invalid_provenance(
+    repo_root, tmp_path
+):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    payload = json.loads((root / "registry/skills.json").read_text())
+    payload["skills"][0]["source_id"] = []
+    write_json(root / "registry/skills.json", payload)
+
+    assert "registry.provenance" in check_ids(root)
+
+
+def test_verify_rejects_canonical_target_that_is_itself_canonical(
+    repo_root, tmp_path
+):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    payload = json.loads((root / "registry/skills.json").read_text())
+    first, second, third = payload["skills"][:3]
+    first["canonical_skill_id"] = second["skill_id"]
+    second["canonical_skill_id"] = third["skill_id"]
+    write_json(root / "registry/skills.json", payload)
+
+    assert "registry.canonical-target" in check_ids(root)
+
+
 @pytest.mark.parametrize("sources", [None, 1, {}, "invalid"])
 def test_verify_reports_malformed_source_collection(repo_root, tmp_path, sources):
     root = clone_repository_fixture(repo_root, tmp_path)
