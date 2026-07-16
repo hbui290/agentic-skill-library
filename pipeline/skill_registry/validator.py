@@ -15,6 +15,24 @@ from skill_registry.reporting import VerificationReport
 ID = re.compile(r"^asr_[0-9a-f]{16}$")
 SHA = re.compile(r"^[0-9a-f]{64}$")
 COMMIT = re.compile(r"^[0-9a-f]{40}$")
+SOURCE_ID = re.compile(r"^[a-z0-9][a-z0-9-]{2,63}$")
+GITHUB_URL = re.compile(
+    r"^https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+\.git$"
+)
+SAFE_RELATIVE_PATH = re.compile(r"^[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*$")
+SOURCE_LOCK_FIELDS = {
+    "source_id",
+    "url",
+    "commit",
+    "layout",
+    "skills_root",
+    "metadata_index",
+    "license_note",
+    "status",
+    "refreshable",
+    "timeout_seconds",
+}
+SOURCE_LAYOUTS = {"legacy-snapshot", "skills-subdir"}
 RISK_VALUES = {"safe", "review", "dangerous", "unknown"}
 STATE_VALUES = {"active", "deprecated", "quarantined"}
 SKILL_FIELDS = {"skill_id", "name", "load_name", "catalog_path", "source_id", "source_commit", "source_path", "content_sha256", "license", "risk", "risk_reasons", "state", "canonical_skill_id", "first_seen_version"}
@@ -40,6 +58,52 @@ def frontmatter(path: Path) -> dict[str, object]:
     except yaml.YAMLError:
         return {}
     return value if isinstance(value, dict) else {}
+
+
+def valid_source_lock_record(source: object) -> bool:
+    if not isinstance(source, dict) or set(source) != SOURCE_LOCK_FIELDS:
+        return False
+    source_id = source["source_id"]
+    url = source["url"]
+    commit = source["commit"]
+    layout = source["layout"]
+    skills_root = source["skills_root"]
+    metadata_index = source["metadata_index"]
+    license_note = source["license_note"]
+    status = source["status"]
+    refreshable = source["refreshable"]
+    timeout = source["timeout_seconds"]
+    safe_skills_root = (
+        isinstance(skills_root, str)
+        and (
+            skills_root == "" and layout == "legacy-snapshot"
+            or (
+                SAFE_RELATIVE_PATH.fullmatch(skills_root) is not None
+                and all(part not in {".", ".."} for part in skills_root.split("/"))
+            )
+        )
+    )
+    return (
+        isinstance(source_id, str)
+        and SOURCE_ID.fullmatch(source_id) is not None
+        and isinstance(url, str)
+        and GITHUB_URL.fullmatch(url) is not None
+        and isinstance(commit, str)
+        and COMMIT.fullmatch(commit) is not None
+        and isinstance(layout, str)
+        and layout in SOURCE_LAYOUTS
+        and safe_skills_root
+        and (metadata_index is None or isinstance(metadata_index, str))
+        and isinstance(license_note, str)
+        and bool(license_note.strip())
+        and isinstance(status, str)
+        and status in {"active", "retired"}
+        and isinstance(refreshable, bool)
+        and isinstance(timeout, int)
+        and not isinstance(timeout, bool)
+        and 1 <= timeout <= 60
+        and refreshable == (status == "active")
+    )
 
 
 def verify_repository(root: Path) -> VerificationReport:
@@ -83,30 +147,43 @@ def verify_repository(root: Path) -> VerificationReport:
         for source in sources
         if isinstance(source, dict) and isinstance(source.get("source_id"), str)
     }
+    source_id_counts = Counter(
+        source["source_id"]
+        for source in sources
+        if isinstance(source, dict) and isinstance(source.get("source_id"), str)
+    )
     source_ids = set(source_by_id)
-    if not sources_valid or lock_payload.get("schema_version") != 1 or len(source_by_id) != len(sources) or any(
-        not all(source.get(field) for field in ("source_id", "url", "layout", "license_note"))
-        or not COMMIT.fullmatch(str(source.get("commit", "")))
-        or source.get("status") not in {"active", "retired"}
-        or not isinstance(source.get("refreshable"), bool)
-        or isinstance(source.get("timeout_seconds"), bool)
-        or not isinstance(source.get("timeout_seconds"), int)
-        or not 1 <= source["timeout_seconds"] <= 60
-        or source["refreshable"] != (source["status"] == "active")
-        for source in sources if isinstance(source, dict)
+    if (
+        not sources_valid
+        or not isinstance(lock_payload, dict)
+        or set(lock_payload) != {"schema_version", "sources"}
+        or lock_payload.get("schema_version") != 1
+        or len(source_by_id) != len(sources)
+        or any(not valid_source_lock_record(source) for source in sources)
     ):
         add(findings, "registry.source-lock", ["DR-04", "UR-01"])
-    source_pair_counts = Counter((record.get("source_id"), record.get("source_path")) for record in skills + quarantine)
+    source_pair_counts = Counter(
+        (record["source_id"], record["source_path"])
+        for record in skills + quarantine
+        if isinstance(record.get("source_id"), str)
+        and isinstance(record.get("source_path"), str)
+    )
     for record in skills + quarantine:
-        source = source_by_id.get(record.get("source_id"))
+        source_id = record.get("source_id")
+        source = source_by_id.get(source_id) if isinstance(source_id, str) else None
         source_path = record.get("source_path")
-        if source is None or record.get("source_commit") != source.get("commit"):
+        if (
+            source is None
+            or source_id_counts[source_id] != 1
+            or record.get("source_commit") != source.get("commit")
+        ):
             add(findings, "registry.provenance", ["DR-04"], skill_id=record.get("skill_id"))
         if (
-            not isinstance(source_path, str)
+            not isinstance(source_id, str)
+            or not isinstance(source_path, str)
             or source_path.startswith("/")
             or ".." in source_path.split("/")
-            or source_pair_counts[(record.get("source_id"), source_path)] > 1
+            or source_pair_counts[(source_id, source_path)] > 1
         ):
             add(findings, "registry.source-path", ["DR-04"], skill_id=record.get("skill_id"))
         elif record.get("skill_id") != stable_skill_id(str(record.get("source_id")), source_path):
@@ -162,7 +239,15 @@ def verify_repository(root: Path) -> VerificationReport:
         if not record["load_name"] or record["load_name"] in load_names:
             add(findings, "registry.load-name", ["DR-02"], skill_id=record["skill_id"])
         load_names.add(record["load_name"])
-        if record["source_id"] not in source_ids or not COMMIT.fullmatch(str(record["source_commit"])) or not all(record.get(field) for field in ("source_path", "license", "risk", "risk_reasons", "state")):
+        if (
+            not isinstance(record["source_id"], str)
+            or record["source_id"] not in source_ids
+            or not COMMIT.fullmatch(str(record["source_commit"]))
+            or not all(
+                record.get(field)
+                for field in ("source_path", "license", "risk", "risk_reasons", "state")
+            )
+        ):
             add(findings, "registry.provenance", ["DR-04", "DR-06"], skill_id=record["skill_id"])
         if record["risk"] not in RISK_VALUES or record["state"] not in STATE_VALUES:
             add(findings, "registry.state-values", ["DR-06"], skill_id=record["skill_id"])
@@ -192,7 +277,17 @@ def verify_repository(root: Path) -> VerificationReport:
     active_ids = {record["skill_id"] for record in skills if SKILL_FIELDS <= record.keys() and record.get("state") == "active"}
     if len(alias_names) != len(aliases) or any(alias.get("target_skill_id") not in active_ids for alias in aliases):
         add(findings, "registry.alias-target", ["DR-02"])
-    if any(record.get("canonical_skill_id") is not None and (record["canonical_skill_id"] not in active_ids or record["canonical_skill_id"] == record["skill_id"]) for record in skills if SKILL_FIELDS <= record.keys()):
+    if any(
+        record.get("canonical_skill_id") is not None
+        and (
+            record["canonical_skill_id"] not in active_ids
+            or record["canonical_skill_id"] == record["skill_id"]
+            or known_skills[record["canonical_skill_id"]].get("canonical_skill_id")
+            is not None
+        )
+        for record in skills
+        if SKILL_FIELDS <= record.keys()
+    ):
         add(findings, "registry.canonical-target", ["DR-02"])
     catalog_paths = {path.relative_to(root).as_posix() for path in discover_catalog(root)} if (root / "catalog").is_dir() else set()
     registered_paths = {record.get("catalog_path") for record in skills + quarantine if record.get("catalog_path")}

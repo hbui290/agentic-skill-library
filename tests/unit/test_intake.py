@@ -132,7 +132,39 @@ def valid_root(tmp_path):
     write_json(
         root / "registry/quarantine.json", {"schema_version": 1, "records": []}
     )
+    write_json(root / "registry/aliases.json", {"schema_version": 1, "aliases": []})
+    write_json(root / "registry/core.json", {"schema_version": 1, "skill_ids": []})
+    write_json(
+        root / "registry/exceptions.json", {"schema_version": 1, "exceptions": []}
+    )
+    write_json(
+        root / "registry/risk-overrides.json",
+        {"schema_version": 1, "overrides": []},
+    )
+    write_json(root / "registry/schema-version.json", {"schema_version": 1})
+    write_json(
+        root / "registry/upstream-review.json",
+        {
+            "schema_version": 1,
+            "source_id": "existing-source",
+            "pinned_commit": "a" * 40,
+            "observed_commit": "a" * 40,
+            "records": [],
+        },
+    )
     write_json(root / "librarian-index.json", {"schemaVersion": 1, "entries": []})
+    subprocess.run(["git", "init", "-q", str(root)], check=True)
+    subprocess.run(
+        ["git", "-C", str(root), "config", "user.email", "fixture@example.com"],
+        check=True,
+    )
+    subprocess.run(
+        ["git", "-C", str(root), "config", "user.name", "Fixture"], check=True
+    )
+    subprocess.run(["git", "-C", str(root), "add", "."], check=True)
+    subprocess.run(
+        ["git", "-C", str(root), "commit", "-qm", "fixture"], check=True
+    )
     return root
 
 
@@ -942,6 +974,359 @@ def test_validate_review_accepts_complete_contract(manifest, valid_review):
         )
         is None
     )
+
+
+@pytest.mark.parametrize(
+    ("upstream_name", "expected"),
+    [
+        ("New Skill", "new-skill"),
+        ("new_skill.v2", "new-skill-v2"),
+        ("--Already--Slugged--", "already-slugged"),
+    ],
+)
+def test_slugify_load_name_normalizes_only_new_names(upstream_name, expected):
+    assert intake.slugify_load_name(upstream_name) == expected
+
+
+@pytest.mark.parametrize("upstream_name", ["!!!", "x" * 129])
+def test_slugify_load_name_rejects_invalid_result(upstream_name):
+    with pytest.raises(IntakeError, match="invalid load name"):
+        intake.slugify_load_name(upstream_name)
+
+
+def test_next_load_name_preserves_free_name_and_stably_disambiguates_collisions():
+    assert intake.next_load_name("new-skill", "new-source", set()) == "new-skill"
+    assert intake.next_load_name("new-skill", "new-source", {"new-skill"}) == (
+        "new-source--new-skill"
+    )
+    assert intake.next_load_name(
+        "new-skill",
+        "new-source",
+        {"new-skill", "new-source--new-skill", "new-source--new-skill--2"},
+    ) == "new-source--new-skill--3"
+
+
+@pytest.mark.parametrize(
+    "taxonomy", ["../escape", "engineering/*", "engineering", "/absolute/x"]
+)
+def test_catalog_destination_rejects_unsafe_taxonomy(valid_root, taxonomy):
+    with pytest.raises(IntakeError, match="catalog destination"):
+        intake.catalog_destination(valid_root, taxonomy, "new-skill")
+
+
+def test_catalog_destination_rejects_symlinked_parent(valid_root, tmp_path):
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    (valid_root / "catalog/engineering").symlink_to(outside, target_is_directory=True)
+
+    with pytest.raises(IntakeError, match="symlink"):
+        intake.catalog_destination(valid_root, "engineering/testing", "new-skill")
+
+
+def test_catalog_destination_rejects_existing_target(valid_root):
+    destination = valid_root / "catalog/engineering/testing/new-skill"
+    destination.mkdir(parents=True)
+
+    with pytest.raises(IntakeError, match="destination exists"):
+        intake.catalog_destination(valid_root, "engineering/testing", "new-skill")
+
+
+def test_catalog_destination_returns_only_validated_relative_and_absolute_paths(
+    valid_root,
+):
+    relative, destination = intake.catalog_destination(
+        valid_root, "engineering/testing", "new-skill"
+    )
+
+    assert relative == "catalog/engineering/testing/new-skill"
+    assert destination == valid_root / relative
+
+
+def test_commit_refetches_and_rejects_changed_hash(
+    valid_root, manifest, prepared_paths, fake_checkout
+):
+    marker = fake_checkout / "skills/new-skill/SKILL.md"
+    marker.write_text(marker.read_text(encoding="utf-8") + "changed\n", encoding="utf-8")
+    before = repository_digest(valid_root)
+
+    with pytest.raises(IntakeError, match="changed since preparation"):
+        intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+    assert repository_digest(valid_root) == before
+
+
+def test_commit_rejects_missing_reviewed_candidate(
+    valid_root, manifest, prepared_paths, fake_checkout
+):
+    shutil.rmtree(fake_checkout / "skills/new-skill")
+    before = repository_digest(valid_root)
+
+    with pytest.raises(IntakeError, match="missing from pinned source"):
+        intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+    assert repository_digest(valid_root) == before
+
+
+def test_commit_rejects_manifest_changed_after_review(
+    valid_root, manifest, prepared_paths
+):
+    before = repository_digest(valid_root)
+    manifest.write_bytes(manifest.read_bytes() + b"\n")
+
+    with pytest.raises(IntakeError, match="manifest digest"):
+        intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+    assert repository_digest(valid_root) == before
+
+
+def test_commit_requires_clean_worktree(valid_root, manifest, prepared_paths):
+    path = valid_root / "registry/schema-version.json"
+    path.write_bytes(path.read_bytes() + b"\n")
+
+    with pytest.raises(IntakeError, match="clean worktree"):
+        intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+
+def test_commit_validates_current_json_before_mutation(
+    valid_root, manifest, prepared_paths
+):
+    index_path = valid_root / "librarian-index.json"
+    write_json(index_path, {"schemaVersion": 1, "entries": [None]})
+    subprocess.run(["git", "-C", str(valid_root), "add", "."], check=True)
+    subprocess.run(
+        ["git", "-C", str(valid_root), "commit", "-qm", "malformed index"],
+        check=True,
+    )
+    before = repository_digest(valid_root)
+
+    with pytest.raises(IntakeError, match="registry records are invalid"):
+        intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+    assert repository_digest(valid_root) == before
+    assert not (valid_root / "catalog/engineering").exists()
+
+
+def test_commit_rejects_existing_catalog_destination(
+    valid_root, manifest, prepared_paths
+):
+    collision = valid_root / "catalog/engineering/testing/new-skill"
+    collision.mkdir(parents=True)
+    (collision / "reserved.txt").write_text("reserved\n", encoding="utf-8")
+    subprocess.run(["git", "-C", str(valid_root), "add", "."], check=True)
+    subprocess.run(
+        ["git", "-C", str(valid_root), "commit", "-qm", "collision"], check=True
+    )
+    before = repository_digest(valid_root)
+
+    with pytest.raises(IntakeError, match="destination exists"):
+        intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+    assert repository_digest(valid_root) == before
+
+
+def test_commit_rolls_back_catalog_and_json_on_write_failure(
+    valid_root, manifest, prepared_paths, monkeypatch
+):
+    before = repository_digest(valid_root)
+    original_bytes = {
+        path.relative_to(valid_root).as_posix(): path.read_bytes()
+        for path in [
+            valid_root / "registry/sources.lock.json",
+            valid_root / "registry/skills.json",
+            valid_root / "registry/quarantine.json",
+            valid_root / "librarian-index.json",
+        ]
+    }
+    real_write = intake.dump_json_atomic
+    calls = 0
+
+    def fail_on_second_write(path, value):
+        nonlocal calls
+        calls += 1
+        if calls == 2:
+            raise OSError("injected transaction write failure")
+        real_write(path, value)
+
+    monkeypatch.setattr(intake, "dump_json_atomic", fail_on_second_write)
+
+    with pytest.raises(OSError, match="injected transaction write failure"):
+        intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+    assert repository_digest(valid_root) == before
+    assert not (valid_root / "catalog/engineering").exists()
+    assert {
+        path: (valid_root / path).read_bytes() for path in original_bytes
+    } == original_bytes
+
+
+def test_commit_rolls_back_parent_created_before_later_mkdir_failure(
+    valid_root, manifest, prepared_paths, monkeypatch
+):
+    before = repository_digest(valid_root)
+    catalog_root = valid_root / "catalog"
+    real_mkdir = Path.mkdir
+    catalog_mkdir_calls = 0
+
+    def fail_second_catalog_mkdir(path, *args, **kwargs):
+        nonlocal catalog_mkdir_calls
+        if path.is_relative_to(catalog_root) and not path.exists():
+            catalog_mkdir_calls += 1
+            if catalog_mkdir_calls == 2:
+                raise OSError("injected second mkdir failure")
+        return real_mkdir(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "mkdir", fail_second_catalog_mkdir)
+
+    with pytest.raises(OSError, match="injected second mkdir failure"):
+        intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+    assert catalog_mkdir_calls == 2
+    assert repository_digest(valid_root) == before
+    assert not (valid_root / "catalog/engineering").exists()
+
+
+def test_commit_rolls_back_when_post_commit_strict_verification_fails(
+    valid_root, manifest, prepared_paths, monkeypatch
+):
+    before = repository_digest(valid_root)
+
+    class FailedReport:
+        result = "fail"
+        findings = ({"check_id": "injected.strict.failure"},)
+
+    monkeypatch.setattr(intake, "verify_repository", lambda root: FailedReport())
+
+    with pytest.raises(IntakeError, match="post-commit strict verification failed"):
+        intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+    assert repository_digest(valid_root) == before
+    assert not (valid_root / "catalog/engineering").exists()
+
+
+def test_commit_imports_reviewed_snapshot_and_builds_joined_json_in_memory(
+    valid_root, manifest, prepared_paths
+):
+    intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+    lock = json.loads((valid_root / "registry/sources.lock.json").read_text())
+    assert lock["sources"][-1] == {
+        "source_id": "new-source",
+        "url": "https://github.com/example/skills.git",
+        "commit": "c" * 40,
+        "layout": "skills-subdir",
+        "skills_root": "skills",
+        "metadata_index": None,
+        "license_note": "Fixture source license",
+        "status": "active",
+        "refreshable": True,
+        "timeout_seconds": 15,
+    }
+    record = json.loads((valid_root / "registry/skills.json").read_text())["skills"][0]
+    assert record == {
+        "skill_id": stable_skill_id("new-source", "skills/new-skill"),
+        "name": "new-skill",
+        "load_name": "new-skill",
+        "catalog_path": "catalog/engineering/testing/new-skill",
+        "source_id": "new-source",
+        "source_commit": "c" * 40,
+        "source_path": "skills/new-skill",
+        "content_sha256": record["content_sha256"],
+        "license": "MIT",
+        "risk": "unknown",
+        "risk_reasons": ["initial-review-required"],
+        "state": "active",
+        "canonical_skill_id": None,
+        "first_seen_version": "0.2.0",
+    }
+    assert "url" not in record and "license_note" not in record
+    index = json.loads((valid_root / "librarian-index.json").read_text())
+    assert index["entries"] == [
+        {
+            "skill_id": record["skill_id"],
+            "name": "new-skill",
+            "flat_name": "new-skill",
+            "taxonomy": "engineering/testing",
+            "category_fine": "testing",
+            "description": "Use new-skill.",
+            "risk": "unknown",
+            "license": "MIT",
+            "canonical": None,
+        }
+    ]
+    assert (valid_root / record["catalog_path"] / "SKILL.md").is_file()
+    assert json.loads((valid_root / "registry/schema-version.json").read_text()) == {
+        "schema_version": 1
+    }
+
+
+def test_commit_preserves_legacy_quarantine_records_without_load_names(
+    valid_root, manifest, prepared_paths
+):
+    quarantine_path = valid_root / "registry/quarantine.json"
+    payload = json.loads(quarantine_path.read_text())
+    payload["records"] = [
+        {
+            "skill_id": stable_skill_id("existing-source", "legacy/one"),
+            "source_id": "existing-source",
+            "source_commit": "a" * 40,
+            "source_path": "legacy/one",
+            "catalog_path": None,
+            "content_sha256": "1" * 64,
+            "rule_ids": ["missing-skill-md"],
+            "disposition": "quarantined",
+            "name": "one",
+        },
+        {
+            "skill_id": stable_skill_id("existing-source", "legacy/two"),
+            "source_id": "existing-source",
+            "source_commit": "a" * 40,
+            "source_path": "legacy/two",
+            "catalog_path": None,
+            "content_sha256": "2" * 64,
+            "rule_ids": ["missing-skill-md"],
+            "disposition": "quarantined",
+            "name": "two",
+        },
+    ]
+    write_json(quarantine_path, payload)
+    subprocess.run(["git", "-C", str(valid_root), "add", "."], check=True)
+    subprocess.run(
+        ["git", "-C", str(valid_root), "commit", "-qm", "legacy quarantine"],
+        check=True,
+    )
+
+    intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+    records = json.loads(quarantine_path.read_text())["records"]
+    assert records[:2] == payload["records"]
+
+
+@pytest.mark.parametrize("decision", ["quarantine", "reject"])
+def test_commit_maps_nonactive_review_decisions(
+    decision, valid_root, manifest, prepared_paths
+):
+    review_path = prepared_paths[1]
+    review = json.loads(review_path.read_text())
+    review["decisions"][0]["decision"] = decision
+    write_json(review_path, review)
+
+    intake.commit_source(valid_root, manifest, review_path)
+
+    skills = json.loads((valid_root / "registry/skills.json").read_text())["skills"]
+    quarantine = json.loads(
+        (valid_root / "registry/quarantine.json").read_text()
+    )["records"]
+    if decision == "quarantine":
+        assert skills == []
+        assert len(quarantine) == 1
+        assert quarantine[0]["state"] == "quarantined"
+        assert quarantine[0]["risk"] == "unknown"
+        assert quarantine[0]["disposition"] == "quarantined"
+        assert quarantine[0]["rule_ids"] == ["initial-review-required"]
+    else:
+        assert skills == []
+        assert quarantine == []
+        assert not (valid_root / "catalog/engineering/testing/new-skill").exists()
 
 
 def test_dump_json_atomic_removes_temporary_file_when_replace_fails(

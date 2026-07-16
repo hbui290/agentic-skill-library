@@ -15,6 +15,7 @@ from skill_registry.hashing import tree_sha256
 from skill_registry.filesystem import dump_json_atomic, load_json
 from skill_registry.identity import stable_skill_id
 from skill_registry.text import jaccard, tokenize
+from skill_registry.validator import verify_repository
 
 
 SOURCE_ID = re.compile(r"^[a-z0-9][a-z0-9-]{2,63}$")
@@ -33,6 +34,54 @@ SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 class IntakeError(RuntimeError):
     pass
+
+
+def slugify_load_name(name: str) -> str:
+    value = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+    if not value or len(value) > 128:
+        raise IntakeError("invalid load name")
+    return value
+
+
+def next_load_name(name: str, source_id: str, used: set[str]) -> str:
+    if name not in used:
+        return name
+    base = f"{source_id}--{name}"
+    candidate = base
+    suffix = 2
+    while candidate in used:
+        candidate = f"{base}--{suffix}"
+        suffix += 1
+    return candidate
+
+
+def catalog_destination(
+    root: Path, taxonomy: str, load_name: str
+) -> tuple[str, Path]:
+    parts = taxonomy.split("/")
+    safe = re.compile(r"^[a-z0-9][a-z0-9-]*$")
+    if len(parts) != 2 or not all(safe.fullmatch(part) for part in parts):
+        raise IntakeError("unsafe catalog destination taxonomy")
+    if not safe.fullmatch(load_name):
+        raise IntakeError("unsafe catalog destination load name")
+    raw_catalog = Path(root) / "catalog"
+    if raw_catalog.is_symlink():
+        raise IntakeError("catalog destination root is a symlink")
+    catalog_root = raw_catalog.resolve()
+    raw_destination = raw_catalog / parts[0] / parts[1] / load_name
+    cursor = raw_catalog
+    for part in [*parts, load_name]:
+        cursor = cursor / part
+        if cursor.is_symlink():
+            raise IntakeError("catalog destination parent is a symlink")
+    destination = raw_destination.resolve()
+    if not destination.is_relative_to(catalog_root):
+        raise IntakeError("catalog destination escaped root")
+    if destination.exists():
+        raise IntakeError(
+            f"catalog destination exists: {destination.relative_to(root)}"
+        )
+    return destination.relative_to(root).as_posix(), destination
 
 
 def propose_classification(
@@ -585,3 +634,386 @@ def validate_review(
                 raise IntakeError("canonical target is invalid")
         elif canonical_skill_id is not None:
             raise IntakeError("non-canonical decision cannot have a canonical target")
+
+
+def _load_json_object(path: Path) -> dict[str, object]:
+    try:
+        value = load_json(path)
+    except (OSError, json.JSONDecodeError) as error:
+        raise IntakeError(f"cannot read {path}: {error}") from error
+    if not isinstance(value, dict):
+        raise IntakeError(f"expected object: {path}")
+    return value
+
+
+def _require_clean_worktree(root: Path) -> None:
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(root), "status", "--porcelain"],
+            check=True,
+            text=True,
+            capture_output=True,
+        )
+    except (OSError, subprocess.SubprocessError) as error:
+        raise IntakeError(f"cannot verify clean worktree: {error}") from error
+    if result.stdout:
+        raise IntakeError("commit requires a clean worktree")
+
+
+def _restore_bytes_atomic(path: Path, content: bytes) -> None:
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="wb",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".rollback",
+            delete=False,
+        ) as handle:
+            temporary = Path(handle.name)
+            handle.write(content)
+        temporary.replace(path)
+    except Exception:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+        raise
+
+
+def _validate_commit_objects(
+    sources_payload: dict[str, object],
+    skills_payload: dict[str, object],
+    quarantine_payload: dict[str, object],
+) -> None:
+    if sources_payload.get("schema_version") != 1:
+        raise IntakeError("source lock schema_version is invalid")
+    if skills_payload.get("schema_version") != 1:
+        raise IntakeError("skills schema_version is invalid")
+    if quarantine_payload.get("schema_version") != 1:
+        raise IntakeError("quarantine schema_version is invalid")
+    sources = sources_payload.get("sources")
+    skills = skills_payload.get("skills")
+    quarantine = quarantine_payload.get("records")
+    if not isinstance(sources, list) or not all(isinstance(item, dict) for item in sources):
+        raise IntakeError("source lock records are invalid")
+    if not isinstance(skills, list) or not all(isinstance(item, dict) for item in skills):
+        raise IntakeError("skill records are invalid")
+    if not isinstance(quarantine, list) or not all(
+        isinstance(item, dict) for item in quarantine
+    ):
+        raise IntakeError("quarantine records are invalid")
+
+    source_ids = [source.get("source_id") for source in sources]
+    if not all(isinstance(source_id, str) for source_id in source_ids) or len(
+        source_ids
+    ) != len(set(source_ids)):
+        raise IntakeError("source lock must contain unique source IDs")
+    source_by_id = {str(source["source_id"]): source for source in sources}
+    records = [*skills, *quarantine]
+    skill_ids = [record.get("skill_id") for record in records]
+    load_names = [
+        record["load_name"]
+        for record in records
+        if isinstance(record.get("load_name"), str)
+    ]
+    catalog_paths = [
+        record["catalog_path"]
+        for record in records
+        if isinstance(record.get("catalog_path"), str)
+    ]
+    if len(skill_ids) != len(set(skill_ids)):
+        raise IntakeError("skill IDs must be unique")
+    if len(load_names) != len(set(load_names)):
+        raise IntakeError("load names must be unique")
+    if len(catalog_paths) != len(set(catalog_paths)):
+        raise IntakeError("catalog destinations must be unique")
+    for record in records:
+        source = source_by_id.get(str(record.get("source_id")))
+        if source is None or record.get("source_commit") != source.get("commit"):
+            raise IntakeError("record does not join exactly one locked source")
+
+    active_by_id = {
+        str(record.get("skill_id")): record
+        for record in skills
+        if record.get("state") == "active"
+    }
+    for record in skills:
+        target_id = record.get("canonical_skill_id")
+        if target_id is None:
+            continue
+        target = active_by_id.get(str(target_id))
+        if target is None or target.get("canonical_skill_id") is not None:
+            raise IntakeError("canonical target must be active and non-canonical")
+
+
+def _create_parent_directories(
+    destination: Path, catalog_root: Path, created: list[Path]
+) -> None:
+    missing: list[Path] = []
+    cursor = destination.parent
+    while cursor != catalog_root and not cursor.exists():
+        missing.append(cursor)
+        cursor = cursor.parent
+    for directory in reversed(missing):
+        directory.mkdir()
+        created.append(directory)
+
+
+def commit_source(root: Path, manifest_path: Path, review_path: Path) -> None:
+    root = Path(root)
+    manifest_bytes = Path(manifest_path).read_bytes()
+    review_bytes = Path(review_path).read_bytes()
+    try:
+        review = json.loads(review_bytes)
+    except (UnicodeError, json.JSONDecodeError) as error:
+        raise IntakeError(f"review is invalid: {error}") from error
+
+    current_skills = _object_list(root / "registry/skills.json", "skills")
+    current_quarantine = _object_list(
+        root / "registry/quarantine.json", "records"
+    )
+    known_skill_ids = {
+        str(record["skill_id"])
+        for record in [*current_skills, *current_quarantine]
+        if isinstance(record.get("skill_id"), str)
+    }
+    validate_review(manifest_bytes, review, known_skill_ids)
+    _require_clean_worktree(root)
+
+    try:
+        manifest = json.loads(manifest_bytes)
+    except (UnicodeError, json.JSONDecodeError) as error:
+        raise IntakeError(f"manifest is invalid: {error}") from error
+    if not isinstance(manifest, dict):
+        raise IntakeError("manifest must be an object")
+    source = validate_source_spec(manifest.get("source"))
+    candidates = manifest.get("candidates")
+    decisions = review.get("decisions")
+    if not isinstance(candidates, list) or not isinstance(decisions, list):
+        raise IntakeError("manifest or review candidates are invalid")
+    candidate_by_path = {
+        str(candidate["source_path"]): candidate
+        for candidate in candidates
+        if isinstance(candidate, dict) and isinstance(candidate.get("source_path"), str)
+    }
+    decision_by_path = {
+        str(decision["source_path"]): decision
+        for decision in decisions
+        if isinstance(decision, dict) and isinstance(decision.get("source_path"), str)
+    }
+
+    json_paths = [
+        root / "registry/sources.lock.json",
+        root / "registry/skills.json",
+        root / "registry/quarantine.json",
+        root / "librarian-index.json",
+    ]
+    original_bytes = {path: path.read_bytes() for path in json_paths}
+    sources_payload = _load_json_object(json_paths[0])
+    skills_payload = _load_json_object(json_paths[1])
+    quarantine_payload = _load_json_object(json_paths[2])
+    index_payload = _load_json_object(json_paths[3])
+    sources = sources_payload.get("sources")
+    skills = skills_payload.get("skills")
+    quarantine = quarantine_payload.get("records")
+    entries = index_payload.get("entries")
+    if (
+        not isinstance(sources, list)
+        or not all(isinstance(item, dict) for item in sources)
+        or not isinstance(skills, list)
+        or not all(isinstance(item, dict) for item in skills)
+    ):
+        raise IntakeError("registry records are invalid")
+    if (
+        not isinstance(quarantine, list)
+        or not all(isinstance(item, dict) for item in quarantine)
+        or not isinstance(entries, list)
+        or not all(isinstance(item, dict) for item in entries)
+    ):
+        raise IntakeError("registry records are invalid")
+    if any(
+        isinstance(item, dict) and item.get("source_id") == source["source_id"]
+        for item in sources
+    ):
+        raise IntakeError(f"source_id already exists: {source['source_id']}")
+    schema = _load_json_object(root / "registry/schema-version.json")
+    if schema.get("schema_version") != 1:
+        raise IntakeError("registry schema_version must remain 1")
+
+    created_destinations: list[Path] = []
+    created_parents: list[Path] = []
+    temporary_copies: list[Path] = []
+    try:
+        preflight_source_tree(source)
+        with tempfile.TemporaryDirectory(prefix="asr-commit-source-") as temporary:
+            checkout = Path(temporary) / "source"
+            checkout_pinned_source(source, checkout)
+            discovered = {
+                bundle.relative_to(checkout).as_posix(): bundle
+                for bundle in discover_source_bundles(checkout / source["skills_root"])
+            }
+            inspected_by_path: dict[str, tuple[Path, dict[str, object]]] = {}
+            for source_path, decision in decision_by_path.items():
+                if decision["decision"] == "reject":
+                    continue
+                bundle = discovered.get(source_path)
+                if bundle is None:
+                    raise IntakeError(
+                        f"reviewed candidate missing from pinned source: {source_path}"
+                    )
+                inspected = inspect_bundle(bundle)
+                expected = candidate_by_path[source_path].get("content_sha256")
+                if inspected["content_sha256"] != expected:
+                    raise IntakeError(
+                        f"reviewed candidate changed since preparation: {source_path}"
+                    )
+                inspected_by_path[source_path] = (bundle, inspected)
+
+            used_names = {
+                str(record["load_name"])
+                for record in [*skills, *quarantine]
+                if isinstance(record, dict) and isinstance(record.get("load_name"), str)
+            }
+            destinations: dict[str, tuple[str, Path, str]] = {}
+            for source_path in sorted(inspected_by_path):
+                decision = decision_by_path[source_path]
+                inspected = inspected_by_path[source_path][1]
+                load_name = next_load_name(
+                    slugify_load_name(str(inspected["name"])),
+                    source["source_id"],
+                    used_names,
+                )
+                used_names.add(load_name)
+                catalog_path, destination = catalog_destination(
+                    root, str(decision["taxonomy"]), load_name
+                )
+                destinations[source_path] = (catalog_path, destination, load_name)
+            destination_paths = [value[1] for value in destinations.values()]
+            if len(destination_paths) != len(set(destination_paths)):
+                raise IntakeError("catalog destinations must be unique")
+
+            source_record = {
+                "source_id": source["source_id"],
+                "url": source["url"],
+                "commit": source["commit"],
+                "layout": "skills-subdir",
+                "skills_root": source["skills_root"],
+                "metadata_index": None,
+                "license_note": source["license_note"],
+                "status": "active",
+                "refreshable": True,
+                "timeout_seconds": 15,
+            }
+            new_sources = {**sources_payload, "sources": [*sources, source_record]}
+            new_skills = list(skills)
+            new_quarantine = list(quarantine)
+            new_entries = list(entries)
+            for source_path in sorted(inspected_by_path):
+                decision = decision_by_path[source_path]
+                inspected = inspected_by_path[source_path][1]
+                catalog_path, _, load_name = destinations[source_path]
+                record = {
+                    "skill_id": stable_skill_id(source["source_id"], source_path),
+                    "name": inspected["name"],
+                    "load_name": load_name,
+                    "catalog_path": catalog_path,
+                    "source_id": source["source_id"],
+                    "source_commit": source["commit"],
+                    "source_path": source_path,
+                    "content_sha256": inspected["content_sha256"],
+                    "license": source["license"],
+                    "risk": "unknown",
+                    "risk_reasons": ["initial-review-required"],
+                    "state": (
+                        "quarantined"
+                        if decision["decision"] == "quarantine"
+                        else "active"
+                    ),
+                    "canonical_skill_id": decision["canonical_skill_id"],
+                    "first_seen_version": "0.2.0",
+                }
+                if decision["decision"] == "quarantine":
+                    new_quarantine.append(
+                        {
+                            **record,
+                            "rule_ids": ["initial-review-required"],
+                            "disposition": "quarantined",
+                        }
+                    )
+                else:
+                    new_skills.append(record)
+                new_entries.append(
+                    {
+                        "skill_id": record["skill_id"],
+                        "name": inspected["name"],
+                        "flat_name": load_name,
+                        "taxonomy": decision["taxonomy"],
+                        "category_fine": decision["category_fine"],
+                        "description": inspected["description"],
+                        "risk": "unknown",
+                        "license": source["license"],
+                        "canonical": decision["canonical_skill_id"],
+                    }
+                )
+            new_skills_payload = {**skills_payload, "skills": new_skills}
+            new_quarantine_payload = {
+                **quarantine_payload,
+                "records": new_quarantine,
+            }
+            new_index_payload = {**index_payload, "entries": new_entries}
+            if "count" in new_index_payload:
+                new_index_payload["count"] = len(new_entries)
+            _validate_commit_objects(
+                new_sources, new_skills_payload, new_quarantine_payload
+            )
+
+            catalog_root = (root / "catalog").resolve()
+            for source_path in sorted(inspected_by_path):
+                bundle = inspected_by_path[source_path][0]
+                destination = destinations[source_path][1]
+                _create_parent_directories(
+                    destination, catalog_root, created_parents
+                )
+                temporary_copy = Path(
+                    tempfile.mkdtemp(
+                        dir=destination.parent, prefix=f".{destination.name}."
+                    )
+                )
+                temporary_copies.append(temporary_copy)
+                if not temporary_copy.resolve().is_relative_to(catalog_root):
+                    raise IntakeError("catalog temporary destination escaped root")
+                shutil.copytree(bundle, temporary_copy, dirs_exist_ok=True)
+                temporary_copy.replace(destination)
+                temporary_copies.remove(temporary_copy)
+                created_destinations.append(destination)
+
+            for path, payload in zip(
+                json_paths,
+                [
+                    new_sources,
+                    new_skills_payload,
+                    new_quarantine_payload,
+                    new_index_payload,
+                ],
+            ):
+                dump_json_atomic(path, payload)
+            report = verify_repository(root)
+            if report.result != "pass":
+                check_ids = sorted(
+                    str(finding.get("check_id")) for finding in report.findings
+                )
+                raise IntakeError(
+                    f"post-commit strict verification failed: {', '.join(check_ids)}"
+                )
+    except Exception:
+        for path, content in original_bytes.items():
+            _restore_bytes_atomic(path, content)
+        for temporary_copy in temporary_copies:
+            shutil.rmtree(temporary_copy, ignore_errors=True)
+        for destination in reversed(created_destinations):
+            shutil.rmtree(destination, ignore_errors=True)
+        for directory in reversed(created_parents):
+            try:
+                directory.rmdir()
+            except OSError:
+                pass
+        raise
