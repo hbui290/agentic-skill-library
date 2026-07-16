@@ -87,6 +87,7 @@ def verify_repository(root: Path) -> VerificationReport:
         or not COMMIT.fullmatch(str(source.get("commit", "")))
         or source.get("status") not in {"active", "retired"}
         or not isinstance(source.get("refreshable"), bool)
+        or isinstance(source.get("timeout_seconds"), bool)
         or not isinstance(source.get("timeout_seconds"), int)
         or not 1 <= source["timeout_seconds"] <= 60
         or (source["status"] == "retired" and source["refreshable"])

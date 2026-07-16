@@ -141,6 +141,14 @@ def test_verify_rejects_invalid_source_lifecycle(repo_root, tmp_path):
     assert "registry.source-lock" in check_ids(root)
 
 
+def test_verify_rejects_boolean_source_timeout(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    lock = json.loads((root / "registry/sources.lock.json").read_text())
+    lock["sources"][0]["timeout_seconds"] = True
+    write_json(root / "registry/sources.lock.json", lock)
+    assert "registry.source-lock" in check_ids(root)
+
+
 def test_quarantine_skill_ids_are_derived_from_source(repo_root):
     records = json.loads((repo_root / "registry/quarantine.json").read_text())["records"]
     assert all(
