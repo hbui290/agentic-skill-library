@@ -1206,7 +1206,16 @@ def test_commit_rolls_back_when_post_commit_strict_verification_fails(
 def test_commit_imports_reviewed_snapshot_and_builds_joined_json_in_memory(
     valid_root, manifest, prepared_paths
 ):
-    intake.commit_source(valid_root, manifest, prepared_paths[1])
+    result = intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+    assert result == {
+        "canonical": 0,
+        "imported": 1,
+        "quarantined": 0,
+        "rejected": 0,
+        "result": "pass",
+        "strict_verifier": "pass",
+    }
 
     lock = json.loads((valid_root / "registry/sources.lock.json").read_text())
     assert lock["sources"][-1] == {

@@ -758,10 +758,15 @@ def _create_parent_directories(
         created.append(directory)
 
 
-def commit_source(root: Path, manifest_path: Path, review_path: Path) -> None:
+def commit_source(
+    root: Path, manifest_path: Path, review_path: Path
+) -> dict[str, object]:
     root = Path(root)
-    manifest_bytes = Path(manifest_path).read_bytes()
-    review_bytes = Path(review_path).read_bytes()
+    try:
+        manifest_bytes = Path(manifest_path).read_bytes()
+        review_bytes = Path(review_path).read_bytes()
+    except OSError as error:
+        raise IntakeError(f"cannot read intake files: {error}") from error
     try:
         review = json.loads(review_bytes)
     except (UnicodeError, json.JSONDecodeError) as error:
@@ -1017,3 +1022,13 @@ def commit_source(root: Path, manifest_path: Path, review_path: Path) -> None:
             except OSError:
                 pass
         raise
+
+    decision_names = [str(decision["decision"]) for decision in decisions]
+    return {
+        "canonical": decision_names.count("canonical"),
+        "imported": decision_names.count("import"),
+        "quarantined": decision_names.count("quarantine"),
+        "rejected": decision_names.count("reject"),
+        "result": "pass",
+        "strict_verifier": "pass",
+    }
