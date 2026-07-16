@@ -90,6 +90,10 @@ def test_search_ranks_name_and_taxonomy_before_description(tmp_path):
     )
     matches = search_skills(tmp_path, "security audit")["matches"]
     assert [item["load_name"] for item in matches] == ["security-audit", "release-notes"]
+    assert [(item["load_name"], item["score"]) for item in matches] == [
+        ("security-audit", 20),
+        ("release-notes", 16),
+    ]
 
 
 def test_search_adds_safety_bonus_only_after_text_match(tmp_path):

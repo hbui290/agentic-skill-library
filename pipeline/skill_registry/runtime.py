@@ -1,11 +1,8 @@
 import json
-import re
 from pathlib import Path
 
 from skill_registry.hashing import UnsafeCatalogPath, tree_sha256
-
-
-TOKEN = re.compile(r"[a-z0-9]+")
+from skill_registry.text import tokenize
 
 
 class RegistryRuntimeError(RuntimeError):
@@ -35,15 +32,11 @@ def _load_object(path: Path) -> dict[str, object]:
     return value
 
 
-def _tokens(value: object) -> set[str]:
-    return set(TOKEN.findall(str(value).lower()))
-
-
 def _score(query: set[str], record: dict[str, object], metadata: dict[str, object]) -> int:
-    names = _tokens(f"{record['name']} {record['load_name']}")
-    taxonomy = _tokens(metadata.get("taxonomy", ""))
-    category = _tokens(metadata.get("category_fine", ""))
-    description = _tokens(metadata.get("description", ""))
+    names = tokenize(f"{record['name']} {record['load_name']}")
+    taxonomy = tokenize(metadata.get("taxonomy", ""))
+    category = tokenize(metadata.get("category_fine", ""))
+    description = tokenize(metadata.get("description", ""))
     return sum(
         8 * (term in names)
         + 4 * (term in taxonomy)
@@ -56,7 +49,7 @@ def _score(query: set[str], record: dict[str, object], metadata: dict[str, objec
 def search_skills(root: Path, query: str, limit: int = 10) -> dict[str, object]:
     if not 1 <= limit <= 50:
         raise ValueError("limit must be between 1 and 50")
-    query_tokens = _tokens(query)
+    query_tokens = tokenize(query)
     if not query_tokens:
         raise ValueError("query must contain at least one letter or number")
 
