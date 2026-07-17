@@ -73,6 +73,31 @@ def test_complete_repository_passes(repo_root):
     assert report.skipped == 0
 
 
+@pytest.mark.parametrize(
+    "relative",
+    [
+        "registry/skills.json",
+        "registry/core.json",
+        "registry/sources.lock.json",
+        "librarian-index.json",
+    ],
+)
+def test_verify_reports_malformed_json_without_raising(
+    repo_root, tmp_path, relative
+):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    if relative == "librarian-index.json":
+        (root / relative).write_bytes((repo_root / relative).read_bytes())
+    (root / relative).write_text("{")
+
+    report = verify_repository(root)
+
+    assert report.result == "fail"
+    assert "registry.input" in {
+        item["check_id"] for item in report.findings
+    }
+
+
 def test_missing_skill_marker_fails(tmp_path):
     (tmp_path / "registry").mkdir()
     (tmp_path / "catalog/x/y/z").mkdir(parents=True)

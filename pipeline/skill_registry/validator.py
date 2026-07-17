@@ -214,6 +214,22 @@ def valid_source_review_artifact(root: Path, source: dict[str, object]) -> bool:
 
 
 def verify_repository(root: Path) -> VerificationReport:
+    try:
+        return _verify_repository(root)
+    except (
+        OSError,
+        UnicodeError,
+        json.JSONDecodeError,
+        KeyError,
+        TypeError,
+        AttributeError,
+    ) as error:
+        findings: list[dict[str, object]] = []
+        add(findings, "registry.input", ["DR-08"], error=type(error).__name__)
+        return VerificationReport("fail", 0, 1, 0, 0, tuple(findings))
+
+
+def _verify_repository(root: Path) -> VerificationReport:
     findings: list[dict[str, object]] = []
     registry = root / "registry"
     skills_path = registry / "skills.json"
@@ -226,6 +242,9 @@ def verify_repository(root: Path) -> VerificationReport:
         add(findings, "registry.present", ["DR-08"], missing=missing)
     elif json.loads((registry / "schema-version.json").read_text(encoding="utf-8")).get("schema_version") != 1:
         add(findings, "registry.schema-version", ["DR-08"])
+    index_path = root / "librarian-index.json"
+    if index_path.is_file():
+        json.loads(index_path.read_text(encoding="utf-8"))
     skills = read_records(skills_path, "skills")
     quarantine = read_records(registry / "quarantine.json", "records")
     aliases = read_records(registry / "aliases.json", "aliases")
