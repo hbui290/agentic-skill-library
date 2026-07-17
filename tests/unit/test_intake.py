@@ -156,7 +156,10 @@ def valid_root(tmp_path):
             "records": [],
         },
     )
-    write_json(root / "librarian-index.json", {"schemaVersion": 1, "entries": []})
+    write_json(
+        root / "librarian-index.json",
+        {"schemaVersion": 1, "count": 0, "entries": []},
+    )
     subprocess.run(["git", "init", "-q", str(root)], check=True)
     subprocess.run(
         ["git", "-C", str(root), "config", "user.email", "fixture@example.com"],
@@ -1396,6 +1399,28 @@ def test_commit_imports_reviewed_snapshot_and_builds_joined_json_in_memory(
     assert json.loads((valid_root / "registry/schema-version.json").read_text()) == {
         "schema_version": 1
     }
+
+
+def test_commit_sets_discovery_index_count_when_input_omits_count(
+    valid_root, manifest, prepared_paths
+):
+    index_path = valid_root / "librarian-index.json"
+    index = json.loads(index_path.read_text())
+    index.pop("count")
+    write_json(index_path, index)
+    subprocess.run(
+        ["git", "-C", str(valid_root), "add", "librarian-index.json"],
+        check=True,
+    )
+    subprocess.run(
+        ["git", "-C", str(valid_root), "commit", "-qm", "fixture without count"],
+        check=True,
+    )
+
+    intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+    output = json.loads(index_path.read_text())
+    assert output["count"] == len(output["entries"])
 
 
 def test_commit_preserves_legacy_quarantine_records_without_load_names(
