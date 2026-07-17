@@ -199,6 +199,58 @@ def test_verify_rejects_invalid_reviewed_source_evidence(
     assert "registry.source-review" in check_ids(root)
 
 
+def test_verify_rejects_review_artifact_directory_symlink(
+    repo_root, tmp_path
+):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    _, artifact_path, artifact = reviewed_source_artifact(root)
+    external = tmp_path.parent / f"{tmp_path.name}-external-reviews"
+    external.mkdir()
+    write_json(external / artifact_path.name, artifact)
+    shutil.rmtree(artifact_path.parent)
+    artifact_path.parent.symlink_to(external, target_is_directory=True)
+
+    assert "registry.source-review" in check_ids(root)
+
+
+def test_verify_rejects_review_artifact_symlink(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    _, artifact_path, artifact = reviewed_source_artifact(root)
+    external = tmp_path.parent / f"{tmp_path.name}-external-artifact.json"
+    write_json(external, artifact)
+    artifact_path.unlink()
+    artifact_path.symlink_to(external)
+
+    assert "registry.source-review" in check_ids(root)
+
+
+@pytest.mark.parametrize(
+    "source_path",
+    ["", ".", "..", "/skills/azure-blob-storage", "skills//azure", "skills/./azure", "skills/../azure", "skills\\azure"],
+)
+def test_verify_rejects_malformed_review_decision_source_path(
+    repo_root, tmp_path, source_path
+):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    _, artifact_path, artifact = reviewed_source_artifact(root)
+    artifact["decisions"][0]["source_path"] = source_path
+    write_json(artifact_path, artifact)
+
+    assert "registry.source-review" in check_ids(root)
+
+
+def test_verify_rejects_non_utf8_review_artifact(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    _, artifact_path, _ = reviewed_source_artifact(root)
+    artifact_path.write_bytes(b"\xff")
+
+    report = verify_repository(root)
+    assert report.result == "fail"
+    assert "registry.source-review" in {
+        finding["check_id"] for finding in report.findings
+    }
+
+
 def test_default_core_contains_only_audited_safe_skill(repo_root):
     core = json.loads((repo_root / "registry/core.json").read_text())["skill_ids"]
     skills = {record["skill_id"]: record for record in json.loads((repo_root / "registry/skills.json").read_text())["skills"]}

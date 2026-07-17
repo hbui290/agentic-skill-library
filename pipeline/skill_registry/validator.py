@@ -156,15 +156,29 @@ def valid_source_review_record(
     )
 
 
+def valid_normalized_relative_path(path: object) -> bool:
+    return (
+        isinstance(path, str)
+        and SAFE_RELATIVE_PATH.fullmatch(path) is not None
+        and all(part not in {".", ".."} for part in path.split("/"))
+    )
+
+
 def valid_source_review_artifact(root: Path, source: dict[str, object]) -> bool:
     review = source["review"]
     if review["status"] == "legacy":
         return True
     try:
+        repository_root = root.resolve(strict=True)
+        artifact_path = root / str(review["artifact"])
+        if artifact_path.is_symlink():
+            return False
+        artifact_path = artifact_path.resolve(strict=True)
+        artifact_path.relative_to(repository_root)
         artifact = json.loads(
-            (root / str(review["artifact"])).read_text(encoding="utf-8")
+            artifact_path.read_text(encoding="utf-8")
         )
-    except (OSError, json.JSONDecodeError):
+    except (OSError, UnicodeError, ValueError, json.JSONDecodeError):
         return False
     if not isinstance(artifact, dict) or set(artifact) != SOURCE_REVIEW_ARTIFACT_FIELDS:
         return False
@@ -186,9 +200,7 @@ def valid_source_review_artifact(root: Path, source: dict[str, object]) -> bool:
             return False
         source_path = decision.get("source_path")
         if (
-            not isinstance(source_path, str)
-            or source_path.startswith("/")
-            or ".." in source_path.split("/")
+            not valid_normalized_relative_path(source_path)
             or not isinstance(decision.get("content_sha256"), str)
             or SHA.fullmatch(decision["content_sha256"]) is None
             or decision.get("decision")
