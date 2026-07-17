@@ -856,22 +856,26 @@ def commit_source(
                 bundle.relative_to(checkout).as_posix(): bundle
                 for bundle in discover_source_bundles(checkout / source["skills_root"])
             }
+            discovered_paths = set(discovered)
+            manifest_paths = set(candidate_by_path)
+            review_paths = set(decision_by_path)
+            if discovered_paths != manifest_paths or manifest_paths != review_paths:
+                raise IntakeError(
+                    "pinned candidate set differs from reviewed manifest: "
+                    f"discovered={len(discovered_paths)} "
+                    f"manifest={len(manifest_paths)} review={len(review_paths)}"
+                )
             inspected_by_path: dict[str, tuple[Path, dict[str, object]]] = {}
-            for source_path, decision in decision_by_path.items():
-                if decision["decision"] == "reject":
-                    continue
-                bundle = discovered.get(source_path)
-                if bundle is None:
-                    raise IntakeError(
-                        f"reviewed candidate missing from pinned source: {source_path}"
-                    )
+            for source_path in sorted(manifest_paths):
+                bundle = discovered[source_path]
                 inspected = inspect_bundle(bundle)
                 expected = candidate_by_path[source_path].get("content_sha256")
                 if inspected["content_sha256"] != expected:
                     raise IntakeError(
                         f"reviewed candidate changed since preparation: {source_path}"
                     )
-                inspected_by_path[source_path] = (bundle, inspected)
+                if decision_by_path[source_path]["decision"] != "reject":
+                    inspected_by_path[source_path] = (bundle, inspected)
 
             used_names = {
                 str(record["load_name"])

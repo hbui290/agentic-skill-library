@@ -1055,13 +1055,67 @@ def test_commit_refetches_and_rejects_changed_hash(
     assert repository_digest(valid_root) == before
 
 
+def test_commit_rejects_manifest_that_omits_pinned_candidate(
+    valid_root, tmp_path, fake_checkout
+):
+    make_skill(fake_checkout / "skills", "omitted-skill")
+    stage = tmp_path / "complete-stage"
+    intake.prepare_source(valid_root, valid_source_spec(), stage)
+    manifest_path = stage / "manifest.json"
+    review_path = stage / "review.json"
+    manifest = json.loads(manifest_path.read_text())
+    manifest["candidates"] = [
+        item
+        for item in manifest["candidates"]
+        if item["source_path"] != "skills/omitted-skill"
+    ]
+    write_json(manifest_path, manifest)
+    review = json.loads(review_path.read_text())
+    review["manifest_sha256"] = hashlib.sha256(
+        manifest_path.read_bytes()
+    ).hexdigest()
+    review["decisions"] = [
+        item
+        for item in review["decisions"]
+        if item["source_path"] != "skills/omitted-skill"
+    ]
+    review["decisions"][0].update(
+        {
+            "decision": "reject",
+            "reason": "Fixture scope rejection",
+        }
+    )
+    write_json(review_path, review)
+
+    with pytest.raises(IntakeError, match="candidate set differs"):
+        intake.commit_source(valid_root, manifest_path, review_path)
+
+
+def test_commit_revalidates_rejected_candidate_hash(
+    valid_root, manifest, prepared_paths, fake_checkout
+):
+    review = json.loads(prepared_paths[1].read_text())
+    review["decisions"][0].update(
+        {
+            "decision": "reject",
+            "reason": "Fixture scope rejection",
+        }
+    )
+    write_json(prepared_paths[1], review)
+    marker = fake_checkout / "skills/new-skill/SKILL.md"
+    marker.write_text(marker.read_text() + "changed\n")
+
+    with pytest.raises(IntakeError, match="changed since preparation"):
+        intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+
 def test_commit_rejects_missing_reviewed_candidate(
     valid_root, manifest, prepared_paths, fake_checkout
 ):
     shutil.rmtree(fake_checkout / "skills/new-skill")
     before = repository_digest(valid_root)
 
-    with pytest.raises(IntakeError, match="missing from pinned source"):
+    with pytest.raises(IntakeError, match="candidate set differs"):
         intake.commit_source(valid_root, manifest, prepared_paths[1])
 
     assert repository_digest(valid_root) == before
