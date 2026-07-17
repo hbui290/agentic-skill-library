@@ -11,7 +11,11 @@
       "license_note": "Per-skill metadata preserved from the migration snapshot",
       "status": "retired",
       "refreshable": false,
-      "timeout_seconds": 15
+      "timeout_seconds": 15,
+      "review": {
+        "status": "legacy",
+        "reason": "predates-reviewed-intake"
+      }
     },
     {
       "source_id": "sickn33-agentic-awesome-skills",
@@ -23,7 +27,11 @@
       "license_note": "Per-skill licenses tracked by the source index",
       "status": "active",
       "refreshable": true,
-      "timeout_seconds": 15
+      "timeout_seconds": 15,
+      "review": {
+        "status": "legacy",
+        "reason": "predates-reviewed-intake"
+      }
     },
     {
       "commit": "e03d6ea0dab78954ca902bad9f6556cafe772515",
@@ -35,7 +43,12 @@
       "source_id": "microsoftdocs-agent-skills",
       "status": "active",
       "timeout_seconds": 15,
-      "url": "https://github.com/MicrosoftDocs/Agent-Skills.git"
+      "url": "https://github.com/MicrosoftDocs/Agent-Skills.git",
+      "review": {
+        "status": "reviewed",
+        "artifact": "registry/source-reviews/microsoftdocs-agent-skills-e03d6ea0dab78954ca902bad9f6556cafe772515.json",
+        "manifest_sha256": "3ec7a76ba0b921a8f0b35a5bd50f48986b586f2beff0e3c105b0db76c0d3643b"
+      }
     }
   ]
 }

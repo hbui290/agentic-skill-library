@@ -636,6 +636,39 @@ def validate_review(
             raise IntakeError("non-canonical decision cannot have a canonical target")
 
 
+def source_review_artifact(
+    source: dict[str, str],
+    manifest_bytes: bytes,
+    candidates: list[dict[str, object]],
+    decisions: list[dict[str, object]],
+) -> dict[str, object]:
+    candidate_by_path = {
+        str(item["source_path"]): item for item in candidates
+    }
+    records = []
+    for decision in sorted(decisions, key=lambda item: str(item["source_path"])):
+        candidate = candidate_by_path[str(decision["source_path"])]
+        records.append(
+            {
+                "source_path": decision["source_path"],
+                "content_sha256": candidate["content_sha256"],
+                "decision": decision["decision"],
+                "taxonomy": decision["taxonomy"],
+                "category_fine": decision["category_fine"],
+                "canonical_skill_id": decision["canonical_skill_id"],
+                "reason": decision["reason"],
+            }
+        )
+    return {
+        "schema_version": 1,
+        "source_id": source["source_id"],
+        "source_commit": source["commit"],
+        "manifest_sha256": hashlib.sha256(manifest_bytes).hexdigest(),
+        "candidate_count": len(records),
+        "decisions": records,
+    }
+
+
 def _load_json_object(path: Path) -> dict[str, object]:
     try:
         value = load_json(path)
@@ -843,10 +876,21 @@ def commit_source(
     schema = _load_json_object(root / "registry/schema-version.json")
     if schema.get("schema_version") != 1:
         raise IntakeError("registry schema_version must remain 1")
+    artifact_relative = (
+        "registry/source-reviews/"
+        f"{source['source_id']}-{source['commit']}.json"
+    )
+    artifact_path = root / artifact_relative
+    if artifact_path.exists() or artifact_path.is_symlink():
+        raise IntakeError(f"source review artifact already exists: {artifact_relative}")
+    artifact = source_review_artifact(
+        source, manifest_bytes, candidates, decisions
+    )
 
     created_destinations: list[Path] = []
     created_parents: list[Path] = []
     temporary_copies: list[Path] = []
+    artifact_created = False
     try:
         preflight_source_tree(source)
         with tempfile.TemporaryDirectory(prefix="asr-commit-source-") as temporary:
@@ -856,22 +900,26 @@ def commit_source(
                 bundle.relative_to(checkout).as_posix(): bundle
                 for bundle in discover_source_bundles(checkout / source["skills_root"])
             }
+            discovered_paths = set(discovered)
+            manifest_paths = set(candidate_by_path)
+            review_paths = set(decision_by_path)
+            if discovered_paths != manifest_paths or manifest_paths != review_paths:
+                raise IntakeError(
+                    "pinned candidate set differs from reviewed manifest: "
+                    f"discovered={len(discovered_paths)} "
+                    f"manifest={len(manifest_paths)} review={len(review_paths)}"
+                )
             inspected_by_path: dict[str, tuple[Path, dict[str, object]]] = {}
-            for source_path, decision in decision_by_path.items():
-                if decision["decision"] == "reject":
-                    continue
-                bundle = discovered.get(source_path)
-                if bundle is None:
-                    raise IntakeError(
-                        f"reviewed candidate missing from pinned source: {source_path}"
-                    )
+            for source_path in sorted(manifest_paths):
+                bundle = discovered[source_path]
                 inspected = inspect_bundle(bundle)
                 expected = candidate_by_path[source_path].get("content_sha256")
                 if inspected["content_sha256"] != expected:
                     raise IntakeError(
                         f"reviewed candidate changed since preparation: {source_path}"
                     )
-                inspected_by_path[source_path] = (bundle, inspected)
+                if decision_by_path[source_path]["decision"] != "reject":
+                    inspected_by_path[source_path] = (bundle, inspected)
 
             used_names = {
                 str(record["load_name"])
@@ -907,6 +955,11 @@ def commit_source(
                 "status": "active",
                 "refreshable": True,
                 "timeout_seconds": 15,
+                "review": {
+                    "status": "reviewed",
+                    "artifact": artifact_relative,
+                    "manifest_sha256": artifact["manifest_sha256"],
+                },
             }
             new_sources = {**sources_payload, "sources": [*sources, source_record]}
             new_skills = list(skills)
@@ -1001,6 +1054,8 @@ def commit_source(
                 ],
             ):
                 dump_json_atomic(path, payload)
+            dump_json_atomic(artifact_path, artifact)
+            artifact_created = True
             report = verify_repository(root)
             if report.result != "pass":
                 check_ids = sorted(
@@ -1012,6 +1067,8 @@ def commit_source(
     except Exception:
         for path, content in original_bytes.items():
             _restore_bytes_atomic(path, content)
+        if artifact_created:
+            artifact_path.unlink(missing_ok=True)
         for temporary_copy in temporary_copies:
             shutil.rmtree(temporary_copy, ignore_errors=True)
         for destination in reversed(created_destinations):

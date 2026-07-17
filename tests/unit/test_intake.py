@@ -123,6 +123,10 @@ def valid_root(tmp_path):
         "status": "active",
         "refreshable": True,
         "timeout_seconds": 15,
+        "review": {
+            "status": "legacy",
+            "reason": "predates-reviewed-intake",
+        },
     }
     write_json(
         root / "registry/sources.lock.json",
@@ -976,6 +980,21 @@ def test_validate_review_accepts_complete_contract(manifest, valid_review):
     )
 
 
+def test_source_review_artifact_records_every_decision(manifest, valid_review):
+    payload = intake.source_review_artifact(
+        json.loads(manifest.read_text())["source"],
+        manifest.read_bytes(),
+        json.loads(manifest.read_text())["candidates"],
+        valid_review["decisions"],
+    )
+
+    assert payload["manifest_sha256"] == hashlib.sha256(
+        manifest.read_bytes()
+    ).hexdigest()
+    assert payload["candidate_count"] == len(payload["decisions"])
+    assert all(item["content_sha256"] for item in payload["decisions"])
+
+
 @pytest.mark.parametrize(
     ("upstream_name", "expected"),
     [
@@ -1055,13 +1074,117 @@ def test_commit_refetches_and_rejects_changed_hash(
     assert repository_digest(valid_root) == before
 
 
+def test_commit_rejects_manifest_that_omits_pinned_candidate(
+    valid_root, tmp_path, fake_checkout
+):
+    make_skill(fake_checkout / "skills", "omitted-skill")
+    stage = tmp_path / "complete-stage"
+    intake.prepare_source(valid_root, valid_source_spec(), stage)
+    manifest_path = stage / "manifest.json"
+    review_path = stage / "review.json"
+    manifest = json.loads(manifest_path.read_text())
+    manifest["candidates"] = [
+        item
+        for item in manifest["candidates"]
+        if item["source_path"] != "skills/omitted-skill"
+    ]
+    write_json(manifest_path, manifest)
+    review = json.loads(review_path.read_text())
+    review["manifest_sha256"] = hashlib.sha256(
+        manifest_path.read_bytes()
+    ).hexdigest()
+    review["decisions"] = [
+        item
+        for item in review["decisions"]
+        if item["source_path"] != "skills/omitted-skill"
+    ]
+    review["decisions"][0].update(
+        {
+            "decision": "reject",
+            "reason": "Fixture scope rejection",
+        }
+    )
+    write_json(review_path, review)
+
+    with pytest.raises(IntakeError, match="candidate set differs"):
+        intake.commit_source(valid_root, manifest_path, review_path)
+
+
+def test_commit_revalidates_rejected_candidate_hash(
+    valid_root, manifest, prepared_paths, fake_checkout
+):
+    review = json.loads(prepared_paths[1].read_text())
+    review["decisions"][0].update(
+        {
+            "decision": "reject",
+            "reason": "Fixture scope rejection",
+        }
+    )
+    write_json(prepared_paths[1], review)
+    marker = fake_checkout / "skills/new-skill/SKILL.md"
+    marker.write_text(marker.read_text() + "changed\n")
+
+    with pytest.raises(IntakeError, match="changed since preparation"):
+        intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+
+def test_commit_persists_source_review_artifact(
+    valid_root, manifest, prepared_paths
+):
+    intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+    source = json.loads(
+        (valid_root / "registry/sources.lock.json").read_text()
+    )["sources"][-1]
+    artifact_path = valid_root / (
+        "registry/source-reviews/"
+        f"{source['source_id']}-{source['commit']}.json"
+    )
+    artifact = json.loads(artifact_path.read_text())
+
+    assert source["review"] == {
+        "status": "reviewed",
+        "artifact": artifact_path.relative_to(valid_root).as_posix(),
+        "manifest_sha256": artifact["manifest_sha256"],
+    }
+    assert artifact["candidate_count"] == 1
+    assert artifact["decisions"][0]["content_sha256"]
+
+
+def test_commit_removes_only_new_review_artifact_on_rollback(
+    valid_root, manifest, prepared_paths, monkeypatch
+):
+    existing_artifact = valid_root / "registry/source-reviews/existing.json"
+    existing_artifact.parent.mkdir()
+    existing_artifact.write_text("preserve\n", encoding="utf-8")
+    subprocess.run(["git", "-C", str(valid_root), "add", "."], check=True)
+    subprocess.run(
+        ["git", "-C", str(valid_root), "commit", "-qm", "existing artifact"],
+        check=True,
+    )
+    monkeypatch.setattr(
+        intake,
+        "verify_repository",
+        lambda root: type("Report", (), {"result": "fail", "findings": []})(),
+    )
+
+    with pytest.raises(IntakeError, match="post-commit strict verification"):
+        intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+    artifact_path = valid_root / (
+        "registry/source-reviews/new-source-" + "c" * 40 + ".json"
+    )
+    assert not artifact_path.exists()
+    assert existing_artifact.read_text(encoding="utf-8") == "preserve\n"
+
+
 def test_commit_rejects_missing_reviewed_candidate(
     valid_root, manifest, prepared_paths, fake_checkout
 ):
     shutil.rmtree(fake_checkout / "skills/new-skill")
     before = repository_digest(valid_root)
 
-    with pytest.raises(IntakeError, match="missing from pinned source"):
+    with pytest.raises(IntakeError, match="candidate set differs"):
         intake.commit_source(valid_root, manifest, prepared_paths[1])
 
     assert repository_digest(valid_root) == before
@@ -1229,6 +1352,13 @@ def test_commit_imports_reviewed_snapshot_and_builds_joined_json_in_memory(
         "status": "active",
         "refreshable": True,
         "timeout_seconds": 15,
+        "review": {
+            "status": "reviewed",
+            "artifact": (
+                "registry/source-reviews/new-source-" + "c" * 40 + ".json"
+            ),
+            "manifest_sha256": hashlib.sha256(manifest.read_bytes()).hexdigest(),
+        },
     }
     record = json.loads((valid_root / "registry/skills.json").read_text())["skills"][0]
     assert record == {

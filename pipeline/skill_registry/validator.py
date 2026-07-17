@@ -31,6 +31,30 @@ SOURCE_LOCK_FIELDS = {
     "status",
     "refreshable",
     "timeout_seconds",
+    "review",
+}
+LEGACY_SOURCE_REVIEW_FIELDS = {"status", "reason"}
+REVIEWED_SOURCE_REVIEW_FIELDS = {
+    "status",
+    "artifact",
+    "manifest_sha256",
+}
+SOURCE_REVIEW_ARTIFACT_FIELDS = {
+    "schema_version",
+    "source_id",
+    "source_commit",
+    "manifest_sha256",
+    "candidate_count",
+    "decisions",
+}
+SOURCE_REVIEW_DECISION_FIELDS = {
+    "source_path",
+    "content_sha256",
+    "decision",
+    "taxonomy",
+    "category_fine",
+    "canonical_skill_id",
+    "reason",
 }
 SOURCE_LAYOUTS = {"legacy-snapshot", "skills-subdir"}
 RISK_VALUES = {"safe", "review", "dangerous", "unknown"}
@@ -73,6 +97,7 @@ def valid_source_lock_record(source: object) -> bool:
     status = source["status"]
     refreshable = source["refreshable"]
     timeout = source["timeout_seconds"]
+    review = source["review"]
     safe_skills_root = (
         isinstance(skills_root, str)
         and (
@@ -103,7 +128,89 @@ def valid_source_lock_record(source: object) -> bool:
         and not isinstance(timeout, bool)
         and 1 <= timeout <= 60
         and refreshable == (status == "active")
+        and valid_source_review_record(source_id, commit, review)
     )
+
+
+def valid_source_review_record(
+    source_id: object, commit: object, review: object
+) -> bool:
+    if not isinstance(review, dict):
+        return False
+    if review.get("status") == "legacy":
+        return (
+            set(review) == LEGACY_SOURCE_REVIEW_FIELDS
+            and isinstance(review.get("reason"), str)
+            and bool(review["reason"].strip())
+        )
+    artifact = (
+        "registry/source-reviews/"
+        f"{source_id}-{commit}.json"
+    )
+    return (
+        set(review) == REVIEWED_SOURCE_REVIEW_FIELDS
+        and review.get("status") == "reviewed"
+        and review.get("artifact") == artifact
+        and isinstance(review.get("manifest_sha256"), str)
+        and SHA.fullmatch(review["manifest_sha256"]) is not None
+    )
+
+
+def valid_normalized_relative_path(path: object) -> bool:
+    return (
+        isinstance(path, str)
+        and SAFE_RELATIVE_PATH.fullmatch(path) is not None
+        and all(part not in {".", ".."} for part in path.split("/"))
+    )
+
+
+def valid_source_review_artifact(root: Path, source: dict[str, object]) -> bool:
+    review = source["review"]
+    if review["status"] == "legacy":
+        return True
+    try:
+        repository_root = root.resolve(strict=True)
+        artifact_path = root / str(review["artifact"])
+        if artifact_path.is_symlink():
+            return False
+        artifact_path = artifact_path.resolve(strict=True)
+        artifact_path.relative_to(repository_root)
+        artifact = json.loads(
+            artifact_path.read_text(encoding="utf-8")
+        )
+    except (OSError, UnicodeError, ValueError, json.JSONDecodeError):
+        return False
+    if not isinstance(artifact, dict) or set(artifact) != SOURCE_REVIEW_ARTIFACT_FIELDS:
+        return False
+    decisions = artifact.get("decisions")
+    if (
+        artifact.get("schema_version") != 1
+        or artifact.get("source_id") != source["source_id"]
+        or artifact.get("source_commit") != source["commit"]
+        or artifact.get("manifest_sha256") != review["manifest_sha256"]
+        or not isinstance(artifact.get("candidate_count"), int)
+        or isinstance(artifact.get("candidate_count"), bool)
+        or not isinstance(decisions, list)
+        or artifact["candidate_count"] != len(decisions)
+    ):
+        return False
+    paths: list[str] = []
+    for decision in decisions:
+        if not isinstance(decision, dict) or set(decision) != SOURCE_REVIEW_DECISION_FIELDS:
+            return False
+        source_path = decision.get("source_path")
+        if (
+            not valid_normalized_relative_path(source_path)
+            or not isinstance(decision.get("content_sha256"), str)
+            or SHA.fullmatch(decision["content_sha256"]) is None
+            or decision.get("decision")
+            not in {"import", "canonical", "quarantine", "reject"}
+            or not isinstance(decision.get("reason"), str)
+            or not decision["reason"].strip()
+        ):
+            return False
+        paths.append(source_path)
+    return len(paths) == len(set(paths))
 
 
 def verify_repository(root: Path) -> VerificationReport:
@@ -162,6 +269,15 @@ def verify_repository(root: Path) -> VerificationReport:
         or any(not valid_source_lock_record(source) for source in sources)
     ):
         add(findings, "registry.source-lock", ["DR-04", "UR-01"])
+    for source in sources:
+        if isinstance(source, dict) and valid_source_lock_record(source):
+            if not valid_source_review_artifact(root, source):
+                add(
+                    findings,
+                    "registry.source-review",
+                    ["DR-04", "UR-01"],
+                    source_id=source["source_id"],
+                )
     source_pair_counts = Counter(
         (record["source_id"], record["source_path"])
         for record in skills + quarantine

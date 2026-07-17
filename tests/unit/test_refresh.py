@@ -24,6 +24,10 @@ def active_source(source_id: str, url: str, commit: str) -> dict[str, object]:
         "status": "active",
         "refreshable": True,
         "timeout_seconds": 15,
+        "review": {
+            "status": "legacy",
+            "reason": "predates-reviewed-intake",
+        },
     }
 
 
@@ -72,6 +76,10 @@ def test_refresh_skips_retired_source(tmp_path: Path):
         "status": "retired",
         "refreshable": False,
         "timeout_seconds": 15,
+        "review": {
+            "status": "legacy",
+            "reason": "predates-reviewed-intake",
+        },
     }])
     calls = []
 

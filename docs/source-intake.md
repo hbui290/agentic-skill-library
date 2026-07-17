@@ -11,6 +11,12 @@ mutation:
 3. `commit-source` validates the review and mutates the repository only after
    all safety checks pass.
 
+Each committed source has immutable review evidence in
+`registry/source-reviews/`. The source lock records either a legacy reason or
+the reviewed artifact path and manifest digest. The artifact records every
+candidate decision with its preparation-time content hash; it has no timestamp
+or reviewer field because Git author and commit time are the audit identity.
+
 Version one accepts only public `https://github.com/<owner>/<repo>.git` URLs and
 exact 40-character commit SHAs. Never point intake at a private repository,
 provide credentials, enable credential helpers, or use source material that
@@ -73,8 +79,9 @@ skill-registry commit-source \
 Before mutation, commit validates the manifest digest and complete review. It
 then preflights and re-fetches the exact pinned commit, re-discovers reviewed
 candidates, and requires their content hashes to match preparation. Catalog and
-JSON writes are rolled back if mutation or strict post-commit verification
-fails.
+JSON writes, including the source-review artifact, are rolled back if mutation
+or strict post-commit verification fails. Rollback removes only the newly
+created artifact; it never deletes existing review evidence.
 
 Every imported record starts at `unknown` risk with
 `initial-review-required`. Intake never promotes a candidate to `safe` or Core.
@@ -89,6 +96,10 @@ root skill bundles under `skills/`: `azure-blob-storage` was imported and the
 other 190 candidates were rejected as outside the pilot scope. Strict
 verification passed after the import. The imported record remains `unknown` and
 is not in Core.
+
+Its durable evidence is
+`registry/source-reviews/microsoftdocs-agent-skills-e03d6ea0dab78954ca902bad9f6556cafe772515.json`:
+191 decisions, with one import (`skills/azure-blob-storage`) and 190 rejects.
 
 Verify discovery and repository integrity:
 

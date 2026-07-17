@@ -21,6 +21,51 @@ def check_ids(root):
     return {finding["check_id"] for finding in verify_repository(root).findings}
 
 
+def reviewed_source_artifact(root):
+    lock_path = root / "registry/sources.lock.json"
+    lock = json.loads(lock_path.read_text())
+    for source in lock["sources"]:
+        source["review"] = {
+            "status": "legacy",
+            "reason": "predates-reviewed-intake",
+        }
+    source = next(
+        item
+        for item in lock["sources"]
+        if item["source_id"] == "microsoftdocs-agent-skills"
+    )
+    artifact_relative = (
+        "registry/source-reviews/"
+        f"{source['source_id']}-{source['commit']}.json"
+    )
+    artifact = {
+        "schema_version": 1,
+        "source_id": source["source_id"],
+        "source_commit": source["commit"],
+        "manifest_sha256": "a" * 64,
+        "candidate_count": 1,
+        "decisions": [{
+            "source_path": "skills/azure-blob-storage",
+            "content_sha256": "b" * 64,
+            "decision": "import",
+            "taxonomy": "devops-and-security/azure-cloud",
+            "category_fine": "cloud",
+            "canonical_skill_id": None,
+            "reason": "Reviewed fixture candidate",
+        }],
+    }
+    source["review"] = {
+        "status": "reviewed",
+        "artifact": artifact_relative,
+        "manifest_sha256": artifact["manifest_sha256"],
+    }
+    artifact_path = root / artifact_relative
+    artifact_path.parent.mkdir(parents=True, exist_ok=True)
+    write_json(artifact_path, artifact)
+    write_json(lock_path, lock)
+    return source, artifact_path, artifact
+
+
 def test_complete_repository_passes(repo_root):
     report = verify_repository(repo_root)
     assert report.result == "pass"
@@ -102,6 +147,110 @@ def test_strict_contract_rejects_invalid_upstream_review(repo_root, tmp_path):
     assert "registry.upstream-review" in check_ids
 
 
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "missing_artifact",
+        "digest_mismatch",
+        "duplicate_path",
+        "wrong_source_id",
+        "wrong_source_commit",
+        "wrong_count",
+        "pending_decision",
+        "empty_reason",
+    ],
+)
+def test_verify_rejects_invalid_reviewed_source_evidence(
+    repo_root, tmp_path, mutation
+):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    source, artifact_path, artifact = reviewed_source_artifact(root)
+    if mutation == "missing_artifact":
+        artifact_path.unlink()
+    elif mutation == "digest_mismatch":
+        source["review"]["manifest_sha256"] = "c" * 64
+    elif mutation == "duplicate_path":
+        artifact["decisions"].append(dict(artifact["decisions"][0]))
+        artifact["candidate_count"] = 2
+    elif mutation == "wrong_source_id":
+        artifact["source_id"] = "other-source"
+    elif mutation == "wrong_source_commit":
+        artifact["source_commit"] = "c" * 40
+    elif mutation == "wrong_count":
+        artifact["candidate_count"] = 2
+    elif mutation == "pending_decision":
+        artifact["decisions"][0]["decision"] = "pending"
+    elif mutation == "empty_reason":
+        artifact["decisions"][0]["reason"] = ""
+    else:
+        raise AssertionError(mutation)
+    if artifact_path.exists():
+        write_json(artifact_path, artifact)
+    lock_path = root / "registry/sources.lock.json"
+    lock = json.loads(lock_path.read_text())
+    reviewed = next(
+        item
+        for item in lock["sources"]
+        if item["source_id"] == source["source_id"]
+    )
+    reviewed["review"] = source["review"]
+    write_json(lock_path, lock)
+
+    assert "registry.source-review" in check_ids(root)
+
+
+def test_verify_rejects_review_artifact_directory_symlink(
+    repo_root, tmp_path
+):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    _, artifact_path, artifact = reviewed_source_artifact(root)
+    external = tmp_path.parent / f"{tmp_path.name}-external-reviews"
+    external.mkdir()
+    write_json(external / artifact_path.name, artifact)
+    shutil.rmtree(artifact_path.parent)
+    artifact_path.parent.symlink_to(external, target_is_directory=True)
+
+    assert "registry.source-review" in check_ids(root)
+
+
+def test_verify_rejects_review_artifact_symlink(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    _, artifact_path, artifact = reviewed_source_artifact(root)
+    external = tmp_path.parent / f"{tmp_path.name}-external-artifact.json"
+    write_json(external, artifact)
+    artifact_path.unlink()
+    artifact_path.symlink_to(external)
+
+    assert "registry.source-review" in check_ids(root)
+
+
+@pytest.mark.parametrize(
+    "source_path",
+    ["", ".", "..", "/skills/azure-blob-storage", "skills//azure", "skills/./azure", "skills/../azure", "skills\\azure"],
+)
+def test_verify_rejects_malformed_review_decision_source_path(
+    repo_root, tmp_path, source_path
+):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    _, artifact_path, artifact = reviewed_source_artifact(root)
+    artifact["decisions"][0]["source_path"] = source_path
+    write_json(artifact_path, artifact)
+
+    assert "registry.source-review" in check_ids(root)
+
+
+def test_verify_rejects_non_utf8_review_artifact(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    _, artifact_path, _ = reviewed_source_artifact(root)
+    artifact_path.write_bytes(b"\xff")
+
+    report = verify_repository(root)
+    assert report.result == "fail"
+    assert "registry.source-review" in {
+        finding["check_id"] for finding in report.findings
+    }
+
+
 def test_default_core_contains_only_audited_safe_skill(repo_root):
     core = json.loads((repo_root / "registry/core.json").read_text())["skill_ids"]
     skills = {record["skill_id"]: record for record in json.loads((repo_root / "registry/skills.json").read_text())["skills"]}
@@ -174,6 +323,8 @@ def test_verify_rejects_non_refreshable_active_source(repo_root, tmp_path):
         "glob_skills_root",
         "invalid_metadata_index_type",
         "invalid_status_type",
+        "missing_review",
+        "extra_review_field",
     ],
 )
 def test_verify_rejects_malformed_source_lock_schema(
@@ -206,6 +357,10 @@ def test_verify_rejects_malformed_source_lock_schema(
         source["metadata_index"] = 1
     elif case == "invalid_status_type":
         source["status"] = []
+    elif case == "missing_review":
+        del source["review"]
+    elif case == "extra_review_field":
+        source["review"]["unexpected"] = True
     else:
         raise AssertionError(case)
     write_json(root / "registry/sources.lock.json", lock)

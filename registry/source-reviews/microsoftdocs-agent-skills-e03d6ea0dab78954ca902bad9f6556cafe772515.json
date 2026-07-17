@@ -1,0 +1,1729 @@
+{
+  "schema_version": 1,
+  "source_id": "microsoftdocs-agent-skills",
+  "source_commit": "e03d6ea0dab78954ca902bad9f6556cafe772515",
+  "manifest_sha256": "3ec7a76ba0b921a8f0b35a5bd50f48986b586f2beff0e3c105b0db76c0d3643b",
+  "candidate_count": 191,
+  "decisions": [
+    {
+      "source_path": "skills/azure-active-directory-b2c",
+      "content_sha256": "78d70b0a88295a735688619ef102d9a72f0e757b8fbc7afc3c0162a7c1d13958",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-advisor",
+      "content_sha256": "3139b3cec477610f7b6fb98fb074e879bfb672aa72edc36d124d4260784803ce",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-ai-vision",
+      "content_sha256": "e9d2aea8037ca826f968441229061b17d6da25f5743814d7f3d7b0d5dae46163",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-aks-edge-essentials",
+      "content_sha256": "1a16d1ae66850f603a7e76480dd6f481313ac9d5a8404a7ee71b23edd219d4e8",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-analysis-services",
+      "content_sha256": "dbb917379f02b58bdf11053bf12bc0aa8b391ac180347f076964dc6fb77b4ca5",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-anomaly-detector",
+      "content_sha256": "8df5d836425951e937075b12bb51d1b596a215e25e8a02eb96750efdc9d2ce5c",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-api-center",
+      "content_sha256": "494617abb1141b630439eaf69272e1eb91f9c2b2ef7c733c4ab4a367ed39a337",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-api-management",
+      "content_sha256": "efbf37c2825e1fe8ef07ebd9afa1014739f3cf1b4a550e632d165d5056910593",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-app-configuration",
+      "content_sha256": "6878e2496897bf9fbfac7f12a94434adf15f3bb360a337c40079a1741ef43533",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-app-service",
+      "content_sha256": "f7266ea79b58dea3901f478c8122a9a357da0d16b0f8254e16024ea8ec5b4801",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-app-testing",
+      "content_sha256": "611511e1b4d85b61bfa8460e5d01f1387751afdc93c9b8a841a49752cd6d917b",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-application-gateway",
+      "content_sha256": "5c8373a62e16823f13ecfd219ea819cff79285ac76a30c457d40836a3cf37d9f",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-arc",
+      "content_sha256": "425a2722163890bd136becee59d83a7e676981038e21eb832552a8482fbeee25",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-architecture",
+      "content_sha256": "c728d5da1f27e499cbe1154031adf931390cf6bbc8b77b5ff047d43d2f492385",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-artifact-signing",
+      "content_sha256": "0f94b09a5c25448b71a374f44e02272e3dfa091323a3e70590bdc067538bd694",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-artifacts",
+      "content_sha256": "bea7824a3e0a45795df0423c0b818ab7cdc4d78ed112efc1670d8bb291b3b281",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-attestation",
+      "content_sha256": "4e339800f1921878ed5de788cdddfac85bd7cc84cb6b04bfc135b8558ac8dad7",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-automation",
+      "content_sha256": "12067684ac0cdc0a53b4c094f0d2c2efb908a15276c1a79a7770b5199100960a",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-backup",
+      "content_sha256": "d2353a460853da6510797535212769e8c78bcfc1521a60def0d64fa18f4e6924",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-bastion",
+      "content_sha256": "82f07787c96326843536bef985049a3e4938d7bb62330073246cc8ab50736337",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-batch",
+      "content_sha256": "0631f0a9e630c74d3eb6cc5f56417ee7a7a156ff8dc94dc39c5e2b69e940bb3d",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-blob-storage",
+      "content_sha256": "1f9cd109c50ee7c19189cba5d2fa5c305feccdfe086965d663d9a38338402238",
+      "decision": "import",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-import-reviewed"
+    },
+    {
+      "source_path": "skills/azure-blueprints",
+      "content_sha256": "3c39a256a386b5c33f89677aa22a89705b2b1965ee23b335417ba32106e731a4",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-boards",
+      "content_sha256": "d336b0ff6e0f4a8c7de8c9842e7cf019f6980b6f44f508d8aab87b99e53e06fa",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-bot-service",
+      "content_sha256": "74b6c76eab89419b29cd25c742ae3c90f2114c16d2305b4237bf5a14e765d33e",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-business-process-tracking",
+      "content_sha256": "2c943295626905fcd5f6bb871a8703d5c69d89661fcf663cab66e790b7944cc9",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-cache-redis",
+      "content_sha256": "e47f79a85827ecc4117ca9d79eaf6e82039bb40c21fbab95a497979bc1ab208f",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-carbon-optimization",
+      "content_sha256": "8803dcd07e89a30ea4394a76f72b3b4a944e5834c660c43bb707b4c4bab72bb0",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-chaos-studio",
+      "content_sha256": "b5bfc8c55e921364c8bb4f9ff0c8cecdd57df194ca5559ec50ff26fb7c48cbf2",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-cloud-adoption-framework",
+      "content_sha256": "8c75cd4e7519bbecbefd7f7738e194faf1145eae4f4a313e31fd83336489ca7a",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-cloud-hsm",
+      "content_sha256": "531c10a3b9eb0d9d0df1e0044b539494f1d253325c33016dea0e73d1fd71bdc2",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-cloud-services",
+      "content_sha256": "809acf13c70c8ae4b0cbb4713cbe7df4cbfb0a8ef84fb07301104529e13ba9fb",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-cloud-shell",
+      "content_sha256": "8da2db60419dab9cb4a9d7aa7c7d107e8c9f7cd60f5e4cb17bcc6ed57a7f840d",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-cognitive-search",
+      "content_sha256": "2005b6fa8aea41f84cda389f448de5b9f49b6ebc5b30fc997b005d8feafb9561",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-communication-services",
+      "content_sha256": "0fdffeb01d74899767bac321eb221e45c49ab800bddd42b275d9c9752d7edd5f",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-confidential-computing",
+      "content_sha256": "199273c6dab44c29cca9b51e620b079c63d2d4ac2ad09b9981050aa2f6d293f6",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-confidential-ledger",
+      "content_sha256": "938b92cc30a8ec2e4944f8f6d4d58cb597e9c420a7337de15e044f7b09b5fd6b",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-container-apps",
+      "content_sha256": "78b07c27fdf6a59ecb456f40615bb3e95d13b4487250fb0b21b1d79d04d66e13",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-container-instances",
+      "content_sha256": "7ed63557dfa3a1547376006692497638f5e368451533bcc90a38d6c48f3d835e",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-container-registry",
+      "content_sha256": "6c178c24259eb74a695bca8fd55b07827d22858944437d848aff2031244e6acd",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-container-storage",
+      "content_sha256": "5fff27191342cbd4057b96cbf48e65c8ec4a3f866e64c0e8aee2038c90afd85c",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-content-safety",
+      "content_sha256": "76a143b48cb2241f4e32a151ea31cb62a8d5c174647535bee9148facfe11e995",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-copilot",
+      "content_sha256": "0480f716c3c19ddd693319cbaf5f6870bd0e002c09c2f3a426a38e4c54af4dc0",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-cosmos-db",
+      "content_sha256": "d9c42b3e7f44b58f3b8f004c0f56a0c20e610f5c80c3cff354a563b3d352f738",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-cost-management",
+      "content_sha256": "739c26a13f3826394b9176140b2fb577c910d2c2ac1f3171baba8322a4feddbc",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-custom-vision",
+      "content_sha256": "6f8a2d2be0ee2bc2cdec076d9956dd83aad4090bf9774521aa416e94f6eb23ef",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-cyclecloud",
+      "content_sha256": "50e07f57a2c5cbf08aefef41dd2d1a9d09427eca5d92b6fbb9b2afd74299d4a1",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-data-api-builder",
+      "content_sha256": "6066cf3bb4021f33e282c134f01bacaed641507cf0b28885951d3d2c7495b32a",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-data-box-family",
+      "content_sha256": "a87378fdb44eb5b847f972c97d75b729531f3d8fb276e27d154d6b9608363d11",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-data-explorer",
+      "content_sha256": "7db4fef192ee4578583141c11bf1eb7b06819a45fdd59bf35d5fcb7c2f6b6d81",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-data-factory",
+      "content_sha256": "bacf36ebc87b3334951d9cf04b2e127da7af7d4b9c94069125454a3be9f1d560",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-data-manager-for-agri",
+      "content_sha256": "42f4ab2bbb080b4264bfac1f07c441651dc897f9314ceabd3b330c3bdb7adbae",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-data-science-vm",
+      "content_sha256": "db92b659ac80465c2cadfc4a676bdce942d522629c1e04d2c2e5d4b51ca9aed2",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-data-share",
+      "content_sha256": "252f10be0e9396745a54cb16373be7656407a30044cd1bdad5ae124b838359f6",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-database-migration",
+      "content_sha256": "9f95e253c930d58f4b03ad08ee38d803bed4f103ae921034474000adfd428c42",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-database-mysql",
+      "content_sha256": "db642969d03090dd8e239fcdc8b2094399f9f0e05af24c9cefe70ad9be302292",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-database-postgresql",
+      "content_sha256": "e965a3927b0f5891788f94d2ccc7ad8d89ebf46f7ec0bd9107cc9bff9a7129f8",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-databricks",
+      "content_sha256": "aa79d956ab8f8968e8cacbe08dd8893add653d52542194f8f87dca38fa0e0dfd",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-ddos-protection",
+      "content_sha256": "5f2cbbed27b0fdf7b7f1f03654fef2bba9c04c9c4ae5972d7e514c9543f671c9",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-dedicated-hsm",
+      "content_sha256": "9978129ca456b0142010fb9b0d71aa438b9b7f00d76b79ba3c9da3a1cf7399c1",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-defender-for-cloud",
+      "content_sha256": "b5136f59320d98cf4fae658a97ec6baaba4861df395fed480d22036445932f33",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-defender-for-iot",
+      "content_sha256": "0d3fe9ea50702ae8179efbc05da01e448077d135e126224d7b8d94727b64fdd1",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-deployment-environments",
+      "content_sha256": "e3c59648204b6003ce7773124bf2443b1536e3eee6df978777aa1d23e36aebe3",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-dev-box",
+      "content_sha256": "d5ab3d9bf35731a52f099162c891c23dcf7a5cc22246bc4cab4965f75472ed11",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-devops",
+      "content_sha256": "5c2a0bef7d8a618c6920b2abc7eb480a186dbf62f30e8532f0ba0f829e29135a",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-devtest-labs",
+      "content_sha256": "339bfb418a6134079bb6acfd4afd3acd795dfaaf68cdc68acd34149d9a2d11f8",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-digital-twins",
+      "content_sha256": "b374d7c7e0e871852bb587445c7bdfc5a77db9abc0680679a1fa0cf40c64c166",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-dns",
+      "content_sha256": "559551d6fa08f2a3a187b2d755fd9405e89b30b1b3b6aa016b55d24bec545ba0",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-document-intelligence",
+      "content_sha256": "7dbc4516762735b3182c1b74241f6eab29deec2f12a731de650a36ca62f3a164",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-education-hub",
+      "content_sha256": "ca2271ebeb4e1b05b5831bea8e02ba2c9d64c5c0419aa1a1cbaae2514626fdd7",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-elastic-san",
+      "content_sha256": "4d4eedd34bcd332880659fee3a69e873e90e73e1c9a85918af3da11cf006f31b",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-energy-data-services",
+      "content_sha256": "53368bd441848432ccc08dee51076481a7d78ede938641199683f77497c42dde",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-event-grid",
+      "content_sha256": "975c7812f5304a61f05ccd5642759fce4aa5c80b1d8b36546457b396dbb34231",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-event-hubs",
+      "content_sha256": "0f64f5d9936e7662a0f29f0fade87ca84a4b35dce778838bd0b51e4dfe8f197b",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-expressroute",
+      "content_sha256": "e2a91984d7893c4d8c7a48c8fc38d3610d7ce4297d310f48e7704f5e2f44a4a2",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-extended-zones",
+      "content_sha256": "e4e9a11249df3b285ec56a688e3c61241bb92d9a379adcd7d017e3a9eb94657c",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-external-attack-surface-management",
+      "content_sha256": "4c77dde1fed2ba697da6a787b6a975181a4d30f65920afe4af7d626d000fac55",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-files",
+      "content_sha256": "c7447e67181b3fa74844d56c8cc3a57e64e5c5e4e4a03afd967096c5c865b400",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-firewall",
+      "content_sha256": "71be07a81f3074ad92497ad6c3c3342f8679f2a41b24107d8863c0ed149e3858",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-firewall-manager",
+      "content_sha256": "2bba118faae2658461bc2d587e5820dbcf1c7f1cea4d8ab380f8f251f8e5787b",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-firmware-analysis",
+      "content_sha256": "48ab938952869b39449b284de6d0f8fe37cc6a85ed659e878880a1d8ac1e9c60",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-fluid-relay",
+      "content_sha256": "ad15b72688eaf2f2ec329d92608a705235dc1417ad5dd3f593fc894d00173e98",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-front-door",
+      "content_sha256": "101c5274bfa6f0307858c7766073f984ab9b53186b0bacdb3b11b5c3c280ce64",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-functions",
+      "content_sha256": "80ef2c4849e392603d36e569a406c29cffa2a782fa45871c192dbdcaaaa2aa04",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-hdinsight",
+      "content_sha256": "ac6743f3179e875c0c22414cfde40828a29e0967d631309238659a6562a57219",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-health-bot",
+      "content_sha256": "35326bd86c7733c0d9e444758c37a031990d5d226955a6fa50a3c7dee5962a95",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-health-data-services",
+      "content_sha256": "f09766e06465a4edd32a693ea12a49085af5c4e3eb4a5d0d12d77d7af5e33bf9",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-hpc-cache",
+      "content_sha256": "d0290a700936300be3738a33e42d5d3f71a18cadfa7824162e3d0a07da7a96d1",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-immersive-reader",
+      "content_sha256": "7cd38579950136a1f50510eb9a2dc325df20830a13d2d7e89a36ae5cffa210da",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-impact-reporting",
+      "content_sha256": "76e0cf2533145c2c42d5c96ec6514deb9ae3b5d9f6d03eb1b8096471d7c6a941",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-import-export",
+      "content_sha256": "9675c291296be371976fe507f1d8afa296b6e7a46d7e134579025ddf92466a36",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-information-protection",
+      "content_sha256": "3e84981e07ba583d7177fa7dd6d2314acdb3d393880f009d2f4f08c2edb0def0",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-internet-peering",
+      "content_sha256": "904d97644335b3f506d9100c3bd8a17eaa0463a6e8c247ecc98a684403904c98",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-iot",
+      "content_sha256": "f28f7e1a347c939b6adb4bb8630045a5dc322f8a3d267af1913a4bd47e5b235a",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-iot-central",
+      "content_sha256": "39c1c7d1288c50885233a72ab8e7ec0b499da8f186b63a3a2a33fd51e6ddabd1",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-iot-edge",
+      "content_sha256": "1b4d234b59b632c58eeb3f6a96b3d46d8f0d32315828d05c4a937e54c548eaf0",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-iot-hub",
+      "content_sha256": "8ccb947bf51239ea67e6f450c6bbb81b91c30b37a8c4f4e1a2a8dc7da3727dad",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-iot-operations",
+      "content_sha256": "943e2610cf774775b8b17bf7eeb95cc80a3adcc806d255f0169800e18b48b175",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-key-vault",
+      "content_sha256": "15438d631d94d7b1fe5088bf6540a98e7b816217d9b6c16e25c90ef09a845306",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-kubernetes-service",
+      "content_sha256": "5bf7a0e9b66bfb03b7eb0c38b6c4b797ec54408d4890331b4e005604156a9fa7",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-lab-services",
+      "content_sha256": "2cecd8d3b702d5f2a4c2ec38d9b4c8d5f395c0175fff33b4304e3dff6e705a80",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-language-service",
+      "content_sha256": "ef7d4a140e5ebed6753a04ae29f22e78099ece4ebf4f9a04773a746d46388e96",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-large-instances",
+      "content_sha256": "a9f80c061df0a79e8ac3f6b9fca5af5b3129d8d9aaf40f70685563812f8bcbdd",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-lighthouse",
+      "content_sha256": "d9d271232eb5bb701d9660229dfba6c2f3aeb54a25994981bc12b616c25b46b2",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-load-balancer",
+      "content_sha256": "f8d4d42f50932d3536c6e5eb4ebd37127b8645d72bef8ef715eb27ac6ab91d1c",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-local",
+      "content_sha256": "a990fb647794da96426f2e64d54e977dd3c727f7cfa7250891ee851366d3cbe9",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-logic-apps",
+      "content_sha256": "b9eb9f74faa745281b7adf8bd25efb413685bd59df8799ea20b66784349dcae8",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-machine-learning",
+      "content_sha256": "556795f5a2ea74775782e649e25000a42c4888e01a30418ef6e530df0eaf8773",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-managed-applications",
+      "content_sha256": "d960f6af155f830d2a89aca10d41155152923a3c9b345d14bbc467af4f521392",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-managed-grafana",
+      "content_sha256": "3f3956a75a51d668c8b5121cc3b1f5edb9ffd95c66aea2c537960dc4b86ac8fe",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-managed-lustre",
+      "content_sha256": "f15b4500192d27f737ab6c6898b3303595220e2315b463f927d51930795a5c50",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-managed-redis",
+      "content_sha256": "9ac370e0b0ee95b38f9711fe6596e5f8305374ebf4bd847b61e6cf22132495b8",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-maps",
+      "content_sha256": "305e2867985cfe1f94c21b844faeaacdda8e63124c0a2ae32b3949af1dbbf3eb",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-metrics-advisor",
+      "content_sha256": "682bd924964a3b613b752fcf4a549da36ef9876c395222d79092eaed719f0df8",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-microsoft-discovery",
+      "content_sha256": "7a75a88134a023730a2113b5c44528c4ed6d273c521251924880b494f4520139",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-migrate",
+      "content_sha256": "8a7d84c771496ce45b89e2faa6dd087420b8df5a6471d6b2724f921e026839a8",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-monitor",
+      "content_sha256": "d011a9728e29711205e39893dea83112b1be3cbc64f3913827fa42c61e36ee3d",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-nat-gateway",
+      "content_sha256": "e3d1b0ec0abea4d083720446cd54e4b2d64d849fa4a8116fe9b4a48895e3b155",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-netapp-files",
+      "content_sha256": "424c4cb97ebcc596079cec8c5854e8494ba5843e315faa0ea611afac422ff03e",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-network-function-manager",
+      "content_sha256": "a6f6c34984f7f53d695cace48c9d900817dd56ca0a154f74e482c48d9aea5cab",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-network-watcher",
+      "content_sha256": "4e109982484d8b3d554e547147bcc83fb808081dfc55888b8a5a8482045d7448",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-networking",
+      "content_sha256": "aa322ec846c4d075af640476b1e306d4745ac71aa5bdee0b723108e6a02a2787",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-notification-hubs",
+      "content_sha256": "7084b33d636a65d0b9e340f3d6b79c39604f0e842764c171a800e9569fc96fe9",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-open-datasets",
+      "content_sha256": "c0651ea530171bbc62f3330ac5ca761fade40bc1a45343a3d97f802a7fbe1889",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-operator-nexus",
+      "content_sha256": "93ddb66aa97fe9f43d99f9530db601afa8a6f094e9b65f5d9b1fc2bd325ebaff",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-operator-service-manager",
+      "content_sha256": "dd84ddcebfc0677043dd3e2cafae671140a971fac215739dab921207546755e5",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-oracle",
+      "content_sha256": "1bc2f7dc5a2cb192bc32611802b29c6b9cd282d0ab4ee66a988a32d0bdc613d1",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-osconfig",
+      "content_sha256": "3662a1e0fce63af885b40a5f1b6a5f3ba1cb72eda5cb666e0f59536ea2413794",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-partner-solutions",
+      "content_sha256": "4015af6bb6a1c6974f80e1da367e901eb3fd55e7e02fd62f520c1e1af83f97f5",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-payment-hsm",
+      "content_sha256": "3d797d317cfa16d20abc7ff7c4b374ce3b7a87f966a216ea7c3e45810929566b",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-peering-service",
+      "content_sha256": "91b5bb846c71e69abf1151513aa236a09badd39a0d92cbe5c14848a809a57e6f",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-personalizer",
+      "content_sha256": "6914b60483ddb308b58cfb9350f8e21fe2a01855ad010d159c8b66926d29c01d",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-pipelines",
+      "content_sha256": "3e412a545ae626c2320f5186fba3e5fd053a0ef360e2812bba791034cb536ca1",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-planetary-computer-pro",
+      "content_sha256": "0cb96f123b7d88dc21fd390291554099df6f5528c6173f2809fbea9a7405ab24",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-playwright-workspaces",
+      "content_sha256": "f225621a7175bea839c4452ed625f664ebf957cc1514de7544c0a9133b643189",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-policy",
+      "content_sha256": "f09a9fcc4818708f6ee089b1e5744106b76a201c3859b198d07015892401aa16",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-portal",
+      "content_sha256": "442288fa14571b8142d3dd90f06b538e5fa8ea2f0080b7c6b340f0d0692558fd",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-private-link",
+      "content_sha256": "5fc83ad230e8c69b218ff738d2dfafbff1df06f615898709710c8adc76770fc7",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-quantum",
+      "content_sha256": "d62cf33b1c2b0c2ec6cc02d75b210240e681816c51278a545fc7bfded6833296",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-queue-storage",
+      "content_sha256": "e60afe0bdcb5ca737d246bd43286b5bfa0429ef4e089275ca8d8036f85907eef",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-quotas",
+      "content_sha256": "c247c23b2e768895006f2f6c1bd2c02d4f6c709fbaf31369334a5415c726bde9",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-rbac",
+      "content_sha256": "47a903380d67fa46d18bf577a659646953aeab2c20097c79358b7127656c2064",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-redhat-openshift",
+      "content_sha256": "0cdfd66a40dcbe50947e053f4584984f0c971aa331be396a61905f7b781454cf",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-relay",
+      "content_sha256": "4fb528800d06814e4debe7eac73f76ffc0334c18f35208f1fa20ebe2b19b84e0",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-reliability",
+      "content_sha256": "3d8eb0c22d759c6333274770de0b76389959b1432fcc475e522b4b7e1d8afe71",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-repos",
+      "content_sha256": "746606f94e3e5138645adf1834c6aca3a58b836f9f93adc71aba73451657ebcf",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-resiliency",
+      "content_sha256": "d13a934fba857cbda4b88c4a7b33b6e678d56b4cbaa28253683f9df1ce27ff8a",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-resource-graph",
+      "content_sha256": "fd7aed0c718321eab01abe169dc7f26b797905b06a812a5a44dde73e8e19325a",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-resource-manager",
+      "content_sha256": "40796c529964ba7e315f2453026a05ddd320d4ab3fdd7764bb76ad40f51bb03d",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-route-server",
+      "content_sha256": "0e1b2c742b75ffcac9919e30220160f5ea5d6af477c3e517753b478a6799ad04",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-sap",
+      "content_sha256": "127c89b9779756e18ff8019981b843df58a9aef646c597d7a8fbe7ddb456f057",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-security",
+      "content_sha256": "1540ba12cd4b3a8ad87ec3906fe1b665dd787f7d5a9a26617d21a49996893333",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-sentinel",
+      "content_sha256": "8926a9c7f605a7cee23a0607dd404296003140060f0c4d950ba3eace1c14ca20",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-service-bus",
+      "content_sha256": "f9c3c67d97ac2073cac414920d00dd3deca60372d4a894c97f0fdb5c09e103ba",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-service-connector",
+      "content_sha256": "f353ec221eebc88053eafaeadc47fa8a28f7b50cfc4149382f40a22fe32e06b2",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-service-fabric",
+      "content_sha256": "eb46cb26f5b5f277cac21ec93cfb473e80dbbc8808da40b83ceffc0e104082a1",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-service-health",
+      "content_sha256": "6b3c216537069b5b4f32483ffb67c9b5d9d1b6bb91ed2841fa2d81ff1da8a713",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-signalr-service",
+      "content_sha256": "0615aca8b76f8ec2c4e96d886095e9708196cb40ab20a24aa01eb5873d20ec2d",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-site-recovery",
+      "content_sha256": "a6b267f76db020464ffabc194bbf77f5ab06da7633e2c0e8813f5a2c8f37aff5",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-sovereign-us",
+      "content_sha256": "133cc29f6f12d4cef0d7f39c0eb7c8a7280b4c78b1aca5f75be70ead36bb3899",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-speech",
+      "content_sha256": "f954bf635b3d6d45eccca9d2cd23a00353457055792b6245f4897a9c0f4b4a5a",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-spring-apps",
+      "content_sha256": "f485db3461ef46d9b95f4a32b620cffe0339f72b1a4895f605c781dc0b8ae074",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-sql-database",
+      "content_sha256": "d323bd8817a90551eca1ef5ad94f862f0438b63e8c09ad3ca467fdac36473608",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-sql-managed-instance",
+      "content_sha256": "72ad207453cd3398ef87bff7cb603c03a3ecdd791f92ffc666b9b41028c6e2bd",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-sql-virtual-machines",
+      "content_sha256": "20e78d3062ffa7b8a5f95ff44053fd964941f03ddfad44837714cfb133f0f6cf",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-sre-agent",
+      "content_sha256": "8bc5831a0ae9e0b443725bd7db46a7b8dcc7cf1c542851b295e543bfd3dd1b28",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-stack-edge",
+      "content_sha256": "922a9aef955a184f708209aae453bbedc4f6b5609c0b5926851ef4e97be634ec",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-static-web-apps",
+      "content_sha256": "5ee6240ca09a034574629bee872c9c621713aa1c2d661acedf9fb32256072920",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-stream-analytics",
+      "content_sha256": "996333bd9803acf8f1d9920b5387c06e5e53d0be847c36fcf2162010bbe0d3a8",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-synapse-analytics",
+      "content_sha256": "2ead706b1e4a1867a899be2fa93fd98c7444312288eb52cfffaeefc44d6d38b5",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-table-storage",
+      "content_sha256": "fbefd26ed57fe8cfceff642265d5d8b426bb74edb1c43ec1c1efc7e861fa532f",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-test-plans",
+      "content_sha256": "f554a041d4773dd735d364a3709b15a5ee3a1e4dbf80a0c8f30b88340387315e",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-traffic-manager",
+      "content_sha256": "3cd8c70e83fc23a6e20a5507939bed7f8a774a91c2d911188d407cf2525799f1",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-translator",
+      "content_sha256": "599a270510f9738b3565c026bc4422dcf7db590797b32e28e409837b502c5918",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-update-manager",
+      "content_sha256": "b11fcb6e7cccccc075b9acdf93cca1b0927a94ff2552465318919ca95ac0c8bb",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-video-indexer",
+      "content_sha256": "4389504537f6040331e393b86694a2d46351b2485e46f1531c950bc1535a0eb2",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-virtual-desktop",
+      "content_sha256": "42f4815f441da7fe6e63eee7545ecf1a1f0823f2dce466d8fe8d3421e30ec953",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-virtual-machines",
+      "content_sha256": "c5b7faa176ebd68596ffcc74daef089192a2cb0c8051dca1399dda58df4b07d5",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-virtual-network",
+      "content_sha256": "2c6eb49703e5ab56f78b38c84de3837cfe478970ed585e487e71a3e49d6c71cb",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-virtual-network-manager",
+      "content_sha256": "154382969a4705d39a672c29d01cc5fcc8b8dec1405d8b781f16490d777a7bbe",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-virtual-wan",
+      "content_sha256": "abb69feb77e3a45031f3b41e0adfa97b21a16c8b7315c2988cb4358b64f5d1d2",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-vm-scalesets",
+      "content_sha256": "e96546a7b07b0c1c89b0ec5bd87f4916f680f8d4f5acd332c5cb163ba3addbaf",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-vmware-solution",
+      "content_sha256": "39bbef652a5ea8344039ddd2a5bc98670d43ac587c4ab6967641da3117573f83",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-vpn-gateway",
+      "content_sha256": "fb089123c4a72dd33de7b10972f1d447bdddf0b564fb9c1d31f73b068e3aedff",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-web-application-firewall",
+      "content_sha256": "fb3c8d3ff8f0c0fe4637151296c827a3212415d9691337abd9fdfec8b3d64369",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-web-pubsub",
+      "content_sha256": "802eb956023286497c03ff77ca09a7b32b96a82807879b85ff36d1409907bf6c",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/azure-well-architected",
+      "content_sha256": "79e518a02cf3540ce3b46f552d24634bc9c9a7f6f55d5521ad2251eb0c4c01bd",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/microsoft-foundry",
+      "content_sha256": "9a0e5bc53bcc5561e7a6049fa273d16fde83b04252856ee2eca6857893240289",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/microsoft-foundry-classic",
+      "content_sha256": "5d9f8b4e84426c10ac8af0c145f1a46cf1e655f329e72efd143667f78c65ca50",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/microsoft-foundry-local",
+      "content_sha256": "75cd23b5094c9f9b79c8e145a22f6e1ef07a8e55fca9ce479bb28dcb0a1b6ae7",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    },
+    {
+      "source_path": "skills/microsoft-foundry-tools",
+      "content_sha256": "a5d2ca36bb7fe0be77801029e121774805044098eba02a73e9190671435432c7",
+      "decision": "reject",
+      "taxonomy": "devops-and-security/azure-cloud",
+      "category_fine": "cloud",
+      "canonical_skill_id": null,
+      "reason": "pilot-scope-limited"
+    }
+  ]
+}
+
