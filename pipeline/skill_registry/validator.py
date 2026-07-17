@@ -164,6 +164,27 @@ def valid_normalized_relative_path(path: object) -> bool:
     )
 
 
+def valid_discovery_entry(
+    entry: object, records_by_load_name: dict[str, dict[str, object]]
+) -> bool:
+    if not isinstance(entry, dict):
+        return False
+    flat_name = entry.get("flat_name")
+    return (
+        isinstance(flat_name, str)
+        and bool(flat_name.strip())
+        and all(
+            isinstance(entry.get(field), str) and bool(entry[field].strip())
+            for field in ("taxonomy", "category_fine", "description")
+        )
+        and (
+            "skill_id" not in entry
+            or entry["skill_id"]
+            == records_by_load_name.get(flat_name, {}).get("skill_id")
+        )
+    )
+
+
 def valid_source_review_artifact(root: Path, source: dict[str, object]) -> bool:
     review = source["review"]
     if review["status"] == "legacy":
@@ -243,8 +264,11 @@ def _verify_repository(root: Path) -> VerificationReport:
     elif json.loads((registry / "schema-version.json").read_text(encoding="utf-8")).get("schema_version") != 1:
         add(findings, "registry.schema-version", ["DR-08"])
     index_path = root / "librarian-index.json"
-    if index_path.is_file():
+    index_payload = (
         json.loads(index_path.read_text(encoding="utf-8"))
+        if index_path.is_file()
+        else {}
+    )
     skills = read_records(skills_path, "skills")
     quarantine = read_records(registry / "quarantine.json", "records")
     aliases = read_records(registry / "aliases.json", "aliases")
@@ -406,6 +430,36 @@ def _verify_repository(root: Path) -> VerificationReport:
                 actual = ""
             if actual != record.get("content_sha256"):
                 add(findings, "registry.quarantine-hash", ["DR-05", "DR-07"], skill_id=record.get("skill_id"))
+    entries = index_payload.get("entries") if isinstance(index_payload, dict) else None
+    expected_names = {
+        record["load_name"]
+        for record in [*skills, *quarantine]
+        if isinstance(record.get("load_name"), str)
+    }
+    records_by_load_name = {
+        record["load_name"]: record
+        for record in [*skills, *quarantine]
+        if isinstance(record.get("load_name"), str)
+    }
+    actual_names = [
+        entry.get("flat_name")
+        for entry in entries or []
+        if isinstance(entry, dict) and isinstance(entry.get("flat_name"), str)
+    ]
+    if (
+        not index_path.is_file()
+        or not isinstance(entries, list)
+        or index_payload.get("schemaVersion") != 1
+        or index_payload.get("count") != len(entries)
+        or len(actual_names) != len(entries)
+        or len(actual_names) != len(set(actual_names))
+        or set(actual_names) != expected_names
+        or any(
+            not valid_discovery_entry(entry, records_by_load_name)
+            for entry in entries
+        )
+    ):
+        add(findings, "registry.discovery-index", ["DR-08"])
     alias_names = {alias.get("alias") for alias in aliases}
     if alias_names & load_names:
         add(findings, "registry.alias-shadow", ["DR-02"])
