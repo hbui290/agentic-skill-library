@@ -143,6 +143,47 @@ def test_verify_rejects_invalid_discovery_index(repo_root, tmp_path, mutation):
     assert "registry.discovery-index" in check_ids(root)
 
 
+def test_discovery_index_includes_active_skills_and_quarantine_load_names(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    copy_librarian_index(repo_root, root)
+    skills_path = root / "registry/skills.json"
+    skills = json.loads(skills_path.read_text())
+    ordinary_skill = skills["skills"][0]
+    ordinary_skill["state"] = "deprecated"
+    write_json(skills_path, skills)
+
+    index_path = root / "librarian-index.json"
+    index = json.loads(index_path.read_text())
+    index["entries"] = [
+        entry for entry in index["entries"]
+        if entry["flat_name"] != ordinary_skill["load_name"]
+    ]
+    quarantine_path = root / "registry/quarantine.json"
+    quarantine = json.loads(quarantine_path.read_text())
+    quarantine_record = quarantine["records"][0]
+    quarantine_record["load_name"] = "quarantined-skill"
+    write_json(quarantine_path, quarantine)
+    quarantine_entry = dict(index["entries"][0])
+    quarantine_entry.update({
+        "flat_name": quarantine_record["load_name"],
+        "skill_id": quarantine_record["skill_id"],
+    })
+    index["entries"].append(quarantine_entry)
+    index["count"] = len(index["entries"])
+    write_json(index_path, index)
+
+    assert "registry.discovery-index" not in check_ids(root)
+
+    index["entries"] = [
+        entry for entry in index["entries"]
+        if entry["flat_name"] != quarantine_record["load_name"]
+    ]
+    index["count"] = len(index["entries"])
+    write_json(index_path, index)
+
+    assert "registry.discovery-index" in check_ids(root)
+
+
 def test_verify_ignores_non_authoritative_discovery_metadata(repo_root, tmp_path):
     root = clone_repository_fixture(repo_root, tmp_path)
     copy_librarian_index(repo_root, root)

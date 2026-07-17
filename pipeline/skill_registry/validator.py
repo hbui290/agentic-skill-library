@@ -431,14 +431,17 @@ def _verify_repository(root: Path) -> VerificationReport:
             if actual != record.get("content_sha256"):
                 add(findings, "registry.quarantine-hash", ["DR-05", "DR-07"], skill_id=record.get("skill_id"))
     entries = index_payload.get("entries") if isinstance(index_payload, dict) else None
+    discovery_records = [
+        record for record in skills if record.get("state") == "active"
+    ] + quarantine
     expected_names = {
         record["load_name"]
-        for record in [*skills, *quarantine]
+        for record in discovery_records
         if isinstance(record.get("load_name"), str)
     }
     records_by_load_name = {
         record["load_name"]: record
-        for record in [*skills, *quarantine]
+        for record in discovery_records
         if isinstance(record.get("load_name"), str)
     }
     actual_names = [
