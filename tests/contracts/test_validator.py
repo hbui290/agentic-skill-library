@@ -21,6 +21,10 @@ def check_ids(root):
     return {finding["check_id"] for finding in verify_repository(root).findings}
 
 
+def copy_librarian_index(repo_root, root):
+    shutil.copy2(repo_root / "librarian-index.json", root / "librarian-index.json")
+
+
 def reviewed_source_artifact(root):
     lock_path = root / "registry/sources.lock.json"
     lock = json.loads(lock_path.read_text())
@@ -71,6 +75,128 @@ def test_complete_repository_passes(repo_root):
     assert report.result == "pass"
     assert report.failed == 0
     assert report.skipped == 0
+
+
+@pytest.mark.parametrize(
+    "relative",
+    [
+        "registry/skills.json",
+        "registry/core.json",
+        "registry/sources.lock.json",
+        "librarian-index.json",
+    ],
+)
+def test_verify_reports_malformed_json_without_raising(
+    repo_root, tmp_path, relative
+):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    if relative == "librarian-index.json":
+        (root / relative).write_bytes((repo_root / relative).read_bytes())
+    (root / relative).write_text("{")
+
+    report = verify_repository(root)
+
+    assert report.result == "fail"
+    assert "registry.input" in {
+        item["check_id"] for item in report.findings
+    }
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "missing",
+        "duplicate_flat_name",
+        "wrong_count",
+        "extra_name",
+        "missing_name",
+        "malformed_entry",
+        "skill_id_mismatch",
+    ],
+)
+def test_verify_rejects_invalid_discovery_index(repo_root, tmp_path, mutation):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    copy_librarian_index(repo_root, root)
+    index_path = root / "librarian-index.json"
+    index = json.loads(index_path.read_text())
+    if mutation == "missing":
+        index_path.unlink()
+    elif mutation == "duplicate_flat_name":
+        index["entries"].append(dict(index["entries"][0]))
+        index["count"] += 1
+    elif mutation == "wrong_count":
+        index["count"] += 1
+    elif mutation == "extra_name":
+        index["entries"][0]["flat_name"] = "extra-skill"
+    elif mutation == "missing_name":
+        index["entries"].pop()
+        index["count"] -= 1
+    elif mutation == "malformed_entry":
+        index["entries"][0]["description"] = ""
+    elif mutation == "skill_id_mismatch":
+        index["entries"][0]["skill_id"] = "asr_0000000000000000"
+    else:
+        raise AssertionError(mutation)
+    if index_path.exists():
+        write_json(index_path, index)
+
+    assert "registry.discovery-index" in check_ids(root)
+
+
+def test_discovery_index_includes_active_skills_and_quarantine_load_names(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    copy_librarian_index(repo_root, root)
+    skills_path = root / "registry/skills.json"
+    skills = json.loads(skills_path.read_text())
+    ordinary_skill = skills["skills"][0]
+    ordinary_skill["state"] = "deprecated"
+    write_json(skills_path, skills)
+
+    index_path = root / "librarian-index.json"
+    index = json.loads(index_path.read_text())
+    index["entries"] = [
+        entry for entry in index["entries"]
+        if entry["flat_name"] != ordinary_skill["load_name"]
+    ]
+    quarantine_path = root / "registry/quarantine.json"
+    quarantine = json.loads(quarantine_path.read_text())
+    quarantine_record = quarantine["records"][0]
+    quarantine_record["load_name"] = "quarantined-skill"
+    write_json(quarantine_path, quarantine)
+    quarantine_entry = dict(index["entries"][0])
+    quarantine_entry.update({
+        "flat_name": quarantine_record["load_name"],
+        "skill_id": quarantine_record["skill_id"],
+    })
+    index["entries"].append(quarantine_entry)
+    index["count"] = len(index["entries"])
+    write_json(index_path, index)
+
+    assert "registry.discovery-index" not in check_ids(root)
+
+    index["entries"] = [
+        entry for entry in index["entries"]
+        if entry["flat_name"] != quarantine_record["load_name"]
+    ]
+    index["count"] = len(index["entries"])
+    write_json(index_path, index)
+
+    assert "registry.discovery-index" in check_ids(root)
+
+
+def test_verify_ignores_non_authoritative_discovery_metadata(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    copy_librarian_index(repo_root, root)
+    index_path = root / "librarian-index.json"
+    index = json.loads(index_path.read_text())
+    index["entries"][0].update({
+        "risk": "dangerous",
+        "content_hash": "0" * 64,
+        "license": "untrusted",
+    })
+    write_json(index_path, index)
+
+    assert "registry.discovery-index" not in check_ids(root)
 
 
 def test_missing_skill_marker_fails(tmp_path):

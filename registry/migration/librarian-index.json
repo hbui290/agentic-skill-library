@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "updatedAt": "2026-07-13T11:00:25Z",
-  "count": 1953,
+  "count": 1954,
   "missingFrontmatter": [
     "SPDD",
     "linear"
@@ -14723,6 +14723,21 @@
       "canonical": null
     },
     {
+      "name": "SPDD",
+      "taxonomy": "engineering/tooling-and-monorepos",
+      "flat_name": "SPDD",
+      "category_fine": "",
+      "description": "(no SKILL.md) files: 1-research.md, 2-spec.md, 3-implementation.md",
+      "risk": "unknown",
+      "source_repo": "sickn33",
+      "origin": "sickn33",
+      "license": "Per-skill licenses tracked upstream in docs/sources/sources.md and LICENSE-CONTENT",
+      "content_hash": "1d2430b6bb89f323eb0b3ab96eef63667a71e7a3761c6b39994089a61cb2edc0",
+      "date_added": "",
+      "similar_to": [],
+      "canonical": null
+    },
+    {
       "name": "appdeploy",
       "taxonomy": "engineering/tooling-and-monorepos",
       "flat_name": "appdeploy",
@@ -14831,7 +14846,7 @@
       "name": "docx",
       "taxonomy": "engineering/tooling-and-monorepos",
       "flat_name": "docx",
-      "category_fine": "document-processing",
+      "category_fine": "",
       "description": "A user may ask you to create, edit, or analyze the contents of a .docx file. A .docx file is essentially a ZIP archive containing XML files and other resources that you can read or edit. You have different tools and workflows available for different tasks.",
       "risk": "unknown",
       "source_repo": "sickn33",
@@ -14936,7 +14951,7 @@
       "name": "pdf",
       "taxonomy": "engineering/tooling-and-monorepos",
       "flat_name": "pdf",
-      "category_fine": "document-processing",
+      "category_fine": "",
       "description": "This guide covers essential PDF processing operations using Python libraries and command-line tools. For advanced features, JavaScript libraries, and detailed examples, see reference.md. If you need to fill out a PDF form, read forms.md and follow its instructions.",
       "risk": "unknown",
       "source_repo": "sickn33",
@@ -14951,7 +14966,7 @@
       "name": "pptx",
       "taxonomy": "engineering/tooling-and-monorepos",
       "flat_name": "pptx",
-      "category_fine": "presentation-processing",
+      "category_fine": "",
       "description": "A user may ask you to create, edit, or analyze the contents of a .pptx file. A .pptx file is essentially a ZIP archive containing XML files and other resources that you can read or edit. You have different tools and workflows available for different tasks.",
       "risk": "unknown",
       "source_repo": "sickn33",
@@ -15071,7 +15086,7 @@
       "name": "xlsx",
       "taxonomy": "engineering/tooling-and-monorepos",
       "flat_name": "xlsx",
-      "category_fine": "spreadsheet-processing",
+      "category_fine": "",
       "description": "Unless otherwise stated by the user or existing template",
       "risk": "unknown",
       "source_repo": "sickn33",
@@ -25253,6 +25268,21 @@
       "canonical": null
     },
     {
+      "name": "linear",
+      "taxonomy": "workflows-and-management/planning-and-execution",
+      "flat_name": "linear",
+      "category_fine": "",
+      "description": "(no SKILL.md) files: plugin.json",
+      "risk": "unknown",
+      "source_repo": "sickn33",
+      "origin": "sickn33",
+      "license": "Per-skill licenses tracked upstream in docs/sources/sources.md and LICENSE-CONTENT",
+      "content_hash": "5ac2af63f71e722cbd1a0aabd09994458bac868a9993221e7f487943311d65b3",
+      "date_added": "",
+      "similar_to": [],
+      "canonical": null
+    },
+    {
       "name": "linux-troubleshooting",
       "taxonomy": "workflows-and-management/planning-and-execution",
       "flat_name": "linux-troubleshooting",
@@ -29286,17 +29316,6 @@
       "date_added": "2026-03-11",
       "similar_to": [],
       "canonical": null
-    },
-    {
-      "canonical": null,
-      "category_fine": "cloud",
-      "description": "Expert knowledge for Azure Blob Storage development including troubleshooting, best practices, decision making, limits & quotas, security, configuration, integrations & coding patterns, and deployment. Use when using Blob tiers, Data Lake, NFS/SFTP/BlobFuse mounts, SAS/RBAC auth, or static website hosting, and other Azure Blob Storage related development tasks. Not for Azure Files (use azure-files), Azure Table Storage (use azure-table-storage), Azure Queue Storage (use azure-queue-storage).",
-      "flat_name": "azure-blob-storage",
-      "license": "CC-BY-4.0",
-      "name": "azure-blob-storage",
-      "risk": "unknown",
-      "skill_id": "asr_f6570c58dea83d06",
-      "taxonomy": "devops-and-security/azure-cloud"
     }
   ]
 }

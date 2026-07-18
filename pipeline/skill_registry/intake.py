@@ -1018,8 +1018,7 @@ def commit_source(
                 "records": new_quarantine,
             }
             new_index_payload = {**index_payload, "entries": new_entries}
-            if "count" in new_index_payload:
-                new_index_payload["count"] = len(new_entries)
+            new_index_payload["count"] = len(new_entries)
             _validate_commit_objects(
                 new_sources, new_skills_payload, new_quarantine_payload
             )
