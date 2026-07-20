@@ -74,6 +74,14 @@ Quarantine, inactive, dangerous, path, symlink, and hash failures always exit
 
 ## 5. Let the Librarian route a task
 
+Invoke Librarian on demand before planning or execution for an explicit
+skill/playbook request, specialized or unfamiliar domain guidance, a named
+specialist deliverable/tool, or two or more independent domains. Apply an
+Official Superpowers process skill first when relevant, then invoke Librarian
+in the same phase if one of those triggers applies. Skip routine work already
+fully governed by installed or project-local instructions; mentioning a tool or
+service alone is not a trigger.
+
 The Librarian searches up to ten candidates and may retry once with broader
 terms. It selects up to eight domain skills concurrently for a phase, prefers
 one to five, assigns them `primary` or `supporting` roles, and chooses `single`,

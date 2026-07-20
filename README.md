@@ -50,6 +50,9 @@ selection, provenance, and integrity checks.
 
 - **On-demand routing:** the Librarian searches metadata first, then reads only
   the selected `SKILL.md` files.
+- **Clear trigger:** use the Librarian for complex, unfamiliar, specialized, or
+  multi-part work; skip it for simple general reasoning or when a specific
+  native skill already fully covers the task.
 - **Small working context:** up to eight domain skills are loaded at the same
   time in one phase; the Librarian prefers one to five. A larger task may use
   new batches in later phases.

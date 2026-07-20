@@ -1,11 +1,32 @@
 ---
 name: skill-librarian
-description: Find, policy-check, and compose one or more specialized skills from the local agentic skill registry when a task needs domain guidance or spans multiple domains.
+description: On demand, search the local Agentic Skill Library for complex, unfamiliar, multi-part, or specialized requests that explicitly ask for a skill or playbook, name a specialized domain/tool/deliverable, require unfamiliar domain guidance, or span two or more independent domains; load only relevant skills for each phase. Skip routine work fully covered by an installed process, project, or domain skill.
 ---
 
 # Skill Librarian
 
-Use this skill when the right domain skill is unclear, specialized knowledge is useful, or a task may need several skills. Official Superpowers process skills take precedence over domain playbooks selected here.
+Use this skill when the right domain skill is unclear, specialized knowledge is useful, or a task may need several skills. Apply an applicable Official Superpowers skill for process first; then invoke Librarian in the same task phase when one of the triggers below applies. Superpowers does not replace domain-skill discovery.
+
+## Required trigger check
+
+Before planning or execution, invoke the Librarian when one or more of these is
+true:
+
+- The task needs specialized or unfamiliar guidance for domain-specific
+  methods, a file format, platform/tool, external service, research, security,
+  or automation.
+- The task has more than one workstream, deliverable, or domain and may need a
+  composition of skills.
+- The task is unfamiliar enough that domain guidance could prevent a wrong
+  approach.
+- User explicitly asks for the Librarian or asks to find/select skills.
+
+Do not invoke it for simple general reasoning, a direct edit with no specialized
+guidance, or when a more specific native skill fully covers the work. Do not
+invoke it merely because a request mentions a tool or service. Do not skip it
+merely because the task title sounds clear: a clear request can still need
+domain guidance. Official Superpowers remains the process layer; invoke the
+Librarian after that process check when a domain playbook could help.
 
 ## Registry
 
@@ -78,3 +99,5 @@ For a simple or clearly matched request, perform the workflow directly. A Librar
 - Risk labels are metadata, not an approval gate.
 - Never bypass quarantine, path, symlink, or hash failures.
 - Keep official Superpowers unmodified and use it only for process guidance.
+- Do not add a runtime hook, MCP integration, or automatic router; this remains
+  an on-demand skill contract.
