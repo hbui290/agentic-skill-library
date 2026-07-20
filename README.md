@@ -99,6 +99,10 @@ Search excludes inactive, dangerous, and canonical-duplicate records. Ranking
 is deterministic and based on textual relevance first; safe/Core is only a
 small bonus after a relevant match.
 
+JSON output has the stable shape `{"query": "...", "matches": [...]}`.
+Each `matches` item is metadata only; it never contains `SKILL.md`
+instructions.
+
 ### Read a safe skill
 
 ```bash

@@ -82,3 +82,9 @@ def test_architecture_docs_keep_catalog_out_of_native_discovery(repo_root):
         assert "native-install the catalog" not in text
         assert "mcpServers" not in text
         assert "list_skills" not in text
+
+
+def test_readme_documents_search_json_matches_field(repo_root):
+    readme = (repo_root / "README.md").read_text(encoding="utf-8")
+
+    assert '"matches"' in readme
