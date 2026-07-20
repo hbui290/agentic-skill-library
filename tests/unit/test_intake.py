@@ -14,6 +14,7 @@ import pytest
 from skill_registry import intake
 from skill_registry import filesystem
 from skill_registry.identity import stable_skill_id
+from skill_registry.integration import build_librarian_integration_lock
 from skill_registry.intake import (
     IntakeError,
     checkout_pinned_source,
@@ -159,6 +160,31 @@ def valid_root(tmp_path):
     write_json(
         root / "librarian-index.json",
         {"schemaVersion": 1, "count": 0, "entries": []},
+    )
+    librarian = root / "skills/skill-librarian/SKILL.md"
+    librarian.parent.mkdir(parents=True)
+    librarian.write_text(
+        "---\nname: skill-librarian\ndescription: Fixture Librarian\n---\n",
+        encoding="utf-8",
+    )
+    write_json(
+        root / "registry/librarian-integration.json",
+        {
+            "schema_version": 1,
+            "integration_id": "codex-skill-librarian",
+            "version": "1.0.0",
+            "native_skill_path": "skills/skill-librarian/SKILL.md",
+            "runtime": {
+                "command": "skill-registry",
+                "root_env": "AGENTIC_SKILL_REGISTRY_ROOT",
+                "minimum_python": "3.11",
+            },
+            "process_dependency": "official-superpowers",
+        },
+    )
+    write_json(
+        root / "registry/librarian-integration.lock.json",
+        build_librarian_integration_lock(root),
     )
     subprocess.run(["git", "init", "-q", str(root)], check=True)
     subprocess.run(

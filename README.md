@@ -10,7 +10,7 @@ package that installs thousands of skills into Codex.
 User request
 → Agent
 → Skill Librarian searches the registry
-→ selects 1–5 relevant skills
+→ selects 1–5 relevant domain skills per phase
 → policy and integrity checks
 → reads only the selected SKILL.md files
 → Agent executes the task
@@ -26,8 +26,8 @@ installed natively.
   content hash, and review metadata.
 - Searches skills offline without loading their instructions into context.
 - Reads a selected skill only after state, risk, path, symlink, and hash checks.
-- Lets the Librarian combine up to five skills as `single`, `sequential`, or
-  `parallel` work.
+- Lets the Librarian combine up to five domain skills per phase as `single`,
+  `sequential`, or `parallel` work.
 - Imports new public GitHub sources through a review-gated
   `prepare → review → commit` process.
 
@@ -146,14 +146,26 @@ The Librarian:
 
 1. Extracts 2–5 keywords from the task and constraints.
 2. Searches at most ten candidates, with one optional broader retry.
-3. Selects at most five relevant skills and assigns `primary`/`supporting` roles.
+3. Selects at most five relevant domain skills per phase and assigns
+   `primary`/`supporting` roles.
 4. Chooses `single`, `sequential`, or `parallel` composition.
 5. Reads each selection through the CLI policy gate.
+
+For a large task, the Librarian can begin a new phase after passing forward only
+the previous phase's necessary output and decision. The next phase searches and
+loads its own batch; it does not keep old `SKILL.md` files in context. The
+five-skill limit is concurrent and per phase, not a limit on the total skills a
+task may use. Official Superpowers process skills are separate from this domain
+skill quota.
+
 6. Asks before loading an `unknown` or `review` candidate.
 
 It never scans the entire catalog into context, executes bundled scripts, or
 uses secrets. If no useful candidate appears after two searches, the agent
 continues without a library skill.
+
+See [the architecture contract](docs/architecture.md) for the separate Process,
+Routing, Trust, and Knowledge layers.
 
 ## Add a new source
 

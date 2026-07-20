@@ -26,7 +26,7 @@ def test_librarian_contract(repo_root):
         "skill-registry read",
         "2-5 keywords",
         "retry exactly once",
-        "1-5 skills",
+        "1-5 domain skills",
         "primary",
         "supporting",
         "single",
@@ -37,6 +37,14 @@ def test_librarian_contract(repo_root):
         "exit code 1",
         "Do not execute bundled scripts",
         "Official Superpowers process skills take precedence",
+        "Librarian decision — Phase <n>",
+        "Candidates:",
+        "Selected:",
+        "Composition:",
+        "Why:",
+        "Policy:",
+        "Handoff:",
+        "no-match",
     ]
     for phrase in required:
         assert phrase in body
@@ -49,10 +57,28 @@ def test_librarian_forbids_unsafe_shortcuts(repo_root):
 
     required = [
         "Never load the entire catalog",
-        "Never select more than 5 skills",
+        "Never load more than 5 domain skills concurrently in one phase",
+        "not a limit on the total number of skills used across a multi-phase task",
         "Never bypass quarantine, path, symlink, or hash failures",
         "Do not grant credentials or broad permissions",
         "Active does not mean safe",
     ]
     for phrase in required:
         assert phrase in body
+
+
+def test_architecture_docs_keep_catalog_out_of_native_discovery(repo_root):
+    readme = (repo_root / "README.md").read_text(encoding="utf-8")
+    architecture = (repo_root / "docs/architecture.md").read_text(
+        encoding="utf-8"
+    )
+    migration = (repo_root / "docs/migration-from-agentic-library.md").read_text(
+        encoding="utf-8"
+    )
+    assert "docs/architecture.md" in readme
+    for layer in ("Process", "Routing", "Trust", "Knowledge"):
+        assert layer in architecture
+    for text in (readme, architecture, migration):
+        assert "native-install the catalog" not in text
+        assert "mcpServers" not in text
+        assert "list_skills" not in text
