@@ -8,7 +8,6 @@ from skill_registry.refresh import SourceRefreshError, refresh_sources
 from skill_registry.runtime import (
     RegistryRuntimeError,
     SkillBlocked,
-    SkillConfirmationRequired,
     read_skill,
     search_skills,
 )
@@ -36,7 +35,6 @@ def build_parser() -> argparse.ArgumentParser:
     read.add_argument("identifier")
     read.add_argument("--root", type=Path, default=Path.cwd())
     read.add_argument("--format", choices=("text", "json"), default="text")
-    read.add_argument("--allow-unreviewed", action="store_true")
     prepare = commands.add_parser("prepare-source")
     prepare.add_argument("--root", type=Path, default=Path.cwd())
     prepare.add_argument("--source-id", required=True)
@@ -121,23 +119,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "read":
         try:
-            payload = read_skill(
-                args.root.resolve(), args.identifier, args.allow_unreviewed
-            )
-        except SkillConfirmationRequired as error:
-            if args.format == "json":
-                print(json.dumps(error.payload, indent=2, sort_keys=True), file=sys.stderr)
-            else:
-                skill = error.payload["skill"]
-                reasons = ",".join(skill["risk_reasons"])
-                print(
-                    f"confirmation_required={skill['load_name']} "
-                    f"risk={skill['risk']} reasons={reasons} "
-                    f"source={skill['source_id']}@{skill['source_commit']} "
-                    f"license={skill['license']} hash={skill['content_sha256']}",
-                    file=sys.stderr,
-                )
-            return 3
+            payload = read_skill(args.root.resolve(), args.identifier)
         except (SkillBlocked, RegistryRuntimeError) as error:
             print(f"error={error}", file=sys.stderr)
             return 1

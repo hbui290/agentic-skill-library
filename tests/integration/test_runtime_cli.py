@@ -1,7 +1,7 @@
 import json
 
 from skill_registry import cli
-from skill_registry.runtime import SkillBlocked, SkillConfirmationRequired
+from skill_registry.runtime import SkillBlocked
 
 
 MATCH = {
@@ -16,27 +16,6 @@ MATCH = {
     "description": "Work with PDF files.",
     "score": 10,
 }
-
-
-CONFIRMATION = {
-    "error": "confirmation_required",
-    "skill": {
-        "skill_id": "asr_0000000000000001",
-        "load_name": "unknown-skill",
-        "risk": "unknown",
-        "risk_reasons": ["fixture"],
-        "core": False,
-        "source_id": "fixture",
-        "source_commit": "a" * 40,
-        "source_path": "skills/unknown-skill",
-        "license": "MIT",
-        "content_sha256": "b" * 64,
-    },
-}
-
-
-def needs_confirmation(root, identifier, allow):
-    raise SkillConfirmationRequired(CONFIRMATION)
 
 
 def test_search_cli_renders_json(monkeypatch, capsys, tmp_path):
@@ -73,7 +52,7 @@ def test_search_cli_renders_text_and_no_match(monkeypatch, capsys, tmp_path):
 
 def test_read_cli_renders_text_and_json(monkeypatch, capsys, tmp_path):
     payload = {"skill": {"load_name": "pdf"}, "instructions": "# Loaded\n"}
-    monkeypatch.setattr(cli, "read_skill", lambda root, identifier, allow: payload, raising=False)
+    monkeypatch.setattr(cli, "read_skill", lambda root, identifier: payload, raising=False)
     assert cli.main(["read", "pdf", "--root", str(tmp_path)]) == 0
     assert capsys.readouterr().out == "# Loaded\n"
 
@@ -81,33 +60,8 @@ def test_read_cli_renders_text_and_json(monkeypatch, capsys, tmp_path):
     assert json.loads(capsys.readouterr().out) == payload
 
 
-def test_read_unknown_json_emits_metadata_without_instructions(monkeypatch, tmp_path, capsys):
-    monkeypatch.setattr(cli, "read_skill", needs_confirmation, raising=False)
-    result = cli.main(
-        ["read", "unknown-skill", "--root", str(tmp_path), "--format", "json"]
-    )
-    captured = capsys.readouterr()
-    payload = json.loads(captured.err)
-    assert result == 3
-    assert payload["error"] == "confirmation_required"
-    assert payload["skill"]["source_commit"] == "a" * 40
-    assert "instructions" not in payload
-    assert captured.out == ""
-
-
-def test_read_unknown_text_reports_decision_fields(monkeypatch, tmp_path, capsys):
-    monkeypatch.setattr(cli, "read_skill", needs_confirmation, raising=False)
-    result = cli.main(["read", "unknown-skill", "--root", str(tmp_path)])
-    captured = capsys.readouterr()
-    assert result == 3
-    assert "risk=unknown" in captured.err
-    assert "source=fixture@" in captured.err
-    assert "license=MIT" in captured.err
-    assert "fixture" in captured.err
-
-
 def test_read_cli_returns_one_for_blocked_skill(monkeypatch, capsys, tmp_path):
-    def blocked(root, identifier, allow):
+    def blocked(root, identifier):
         raise SkillBlocked("hash mismatch: pdf")
 
     monkeypatch.setattr(cli, "read_skill", blocked, raising=False)

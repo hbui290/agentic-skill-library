@@ -7,7 +7,6 @@ from skill_registry.hashing import tree_sha256
 from skill_registry.runtime import (
     RegistryRuntimeError,
     SkillBlocked,
-    SkillConfirmationRequired,
     read_skill,
     search_skills,
 )
@@ -96,7 +95,7 @@ def test_search_ranks_name_and_taxonomy_before_description(tmp_path):
     ]
 
 
-def test_search_adds_safety_bonus_only_after_text_match(tmp_path):
+def test_search_uses_textual_relevance_without_review_status_bonus(tmp_path):
     build_registry(
         tmp_path,
         [
@@ -199,38 +198,14 @@ def test_search_ties_are_sorted_by_load_name(tmp_path):
     assert [item["load_name"] for item in matches] == ["alpha", "zeta"]
 
 
-def test_read_allows_safe_skill_and_returns_only_instructions(tmp_path):
-    record = build_registry(tmp_path, [{"name": "safe-doc", "risk": "safe", "core": True}])[0]
+def test_read_allows_active_skill_and_returns_instructions(tmp_path):
+    record = build_registry(tmp_path, [{"name": "active-doc", "risk": "unknown"}])[0]
     result = read_skill(tmp_path, record["load_name"])
     assert result["skill"]["skill_id"] == record["skill_id"]
-    assert result["skill"]["core"] is True
-    assert result["instructions"].startswith("---\nname: safe-doc")
+    assert result["instructions"].startswith("---\nname: active-doc")
 
 
-def test_unknown_read_returns_structured_confirmation(tmp_path):
-    record = build_registry(tmp_path, [{"name": "unknown-skill", "risk": "unknown"}])[0]
-    with pytest.raises(SkillConfirmationRequired) as caught:
-        read_skill(tmp_path, "unknown-skill")
-
-    assert caught.value.payload == {
-        "error": "confirmation_required",
-        "skill": {
-            "skill_id": record["skill_id"],
-            "load_name": "unknown-skill",
-            "risk": "unknown",
-            "risk_reasons": ["fixture"],
-            "core": False,
-            "source_id": "fixture",
-            "source_commit": "a" * 40,
-            "source_path": "skills/unknown-skill",
-            "license": "MIT",
-            "content_sha256": record["content_sha256"],
-        },
-    }
-    assert "instructions" not in caught.value.payload
-
-
-def test_safe_read_exposes_integrity_metadata(tmp_path):
+def test_read_exposes_integrity_metadata(tmp_path):
     record = build_registry(tmp_path, [{"name": "safe-skill", "risk": "safe"}])[0]
     result = read_skill(tmp_path, "safe-skill")
     assert result["skill"]["source_path"] == record["source_path"]
@@ -238,18 +213,16 @@ def test_safe_read_exposes_integrity_metadata(tmp_path):
 
 
 @pytest.mark.parametrize("risk", ["unknown", "review"])
-def test_read_requires_confirmation_for_unreviewed_skill(tmp_path, risk):
+def test_read_allows_active_skill_without_confirmation(tmp_path, risk):
     record = build_registry(tmp_path, [{"name": "unreviewed", "risk": risk}])[0]
-    with pytest.raises(SkillConfirmationRequired, match=risk):
-        read_skill(tmp_path, record["skill_id"])
-    result = read_skill(tmp_path, record["skill_id"], allow_unreviewed=True)
+    result = read_skill(tmp_path, record["skill_id"])
     assert result["skill"]["risk"] == risk
 
 
-def test_read_blocks_dangerous_even_with_override(tmp_path):
+def test_read_blocks_dangerous_skill(tmp_path):
     record = build_registry(tmp_path, [{"name": "danger", "risk": "dangerous"}])[0]
     with pytest.raises(SkillBlocked, match="dangerous"):
-        read_skill(tmp_path, record["skill_id"], allow_unreviewed=True)
+        read_skill(tmp_path, record["skill_id"])
 
 
 def test_read_blocks_quarantined_inactive_and_missing_skills(tmp_path):
@@ -311,7 +284,7 @@ def test_read_blocks_symlinked_bundle_root(tmp_path):
         read_skill(tmp_path, record["skill_id"])
 
 
-def test_unknown_hash_mismatch_blocks_before_confirmation(tmp_path):
+def test_active_hash_mismatch_blocks_before_read(tmp_path):
     record = build_registry(tmp_path, [{"name": "candidate", "risk": "unknown"}])[0]
     skill_root = tmp_path / record["catalog_path"]
     (skill_root / "SKILL.md").write_text("modified\n", encoding="utf-8")
@@ -320,7 +293,7 @@ def test_unknown_hash_mismatch_blocks_before_confirmation(tmp_path):
         read_skill(tmp_path, record["skill_id"])
 
 
-def test_read_normalizes_missing_confirmation_metadata(tmp_path):
+def test_read_normalizes_missing_metadata(tmp_path):
     record = build_registry(tmp_path, [{"name": "candidate", "risk": "unknown"}])[0]
     record.pop("risk_reasons")
     (tmp_path / "registry" / "skills.json").write_text(

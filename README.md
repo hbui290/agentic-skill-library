@@ -5,7 +5,7 @@
 
 Agentic Skill Library is an on-demand, verified library for AI-agent skills.
 It helps an agent find the few instructions relevant to the work in front of
-it, check whether they are trustworthy enough to open, then use only those
+it, verify that their files still match the catalog, then use only those
 instructions.
 
 It is built for people who want the breadth of a large skill collection without
@@ -38,7 +38,7 @@ Large skill packs are useful, but installing all of them creates practical
 problems:
 
 - Too many instructions consume context and can conflict with each other.
-- A file being present does not prove it is safe or appropriate.
+- A source file can change after it is cataloged; the agent needs an integrity check before reading it.
 - Skills change upstream; it should be possible to know where a copy came from.
 - An agent needs a repeatable way to select several complementary skills for a
   complex task.
@@ -52,8 +52,7 @@ selection, provenance, and integrity checks.
   the selected `SKILL.md` files.
 - **Small working context:** up to five domain skills are loaded at the same
   time in one phase. A larger task may use new batches in later phases.
-- **Trust checks before reading:** state, risk, source, file path, symlink, and
-  content-hash checks happen before instructions are returned.
+- **Integrity checks before reading:** availability, source, file path, symlink, and content-hash checks happen before instructions are returned.
 - **Traceable sources:** every catalog record has a source, pinned commit,
   license, and content hash.
 - **Controlled growth:** new public GitHub sources go through
@@ -65,13 +64,12 @@ selection, provenance, and integrity checks.
 | --- | --- |
 | Catalog entries | 1,953 active records |
 | Searchable records | 1,949 (exact duplicates are hidden from search) |
-| Audited Core | 1 skill |
 | Quarantine | 2 blocked records |
 | Native installation | `skill-librarian` only |
 
-Important: `active` means a record is structurally valid. It does **not** mean
-the instructions have been audited as safe. Unreviewed skills require explicit
-approval before their instructions can be read.
+`active` means a record is available to the library. Any active, non-blocked
+skill can be read after its path and content hash pass integrity checks. Risk
+and Core labels are metadata; they are not an approval workflow.
 
 ## Start here
 
@@ -93,8 +91,8 @@ Then install only [`skills/skill-librarian`](skills/skill-librarian/) using
 OpenAI's `$skill-installer`. Do **not** install `catalog/` into
 `~/.codex/skills`.
 
-For the complete first-use walkthrough, including search, confirmation, and
-safe reading, see [Getting started](docs/getting-started.md).
+For the complete first-use walkthrough, including search and integrity-checked
+reading, see [Getting started](docs/getting-started.md).
 
 ## What this is not
 
@@ -108,11 +106,11 @@ safe reading, see [Getting started](docs/getting-started.md).
 ## Learn more
 
 - [Getting started](docs/getting-started.md) — install, search, read, and
-  confirmation behavior.
+  integrity behavior.
 - [Architecture](docs/architecture.md) — Process, Routing, Trust, and
   Knowledge layers.
-- [Trust model](docs/trust-model.md) — what `active`, `unknown`, Core, and
-  quarantine mean.
+- [Integrity model](docs/trust-model.md) — what `active`, blocked states, and
+  file verification mean.
 - [Adding a source](docs/source-intake.md) — reviewed multi-source intake.
 - [Migration guide](docs/migration-from-agentic-library.md) — moving from the
   previous library design.

@@ -88,9 +88,9 @@ JSON writes, including the source-review artifact, are rolled back if mutation
 or strict post-commit verification fails. Rollback removes only the newly
 created artifact; it never deletes existing review evidence.
 
-Every imported record starts at `unknown` risk with
-`initial-review-required`. Intake never promotes a candidate to `safe` or Core.
-An unreviewed read remains confirmation-gated even after a successful import.
+Every imported record starts at `unknown` risk with `initial-review-required`.
+Risk labels are preserved as metadata; an active, non-blocked import is
+readable after integrity checks.
 
 ## Pilot acceptance
 
@@ -99,8 +99,8 @@ The first reviewed secondary source is
 `e03d6ea0dab78954ca902bad9f6556cafe772515`. The reviewed pilot contained 191
 root skill bundles under `skills/`: `azure-blob-storage` was imported and the
 other 190 candidates were rejected as outside the pilot scope. Strict
-verification passed after the import. The imported record remains `unknown` and
-is not in Core.
+verification passed after the import. The imported record remains `unknown`,
+which does not affect routing or reading after integrity checks.
 
 Its durable evidence is
 `registry/source-reviews/microsoftdocs-agent-skills-e03d6ea0dab78954ca902bad9f6556cafe772515.json`:

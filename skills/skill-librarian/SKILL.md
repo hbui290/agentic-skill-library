@@ -38,9 +38,8 @@ The registry CLI is the only discovery and loading runtime. Do not inspect or lo
    skill-registry read --root "$REGISTRY_ROOT" --format json SKILL_ID_OR_LOAD_NAME
    ```
 
-7. On exit code 3, show the user the candidate's risk, source, and reason, then request explicit confirmation. Only after confirmation, repeat that one read with `--allow-unreviewed`.
-8. On exit code 1, discard the candidate. Never suggest or attempt a bypass.
-9. Return a decision trace and short composition plan to the main agent.
+7. On exit code 1, discard the candidate. Never suggest or attempt a bypass.
+8. Return a decision trace and short composition plan to the main agent.
 
 ## Decision Trace
 
@@ -54,7 +53,7 @@ Candidates: <top relevant candidates>
 Selected: <primary/supporting skills>
 Composition: single | sequential | parallel
 Why: <one reason per selection>
-Policy: <read | confirmation-required | blocked>
+Policy: <read | blocked>
 Handoff: <output passed to the next phase, or none>
 ```
 
@@ -76,7 +75,6 @@ For a simple or clearly matched request, perform the workflow directly. A Librar
 - Never load the entire catalog or dump the whole discovery index.
 - Do not execute bundled scripts automatically.
 - Do not grant credentials or broad permissions to a selected skill.
-- Active does not mean safe.
+- Risk labels are metadata, not an approval gate.
 - Never bypass quarantine, path, symlink, or hash failures.
-- Never treat Core or safe status as a substitute for textual relevance.
 - Keep official Superpowers unmodified and use it only for process guidance.

@@ -32,8 +32,6 @@ def test_librarian_contract(repo_root):
         "single",
         "sequential",
         "parallel",
-        "exit code 3",
-        "--allow-unreviewed",
         "exit code 1",
         "Do not execute bundled scripts",
         "Official Superpowers process skills take precedence",
@@ -61,7 +59,7 @@ def test_librarian_forbids_unsafe_shortcuts(repo_root):
         "not a limit on the total number of skills used across a multi-phase task",
         "Never bypass quarantine, path, symlink, or hash failures",
         "Do not grant credentials or broad permissions",
-        "Active does not mean safe",
+        "Risk labels are metadata, not an approval gate.",
     ]
     for phrase in required:
         assert phrase in body
