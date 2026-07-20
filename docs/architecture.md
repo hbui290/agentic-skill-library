@@ -18,8 +18,8 @@ flowchart LR
 | --- | --- | --- | --- |
 | Process | Official Superpowers | Planning, TDD, debugging, review, and verification | Select domain skills or weaken registry policy |
 | Routing | Skill Librarian | Search, select, and compose relevant domain skills by phase; return a decision trace | Automatically execute skills, run scripts, or grant permissions |
-| Trust | Registry CLI | Enforce state, risk, provenance, containment, symlink, and tree-hash policy | Decide whether a skill is semantically useful |
-| Knowledge | Catalog and discovery index | Preserve skill snapshots and compact searchable metadata | Native-install the catalog or declare records safe |
+| Trust | Registry CLI | Enforce availability, provenance, containment, symlink, and tree-hash policy | Decide whether a skill is semantically useful |
+| Knowledge | Catalog and discovery index | Preserve skill snapshots and compact searchable metadata | Native-install the catalog or declare records trustworthy |
 
 The Librarian may load at most five domain skills concurrently in one phase. A
 task may have later phases; each starts with a new decision trace and carries
@@ -28,15 +28,15 @@ Official Superpowers process skills are outside that domain-skill quota.
 
 ## Trust boundaries
 
-`registry/skills.json` is authoritative for identity, state, risk, provenance,
+`registry/skills.json` is authoritative for identity, availability, provenance,
 path, and content hash. `librarian-index.json` is discovery metadata only. A
-search result never grants permission to read instructions. `skill-registry
-read` independently checks the record and current catalog tree before returning
-one selected `SKILL.md`.
+search result never bypasses integrity checks. `skill-registry read`
+independently checks the record and current catalog tree before returning one
+selected `SKILL.md`.
 
 The native-Librarian integration manifest and lock detect drift in the one
 native integration file. They do not replace catalog provenance, content hash,
-risk, Core admission, or quarantine policy.
+or quarantine policy.
 
 ## Non-goals
 
@@ -44,4 +44,4 @@ This architecture does not include ag-kit-style personas, slash-command
 workflows, an MCP server, a memory engine, embeddings, vector databases, a GUI,
 a marketplace, or bulk installation. Native installation is limited to
 `skills/skill-librarian`; catalog snapshots remain repository data until the
-Librarian policy-gates an individual read.
+Librarian integrity-checks an individual read.

@@ -16,8 +16,8 @@ There are no open Critical findings.
 ## Controls confirmed
 
 - Strict verifier passed on the canonical clone.
-- Unknown instructions were withheld: Azure read returned exit `3` with no instructions.
-- Unknown hash mismatch was blocked with exit `1` before confirmation.
+- Active Azure instructions were returned after integrity checks.
+- Active hash mismatch was blocked with exit `1` before instructions were read.
 - Dangerous, quarantine, and nested-symlink probes were blocked.
 - Focused intake/filesystem/validator tests passed (203 tests); the transaction is exception-safe.
 - CI Python 3.11–3.14 and strict verification passed for PR #17 and PR #19.

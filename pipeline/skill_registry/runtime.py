@@ -9,15 +9,6 @@ class RegistryRuntimeError(RuntimeError):
     pass
 
 
-class SkillConfirmationRequired(RegistryRuntimeError):
-    def __init__(self, payload: dict[str, object]) -> None:
-        skill = payload["skill"]
-        super().__init__(
-            f"confirmation required for {skill['risk']} skill: {skill['load_name']}"
-        )
-        self.payload = payload
-
-
 class SkillBlocked(RegistryRuntimeError):
     pass
 
@@ -88,7 +79,6 @@ def search_skills(root: Path, query: str, limit: int = 10) -> dict[str, object]:
 
     skills = _load_object(root / "registry" / "skills.json").get("skills", [])
     entries = _load_object(root / "librarian-index.json").get("entries", [])
-    core = set(_load_object(root / "registry" / "core.json").get("skill_ids", []))
     if not isinstance(skills, list) or not isinstance(entries, list):
         raise RegistryRuntimeError("invalid registry or librarian index")
 
@@ -120,10 +110,6 @@ def search_skills(root: Path, query: str, limit: int = 10) -> dict[str, object]:
             len(query_tokens) > 1 and matched_terms < 2 and not name_matches
         ):
             continue
-        if record.get("risk") == "safe":
-            score += 1
-        if record.get("skill_id") in core:
-            score += 2
         matches.append(
             {
                 "skill_id": record["skill_id"],
@@ -134,7 +120,6 @@ def search_skills(root: Path, query: str, limit: int = 10) -> dict[str, object]:
                 "description": metadata.get("description", ""),
                 "risk": record["risk"],
                 "risk_reasons": record["risk_reasons"],
-                "core": record["skill_id"] in core,
                 "score": score,
             }
         )
@@ -149,13 +134,12 @@ def _records(root: Path, filename: str, key: str) -> list[dict[str, object]]:
     return value
 
 
-def _skill_metadata(record: dict[str, object], core: set[str]) -> dict[str, object]:
+def _skill_metadata(record: dict[str, object]) -> dict[str, object]:
     return {
         "skill_id": record["skill_id"],
         "load_name": record["load_name"],
         "risk": record["risk"],
         "risk_reasons": record["risk_reasons"],
-        "core": record["skill_id"] in core,
         "source_id": record["source_id"],
         "source_commit": record["source_commit"],
         "source_path": record["source_path"],
@@ -164,10 +148,9 @@ def _skill_metadata(record: dict[str, object], core: set[str]) -> dict[str, obje
     }
 
 
-def read_skill(root: Path, identifier: str, allow_unreviewed: bool = False) -> dict[str, object]:
+def read_skill(root: Path, identifier: str) -> dict[str, object]:
     skills = _records(root, "skills.json", "skills")
     quarantine = _records(root, "quarantine.json", "records")
-    core = set(_load_object(root / "registry" / "core.json").get("skill_ids", []))
 
     if any(
         identifier in {str(item.get("skill_id", "")), str(item.get("name", ""))}
@@ -213,12 +196,7 @@ def read_skill(root: Path, identifier: str, allow_unreviewed: bool = False) -> d
         raise SkillBlocked(f"unsafe skill tree: {error}") from error
     if observed != record.get("content_sha256"):
         raise SkillBlocked(f"hash mismatch: {identifier}")
-    if risk in {"unknown", "review"} and not allow_unreviewed:
-        raise SkillConfirmationRequired(
-            {"error": "confirmation_required", "skill": _skill_metadata(record, core)}
-        )
-
     return {
-        "skill": _skill_metadata(record, core),
+        "skill": _skill_metadata(record),
         "instructions": marker.read_text(encoding="utf-8"),
     }

@@ -8,9 +8,9 @@ policy transcripts, not executions of bundled skill scripts.
 - Request: work with a PDF.
 - Search: `pdf`.
 - Selection: `pdf` as `primary`; composition `single`.
-- Read result: exit code `3` because the candidate is `unknown`.
-- Outcome: stop before loading instructions and ask for confirmation. No second
-  skill is added merely because it has a safer status.
+- Read result: exit code `0` after path and hash checks.
+- Outcome: load only the selected instructions. No second skill is added merely
+  because it has a different risk label.
 
 ## 2. Sequential skills
 
@@ -32,13 +32,12 @@ policy transcripts, not executions of bundled skill scripts.
 - Outcome: both reads require their own policy decision. Neither selected skill
   executes the other skill or receives credentials.
 
-## 4. Unreviewed candidate
+## 4. Active candidate
 
 - Candidate: `youtube-transcript`.
-- Read result: exit code `3`; stdout contains zero bytes and stderr reports
-  confirmation required.
-- Outcome: instructions stay unloaded. `--allow-unreviewed` is permitted only
-  for this candidate after explicit user approval.
+- Read result: exit code `0` after integrity checks.
+- Outcome: instructions load because `unknown` is metadata, not an approval
+  gate. Bundled scripts still do not execute.
 
 ## 5. Integrity failure
 

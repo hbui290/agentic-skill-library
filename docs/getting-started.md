@@ -49,9 +49,9 @@ Search returns metadata only. The JSON response is:
 No-match is valid: the command exits `0` and the agent can continue without a
 library skill.
 
-## 4. Read a selected skill
+## 4. Read a selected active skill
 
-An audited safe skill can be read directly:
+Any selected active skill can be read directly:
 
 ```bash
 skill-registry read \
@@ -66,21 +66,11 @@ record state
 → quarantine and dangerous policy
 → catalog path containment and SKILL.md
 → symlink safety and tree hash
-→ risk confirmation when required
 ```
 
-An intact `unknown` or `review` candidate exits `3`. It returns provenance and
-risk metadata, but never instructions. After explicit approval for that one
-candidate, repeat the request with `--allow-unreviewed`:
-
-```bash
-skill-registry read \
-  --root "$AGENTIC_SKILL_REGISTRY_ROOT" \
-  --format json --allow-unreviewed youtube-transcript
-```
-
-`--allow-unreviewed` never overrides dangerous, quarantine, inactive, path,
-symlink, or hash failures. Those cases always exit `1`.
+`unknown`, `review`, and `safe` are catalog metadata, not a confirmation gate.
+Quarantine, inactive, dangerous, path, symlink, and hash failures always exit
+`1` and cannot be bypassed.
 
 ## 5. Let the Librarian route a task
 
