@@ -27,7 +27,7 @@ The registry CLI is the only discovery and loading runtime. Do not inspect or lo
    ```
 
 3. If no useful candidate appears, retry exactly once with broader domain terms or synonyms. If the second search is also unhelpful, continue the task without a library skill.
-4. Select 1-5 skills based on textual relevance. Mark each as `primary` or `supporting`.
+4. Select 1-5 domain skills for the current phase based on textual relevance. Mark each as `primary` or `supporting`.
 5. Choose one composition:
    - `single`: one skill covers the task.
    - `sequential`: outputs or checks from one skill feed the next.
@@ -40,7 +40,31 @@ The registry CLI is the only discovery and loading runtime. Do not inspect or lo
 
 7. On exit code 3, show the user the candidate's risk, source, and reason, then request explicit confirmation. Only after confirmation, repeat that one read with `--allow-unreviewed`.
 8. On exit code 1, discard the candidate. Never suggest or attempt a bypass.
-9. Return a short composition plan to the main agent: selected skills, roles, ordering, and why each is needed.
+9. Return a decision trace and short composition plan to the main agent.
+
+## Decision Trace
+
+Return this concise trace for every search and composition decision:
+
+```text
+Librarian decision — Phase <n>
+
+Query: <2-5 normalized terms>
+Candidates: <top relevant candidates>
+Selected: <primary/supporting skills>
+Composition: single | sequential | parallel
+Why: <one reason per selection>
+Policy: <read | confirmation-required | blocked>
+Handoff: <output passed to the next phase, or none>
+```
+
+If two searches produce no useful candidate, return the same trace with
+`Policy: no-match`, then let the main agent continue without a library skill.
+
+For a multi-phase task, start a new search and trace for each new phase. A
+phase handoff carries only the output and decision needed by the next phase;
+do not carry prior `SKILL.md` instructions forward automatically. Official
+Superpowers process skills are separate from the domain-skill quota.
 
 ## Optional Librarian Subagent
 
@@ -48,7 +72,7 @@ For a simple or clearly matched request, perform the workflow directly. A Librar
 
 ## Hard Rules
 
-- Never select more than 5 skills.
+- Never load more than 5 domain skills concurrently in one phase; this is not a limit on the total number of skills used across a multi-phase task.
 - Never load the entire catalog or dump the whole discovery index.
 - Do not execute bundled scripts automatically.
 - Do not grant credentials or broad permissions to a selected skill.

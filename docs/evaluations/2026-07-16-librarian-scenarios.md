@@ -56,7 +56,25 @@ policy transcripts, not executions of bundled skill scripts.
 
 ## Review conclusion
 
-Every scenario selects at most five skills, assigns a role and composition,
-loads only through `skill-registry read`, and never automatically runs bundled
-scripts. Official Superpowers process guidance remains higher priority than a
-selected domain playbook.
+## Scenario 7 — Multi-phase task
+
+- Scenario: audit an API, implement a remediation, then document and release it.
+- Phase 1 decision: query `api security audit`; select two primary/supporting
+  audit skills with `sequential` composition. Handoff: prioritized findings and
+  acceptance criteria.
+- Phase 2 decision: query `implementation tests remediation`; select three
+  primary/supporting implementation skills with `sequential` composition.
+  Handoff: tested patch and verification results.
+- Phase 3 decision: query `technical documentation release`; select two
+  primary/supporting documentation/release skills with `parallel` composition.
+  Handoff: published-ready documentation and release checklist.
+- Outcome: seven domain skills are used across the task, while every phase loads
+  no more than three. Each decision records Query, Candidates, Selected,
+  Composition, Why, Policy, and Handoff. No prior `SKILL.md` is automatically
+  carried into the next phase.
+
+Every scenario loads no more than five domain skills concurrently in one phase,
+assigns a role and composition, loads only through `skill-registry read`, and
+never automatically runs bundled scripts. Official Superpowers process guidance
+remains higher priority than a selected domain playbook and does not count
+against the domain-skill quota.

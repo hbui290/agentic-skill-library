@@ -26,7 +26,7 @@ def test_librarian_contract(repo_root):
         "skill-registry read",
         "2-5 keywords",
         "retry exactly once",
-        "1-5 skills",
+        "1-5 domain skills",
         "primary",
         "supporting",
         "single",
@@ -37,6 +37,14 @@ def test_librarian_contract(repo_root):
         "exit code 1",
         "Do not execute bundled scripts",
         "Official Superpowers process skills take precedence",
+        "Librarian decision — Phase <n>",
+        "Candidates:",
+        "Selected:",
+        "Composition:",
+        "Why:",
+        "Policy:",
+        "Handoff:",
+        "no-match",
     ]
     for phrase in required:
         assert phrase in body
@@ -49,7 +57,8 @@ def test_librarian_forbids_unsafe_shortcuts(repo_root):
 
     required = [
         "Never load the entire catalog",
-        "Never select more than 5 skills",
+        "Never load more than 5 domain skills concurrently in one phase",
+        "not a limit on the total number of skills used across a multi-phase task",
         "Never bypass quarantine, path, symlink, or hash failures",
         "Do not grant credentials or broad permissions",
         "Active does not mean safe",
