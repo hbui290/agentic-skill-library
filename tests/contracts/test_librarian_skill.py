@@ -26,7 +26,8 @@ def test_librarian_contract(repo_root):
         "skill-registry read",
         "2-5 keywords",
         "retry exactly once",
-        "1-5 domain skills",
+        "1-8 domain skills",
+        "Prefer 1-5",
         "primary",
         "supporting",
         "single",
@@ -55,7 +56,7 @@ def test_librarian_forbids_unsafe_shortcuts(repo_root):
 
     required = [
         "Never load the entire catalog",
-        "Never load more than 5 domain skills concurrently in one phase",
+        "Never load more than 8 domain skills concurrently in one phase",
         "not a limit on the total number of skills used across a multi-phase task",
         "Never bypass quarantine, path, symlink, or hash failures",
         "Do not grant credentials or broad permissions",

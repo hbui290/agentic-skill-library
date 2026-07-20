@@ -27,7 +27,7 @@ The registry CLI is the only discovery and loading runtime. Do not inspect or lo
    ```
 
 3. If no useful candidate appears, retry exactly once with broader domain terms or synonyms. If the second search is also unhelpful, continue the task without a library skill.
-4. Select 1-5 domain skills for the current phase based on textual relevance. Mark each as `primary` or `supporting`.
+4. Select 1-8 domain skills for the current phase based on textual relevance. Prefer 1-5; use 6-8 only when the phase is genuinely multi-domain. Mark each as `primary` or `supporting`.
 5. Choose one composition:
    - `single`: one skill covers the task.
    - `sequential`: outputs or checks from one skill feed the next.
@@ -71,7 +71,7 @@ For a simple or clearly matched request, perform the workflow directly. A Librar
 
 ## Hard Rules
 
-- Never load more than 5 domain skills concurrently in one phase; this is not a limit on the total number of skills used across a multi-phase task.
+- Never load more than 8 domain skills concurrently in one phase; this is not a limit on the total number of skills used across a multi-phase task. Prefer 1-5 and use 6-8 only for a genuinely multi-domain phase.
 - Never load the entire catalog or dump the whole discovery index.
 - Do not execute bundled scripts automatically.
 - Do not grant credentials or broad permissions to a selected skill.

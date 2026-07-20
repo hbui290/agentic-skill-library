@@ -21,10 +21,11 @@ flowchart LR
 | Trust | Registry CLI | Enforce availability, provenance, containment, symlink, and tree-hash policy | Decide whether a skill is semantically useful |
 | Knowledge | Catalog and discovery index | Preserve skill snapshots and compact searchable metadata | Native-install the catalog or declare records trustworthy |
 
-The Librarian may load at most five domain skills concurrently in one phase. A
-task may have later phases; each starts with a new decision trace and carries
-only needed output forward, never the previous phase's complete instructions.
-Official Superpowers process skills are outside that domain-skill quota.
+The Librarian may load at most eight domain skills concurrently in one phase and
+prefers one to five. A task may have later phases; each starts with a new
+decision trace and carries only needed output forward, never the previous
+phase's complete instructions. Official Superpowers process skills are outside
+that domain-skill quota.
 
 ## Trust boundaries
 

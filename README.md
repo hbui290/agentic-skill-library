@@ -50,8 +50,9 @@ selection, provenance, and integrity checks.
 
 - **On-demand routing:** the Librarian searches metadata first, then reads only
   the selected `SKILL.md` files.
-- **Small working context:** up to five domain skills are loaded at the same
-  time in one phase. A larger task may use new batches in later phases.
+- **Small working context:** up to eight domain skills are loaded at the same
+  time in one phase; the Librarian prefers one to five. A larger task may use
+  new batches in later phases.
 - **Integrity checks before reading:** availability, source, file path, symlink, and content-hash checks happen before instructions are returned.
 - **Traceable sources:** every catalog record has a source, pinned commit,
   license, and content hash.
