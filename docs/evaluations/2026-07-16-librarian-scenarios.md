@@ -72,8 +72,8 @@ policy transcripts, not executions of bundled skill scripts.
   Composition, Why, Policy, and Handoff. No prior `SKILL.md` is automatically
   carried into the next phase.
 
-Every scenario loads no more than five domain skills concurrently in one phase,
-assigns a role and composition, loads only through `skill-registry read`, and
-never automatically runs bundled scripts. Official Superpowers process guidance
-remains higher priority than a selected domain playbook and does not count
-against the domain-skill quota.
+Every scenario loads no more than eight domain skills concurrently in one phase,
+prefers one to five, assigns a role and composition, loads only through
+`skill-registry read`, and never automatically runs bundled scripts. Official
+Superpowers process guidance remains higher priority than a selected domain
+playbook and does not count against the domain-skill quota.

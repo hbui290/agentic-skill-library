@@ -75,9 +75,9 @@ Quarantine, inactive, dangerous, path, symlink, and hash failures always exit
 ## 5. Let the Librarian route a task
 
 The Librarian searches up to ten candidates and may retry once with broader
-terms. It selects up to five domain skills concurrently for a phase, assigns
-them `primary` or `supporting` roles, and chooses `single`, `sequential`, or
-`parallel` composition.
+terms. It selects up to eight domain skills concurrently for a phase, prefers
+one to five, assigns them `primary` or `supporting` roles, and chooses `single`,
+`sequential`, or `parallel` composition.
 
 A large task can have additional phases. Each new phase gets a new search and
 selection; only the prior phase's needed output is handed forward. It does not
