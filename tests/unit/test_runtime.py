@@ -113,6 +113,34 @@ def test_search_adds_safety_bonus_only_after_text_match(tmp_path):
     assert [item["load_name"] for item in matches] == ["pdf"]
 
 
+def test_search_requires_two_query_terms_for_multi_term_query(tmp_path):
+    build_registry(
+        tmp_path,
+        [{"name": "cirq", "description": "Quantum computing."}],
+    )
+
+    assert search_skills(tmp_path, "quantum knitting loom")["matches"] == []
+
+
+def test_search_keeps_exact_load_name_match_for_multi_term_query(tmp_path):
+    build_registry(tmp_path, [{"name": "pdf", "description": "PDF documents."}])
+
+    matches = search_skills(tmp_path, "convert pdf")["matches"]
+
+    assert [item["load_name"] for item in matches] == ["pdf"]
+
+
+def test_search_normalizes_malformed_record_errors(tmp_path):
+    records = build_registry(tmp_path, [{"name": "pdf"}])
+    records[0].pop("name")
+    (tmp_path / "registry" / "skills.json").write_text(
+        json.dumps({"schema_version": 1, "skills": records}), encoding="utf-8"
+    )
+
+    with pytest.raises(RegistryRuntimeError, match="invalid skill record"):
+        search_skills(tmp_path, "pdf")
+
+
 def test_search_excludes_dangerous_inactive_and_canonical_records(tmp_path):
     build_registry(
         tmp_path,
@@ -268,12 +296,38 @@ def test_read_blocks_symlink_and_hash_mismatch(tmp_path):
         read_skill(tmp_path, record["skill_id"])
 
 
+def test_read_blocks_symlinked_bundle_root(tmp_path):
+    record = build_registry(tmp_path, [{"name": "candidate", "risk": "safe"}])[0]
+    original = tmp_path / record["catalog_path"]
+    target = original.parent / "target"
+    original.rename(target)
+    original.symlink_to(target, target_is_directory=True)
+    record["content_sha256"] = tree_sha256(target)
+    (tmp_path / "registry" / "skills.json").write_text(
+        json.dumps({"schema_version": 1, "skills": [record]}), encoding="utf-8"
+    )
+
+    with pytest.raises(SkillBlocked, match="symlink"):
+        read_skill(tmp_path, record["skill_id"])
+
+
 def test_unknown_hash_mismatch_blocks_before_confirmation(tmp_path):
     record = build_registry(tmp_path, [{"name": "candidate", "risk": "unknown"}])[0]
     skill_root = tmp_path / record["catalog_path"]
     (skill_root / "SKILL.md").write_text("modified\n", encoding="utf-8")
 
     with pytest.raises(SkillBlocked, match="hash mismatch"):
+        read_skill(tmp_path, record["skill_id"])
+
+
+def test_read_normalizes_missing_confirmation_metadata(tmp_path):
+    record = build_registry(tmp_path, [{"name": "candidate", "risk": "unknown"}])[0]
+    record.pop("risk_reasons")
+    (tmp_path / "registry" / "skills.json").write_text(
+        json.dumps({"schema_version": 1, "skills": [record]}), encoding="utf-8"
+    )
+
+    with pytest.raises(RegistryRuntimeError, match="invalid skill record"):
         read_skill(tmp_path, record["skill_id"])
 
 

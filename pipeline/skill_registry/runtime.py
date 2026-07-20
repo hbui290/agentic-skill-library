@@ -22,6 +22,22 @@ class SkillBlocked(RegistryRuntimeError):
     pass
 
 
+REQUIRED_SKILL_FIELDS = {
+    "skill_id",
+    "name",
+    "load_name",
+    "catalog_path",
+    "source_id",
+    "source_commit",
+    "source_path",
+    "content_sha256",
+    "license",
+    "risk",
+    "risk_reasons",
+    "state",
+}
+
+
 def _load_object(path: Path) -> dict[str, object]:
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -32,18 +48,35 @@ def _load_object(path: Path) -> dict[str, object]:
     return value
 
 
-def _score(query: set[str], record: dict[str, object], metadata: dict[str, object]) -> int:
+def _require_skill_record(record: dict[str, object]) -> None:
+    if (
+        not REQUIRED_SKILL_FIELDS <= record.keys()
+        or not all(isinstance(record[field], str) and record[field] for field in REQUIRED_SKILL_FIELDS - {"risk_reasons"})
+        or not isinstance(record["risk_reasons"], list)
+        or not all(isinstance(reason, str) and reason for reason in record["risk_reasons"])
+    ):
+        raise RegistryRuntimeError("invalid skill record")
+
+
+def _score(
+    query: set[str], record: dict[str, object], metadata: dict[str, object]
+) -> tuple[int, int, int]:
     names = tokenize(f"{record['name']} {record['load_name']}")
     taxonomy = tokenize(metadata.get("taxonomy", ""))
     category = tokenize(metadata.get("category_fine", ""))
     description = tokenize(metadata.get("description", ""))
+    matching_terms = {
+        term
+        for term in query
+        if term in names or term in taxonomy or term in category or term in description
+    }
     return sum(
         8 * (term in names)
         + 4 * (term in taxonomy)
         + 3 * (term in category)
         + 8 * (term in description)
         for term in query
-    )
+    ), len(matching_terms), len(query & names)
 
 
 def search_skills(root: Path, query: str, limit: int = 10) -> dict[str, object]:
@@ -77,12 +110,15 @@ def search_skills(root: Path, query: str, limit: int = 10) -> dict[str, object]:
             or record.get("risk") == "dangerous"
         ):
             continue
+        _require_skill_record(record)
         load_name = str(record.get("load_name", ""))
         metadata = metadata_by_name.get(load_name)
         if metadata is None:
             raise RegistryRuntimeError(f"missing discovery metadata: {load_name}")
-        score = _score(query_tokens, record, metadata)
-        if score == 0:
+        score, matched_terms, name_matches = _score(query_tokens, record, metadata)
+        if score == 0 or (
+            len(query_tokens) > 1 and matched_terms < 2 and not name_matches
+        ):
             continue
         if record.get("risk") == "safe":
             score += 1
@@ -146,6 +182,7 @@ def read_skill(root: Path, identifier: str, allow_unreviewed: bool = False) -> d
     if len(matches) != 1:
         raise SkillBlocked(f"skill not found or ambiguous: {identifier}")
     record = matches[0]
+    _require_skill_record(record)
     if record.get("state") != "active":
         raise SkillBlocked(f"skill is not active: {identifier}")
     risk = str(record.get("risk", ""))
@@ -154,8 +191,17 @@ def read_skill(root: Path, identifier: str, allow_unreviewed: bool = False) -> d
     if risk not in {"safe", "unknown", "review"}:
         raise SkillBlocked(f"unsupported risk state: {risk}")
 
-    catalog = (root / "catalog").resolve()
-    path = (root / str(record.get("catalog_path", ""))).resolve()
+    raw_catalog = root / "catalog"
+    raw_path = root / str(record.get("catalog_path", ""))
+    if raw_catalog.is_symlink():
+        raise SkillBlocked("catalog root is a symlink")
+    cursor = root
+    for part in Path(str(record["catalog_path"])).parts:
+        cursor = cursor / part
+        if cursor.is_symlink():
+            raise SkillBlocked(f"skill path contains a symlink: {identifier}")
+    catalog = raw_catalog.resolve()
+    path = raw_path.resolve()
     if not path.is_relative_to(catalog):
         raise SkillBlocked(f"skill path outside catalog: {identifier}")
     marker = path / "SKILL.md"
