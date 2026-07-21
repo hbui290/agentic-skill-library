@@ -35,8 +35,9 @@ visibility but needs a precise evidence and failure contract.
   `skill-registry search --format json` in the current phase.
 - A skill may appear in `Librarian P<n>` or `Selected` only after its own
   `skill-registry read --format json` completes with exit `0` in that phase.
-- The detailed trace includes `Evidence: search=<tool-call result>; reads=<tool-call results>`.
-  This is a reference to actual tool output, not invented prose.
+- The detailed trace contains receipt summaries only: `Evidence: search=exit 0;
+  reads=<skill-id: exit 0, ...>`. Actual tool output exists in the tool
+  transcript; it is never copied into the trace.
 - An agent must never say it used, selected, loaded, or applied a library skill
   if those command results do not exist. It may say it did not use the library.
 
@@ -46,7 +47,7 @@ visibility but needs a precise evidence and failure contract.
 | --- | --- | --- |
 | One or more reads succeed | `Librarian P<n>: <loaded load names> (<composition>)` | `read` |
 | Two useful searches find no candidate | `Librarian: no library skill used` | `no-match` |
-| Search command fails | `Librarian: unavailable (CLI exit <code>)` | `unavailable`; include the sanitized first stderr line in the trace |
+| Search command fails | `Librarian: unavailable (CLI exit <code>)` | `unavailable`; `Evidence: search=exit <code>; stderr=<sanitized first stderr line>; reads=none` |
 | All selected reads fail | `Librarian: no library skill used` | `blocked`; include the failed skill IDs and exit codes in the trace |
 
 The status appears before substantive execution. It never exposes skill

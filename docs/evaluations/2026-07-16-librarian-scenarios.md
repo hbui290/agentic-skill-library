@@ -80,3 +80,47 @@ prefers one to five, assigns a role and composition, loads only through
 `skill-registry read`, and never automatically runs bundled scripts. Official
 Superpowers process guidance remains higher priority than a selected domain
 playbook and does not count against the domain-skill quota.
+
+## 8. Explicit Librarian request
+
+- Request: find the right skill for a security review.
+- Outcome: invoke the Librarian, run JSON search, then read each selected
+  candidate before a phase status can name it.
+
+## 9. Specialized file format
+
+- Request: repair a PDF with annotations.
+- Outcome: invoke the Librarian because the work needs specialized file-format
+  guidance; status requires successful current-phase search and read results.
+
+## 10. Tool name only
+
+- Request: use Docker.
+- Outcome: do not invoke solely because Docker was mentioned. Invoke only if
+  the task also needs a specialized deliverable or non-routine domain guidance.
+
+## 11. Direct edit
+
+- Request: rename one local variable.
+- Outcome: continue without the library; report no Librarian status because it
+  was not invoked.
+
+## 12. Multi-domain task
+
+- Request: audit an API, implement a remediation, and document the result.
+- Outcome: invoke per phase, select a composition for each phase, and retain
+  only the output needed for the next phase.
+
+## 13. No match
+
+- Request: `qzxvplmno nonexistentdomain`.
+- Outcome: run one broader retry. If both successful searches have no useful
+  candidate, report `Librarian: no library skill used` and trace both results
+  with `Policy: no-match`.
+
+## 14. CLI failure
+
+- Scenario: `skill-registry search` exits nonzero.
+- Outcome: do not call it a no-match or claim the registry is broken without
+  the command output. Report `Librarian: unavailable (CLI exit <code>)`, set
+  `Policy: unavailable`, and trace only the sanitized first stderr line.

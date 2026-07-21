@@ -1,6 +1,6 @@
 ---
 name: skill-librarian
-description: On demand, search the local Agentic Skill Library for complex, unfamiliar, multi-part, or specialized requests that explicitly ask for a skill or playbook, name a specialized domain/tool/deliverable, require unfamiliar domain guidance, or span two or more independent domains; load only relevant skills for each phase. Skip routine work fully covered by an installed process, project, or domain skill.
+description: Use when a request is complex, unfamiliar, multi-part, explicitly asks for a skill or playbook, names a specialized deliverable or non-routine domain guidance need, requires unfamiliar domain guidance, or spans two or more independent domains. Skip routine work fully covered by an installed process, project, or domain skill.
 ---
 
 # Skill Librarian
@@ -47,6 +47,10 @@ The registry CLI is the only discovery and loading runtime. Do not inspect or lo
    skill-registry search --root "$REGISTRY_ROOT" --limit 10 --format json KEYWORDS...
    ```
 
+   Treat the actual successful output of `skill-registry search --format json`
+   in the current phase as search evidence. Do not invent candidates or say the
+   registry is unavailable without a command result.
+
 3. If no useful candidate appears, retry exactly once with broader domain terms or synonyms. If the second search is also unhelpful, continue the task without a library skill.
 4. Select 1-8 domain skills for the current phase based on textual relevance. Prefer 1-5; use 6-8 only when the phase is genuinely multi-domain. Mark each as `primary` or `supporting`.
 5. Choose one composition:
@@ -60,7 +64,11 @@ The registry CLI is the only discovery and loading runtime. Do not inspect or lo
    ```
 
 7. On exit code 1, discard the candidate. Never suggest or attempt a bypass.
-8. After every named skill has returned exit code 0, and before substantive task execution, show exactly one compact user-facing line:
+8. Name a skill in `Librarian P<n>` or `Selected` only after the actual
+   successful output of `skill-registry search --format json` in the current
+   phase and an individual `skill-registry read --format json` command that
+   exits 0 in the current phase. Before substantive task execution, show one
+   compact user-facing line:
 
    ```text
    Librarian P<n>: <loaded load names> (<composition>)
@@ -72,7 +80,20 @@ The registry CLI is the only discovery and loading runtime. Do not inspect or lo
    Librarian: no library skill used
    ```
 
-   Never report a selected or loaded skill without actual search output and a successful read result in the current phase.
+   If the search command fails, do not treat it as a no-match. Before task
+   execution report `Librarian: unavailable (CLI exit <code>)`; trace only the
+   sanitized first stderr line and set `Policy: unavailable`. For `Policy:
+   unavailable`, do not use the standard Evidence placeholder. Use:
+
+   ```text
+   Evidence: search=exit <code>; stderr=<sanitized first stderr line>; reads=none
+   ```
+
+   If every selected read fails, report `Librarian: no library skill used`; set
+   `Policy: blocked` and list only skill IDs plus exit codes in the trace.
+
+   Never claim to use, select, load, or apply a library skill without those
+   current-phase command results.
 9. Return a decision trace and short composition plan to the main agent.
 
 ## Decision Trace
@@ -88,11 +109,16 @@ Selected: <primary/supporting skills>
 Composition: single | sequential | parallel
 Why: <one reason per selection>
 Policy: <read | blocked>
+Evidence: search=exit 0; reads=<skill-id: exit 0, ...>
 Handoff: <output passed to the next phase, or none>
 ```
 
+Evidence is a receipt summary, never raw tool output. Do not repeat search
+JSON, read JSON, or skill instructions in a trace.
+
 If two searches produce no useful candidate, return the same trace with
-`Policy: no-match`, then let the main agent continue without a library skill.
+`Policy: no-match` and `Evidence: search=exit 0; retry=exit 0; reads=none`,
+then let the main agent continue without a library skill.
 
 For a multi-phase task, start a new search and trace for each new phase. A
 phase handoff carries only the output and decision needed by the next phase;

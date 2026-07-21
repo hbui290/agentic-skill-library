@@ -18,7 +18,8 @@ The supported runtime now has three explicit parts:
 2. `skill-registry read` enforces policy and returns only one selected
    `SKILL.md` at a time.
 3. `skills/skill-librarian` is the only native skill installed from this repo;
-   it chooses and composes 1–5 domain playbooks per phase for the main agent.
+   it chooses and composes one to eight domain playbooks concurrently per
+   phase, preferring one to five for the main agent.
 
 Official Superpowers remains separately installed from Obra/OpenAI and is not
 forked, patched, or routed through this repository. It owns process guidance;
