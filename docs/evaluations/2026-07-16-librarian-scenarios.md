@@ -9,6 +9,7 @@ policy transcripts, not executions of bundled skill scripts.
 - Search: `pdf`.
 - Selection: `pdf` as `primary`; composition `single`.
 - Read result: exit code `0` after path and hash checks.
+- User-visible phase status: `Librarian P1: pdf (single)`.
 - Outcome: load only the selected instructions. No second skill is added merely
   because it has a different risk label.
 
@@ -29,6 +30,7 @@ policy transcripts, not executions of bundled skill scripts.
 - Search concepts: `youtube transcript` and `spreadsheet`.
 - Selection: `youtube-transcript` and one spreadsheet candidate, with one
   `primary` per workstream; composition `parallel`.
+- User-visible phase status: `Librarian P1: youtube-transcript + <spreadsheet skill> (parallel)`.
 - Outcome: both reads require their own policy decision. Neither selected skill
   executes the other skill or receives credentials.
 
@@ -50,6 +52,7 @@ policy transcripts, not executions of bundled skill scripts.
 
 - Search: `qzxvplmno nonexistentdomain`.
 - Result: zero matches with successful search status.
+- User-visible phase status: `Librarian: no library skill used`.
 - Outcome: retry once with meaningful broader terms if available, then continue
   without a library skill. Do not dump or scan the entire catalog.
 
