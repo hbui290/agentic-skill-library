@@ -88,6 +88,21 @@ def test_librarian_forbids_unsafe_shortcuts(repo_root):
         assert phrase in body
 
 
+def test_librarian_reports_a_compact_truthful_phase_status(repo_root):
+    _, body = _skill(repo_root)
+    normalized_body = body.lower()
+
+    required = [
+        "Librarian P<n>: <loaded load names> (<composition>)",
+        "after every named skill has returned exit code 0",
+        "before substantive task execution",
+        "Never report a selected or loaded skill without actual search output and a successful read result in the current phase",
+        "Librarian: no library skill used",
+    ]
+    for phrase in required:
+        assert phrase.lower() in normalized_body
+
+
 def test_architecture_docs_keep_catalog_out_of_native_discovery(repo_root):
     readme = (repo_root / "README.md").read_text(encoding="utf-8")
     architecture = (repo_root / "docs/architecture.md").read_text(

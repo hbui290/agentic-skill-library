@@ -60,7 +60,20 @@ The registry CLI is the only discovery and loading runtime. Do not inspect or lo
    ```
 
 7. On exit code 1, discard the candidate. Never suggest or attempt a bypass.
-8. Return a decision trace and short composition plan to the main agent.
+8. After every named skill has returned exit code 0, and before substantive task execution, show exactly one compact user-facing line:
+
+   ```text
+   Librarian P<n>: <loaded load names> (<composition>)
+   ```
+
+   If no skill is loaded after the search and read attempts, show:
+
+   ```text
+   Librarian: no library skill used
+   ```
+
+   Never report a selected or loaded skill without actual search output and a successful read result in the current phase.
+9. Return a decision trace and short composition plan to the main agent.
 
 ## Decision Trace
 

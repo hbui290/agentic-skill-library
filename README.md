@@ -56,6 +56,9 @@ selection, provenance, and integrity checks.
 - **Small working context:** up to eight domain skills are loaded at the same
   time in one phase; the Librarian prefers one to five. A larger task may use
   new batches in later phases.
+- **Visible routing:** when the Librarian loads skills, it begins that phase
+  with one short line such as `Librarian P1: pdf (single)`. It names only
+  skills whose integrity-checked reads actually succeeded.
 - **Integrity checks before reading:** availability, source, file path, symlink, and content-hash checks happen before instructions are returned.
 - **Traceable sources:** every catalog record has a source, pinned commit,
   license, and content hash.
