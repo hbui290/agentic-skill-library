@@ -17,8 +17,20 @@ def test_only_librarian_is_native(repo_root):
 
 def test_librarian_contract(repo_root):
     metadata, body = _skill(repo_root)
+    normalized_body = " ".join(body.split())
     assert metadata["name"] == "skill-librarian"
     assert "specialized" in metadata["description"].lower()
+    for trigger in (
+        "complex",
+        "unfamiliar",
+        "multi-part",
+        "explicitly ask for a skill or playbook",
+        "specialized domain/tool/deliverable",
+        "unfamiliar domain guidance",
+        "two or more independent domains",
+        "skip routine work",
+    ):
+        assert trigger in metadata["description"].lower()
 
     required = [
         "AGENTIC_SKILL_REGISTRY_ROOT",
@@ -35,7 +47,7 @@ def test_librarian_contract(repo_root):
         "parallel",
         "exit code 1",
         "Do not execute bundled scripts",
-        "Official Superpowers process skills take precedence",
+        "Apply an applicable Official Superpowers skill for process first",
         "Librarian decision — Phase <n>",
         "Candidates:",
         "Selected:",
@@ -44,14 +56,24 @@ def test_librarian_contract(repo_root):
         "Policy:",
         "Handoff:",
         "no-match",
+        "## Required trigger check",
+        "Before planning or execution",
+        "User explicitly asks for the Librarian",
+        "more than one workstream",
+        "Do not invoke it for simple general reasoning",
+        "Do not invoke it merely because a request mentions a tool or service",
+        "task title sounds clear",
+        "then invoke Librarian in the same task phase",
+        "Superpowers does not replace domain-skill discovery",
+        "Do not add a runtime hook, MCP integration, or automatic router",
     ]
     for phrase in required:
-        assert phrase in body
+        assert phrase in normalized_body
 
 
 def test_librarian_forbids_unsafe_shortcuts(repo_root):
     _, body = _skill(repo_root)
-    forbidden = ["superpowers-mcp", "list_skills"]
+    forbidden = ["superpowers-mcp", "list_skills", "mcpServers"]
     assert not any(term in body for term in forbidden)
 
     required = [
