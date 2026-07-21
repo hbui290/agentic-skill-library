@@ -24,8 +24,8 @@ def test_librarian_contract(repo_root):
         "complex",
         "unfamiliar",
         "multi-part",
-        "explicitly ask for a skill or playbook",
-        "specialized domain/tool/deliverable",
+        "explicitly asks for a skill or playbook",
+        "specialized deliverable or non-routine domain guidance need",
         "unfamiliar domain guidance",
         "two or more independent domains",
         "skip routine work",
@@ -94,13 +94,48 @@ def test_librarian_reports_a_compact_truthful_phase_status(repo_root):
 
     required = [
         "Librarian P<n>: <loaded load names> (<composition>)",
-        "after every named skill has returned exit code 0",
+        "individual `skill-registry read --format json` command that",
+        "exits 0 in the current phase",
         "before substantive task execution",
-        "Never report a selected or loaded skill without actual search output and a successful read result in the current phase",
+        "Never claim to use, select, load, or apply a library skill",
         "Librarian: no library skill used",
     ]
     for phrase in required:
         assert phrase.lower() in normalized_body
+
+
+def test_librarian_requires_current_phase_cli_evidence(repo_root):
+    _, body = _skill(repo_root)
+    normalized_body = " ".join(body.replace("`", "").split())
+
+    required = [
+        "actual successful output of skill-registry search --format json in the current phase",
+        "individual skill-registry read --format json command that exits 0 in the current phase",
+        "Evidence: search=exit 0; reads=<skill-id: exit 0, ...>",
+        "Librarian: unavailable (CLI exit <code>)",
+        "sanitized first stderr line",
+        "For Policy: unavailable, do not use the standard Evidence placeholder.",
+        "Evidence: search=exit <code>; stderr=<sanitized first stderr line>; reads=none",
+        "Never claim to use, select, load, or apply a library skill without those current-phase command results",
+    ]
+    assert all(item in normalized_body for item in required)
+
+
+def test_librarian_scenarios_cover_routing_boundaries(repo_root):
+    scenarios = (repo_root / "docs/evaluations/2026-07-16-librarian-scenarios.md").read_text(
+        encoding="utf-8"
+    )
+
+    required_headings = [
+        "## 8. Explicit Librarian request",
+        "## 9. Specialized file format",
+        "## 10. Tool name only",
+        "## 11. Direct edit",
+        "## 12. Multi-domain task",
+        "## 13. No match",
+        "## 14. CLI failure",
+    ]
+    assert all(heading in scenarios for heading in required_headings)
 
 
 def test_architecture_docs_keep_catalog_out_of_native_discovery(repo_root):

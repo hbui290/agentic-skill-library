@@ -58,7 +58,9 @@ selection, provenance, and integrity checks.
   new batches in later phases.
 - **Visible routing:** when the Librarian loads skills, it begins that phase
   with one short line such as `Librarian P1: pdf (single)`. It names only
-  skills whose integrity-checked reads actually succeeded.
+  skills whose integrity-checked reads actually succeeded. It does not claim a
+  skill was used if the phase has no successful registry search and read
+  results.
 - **Integrity checks before reading:** availability, source, file path, symlink, and content-hash checks happen before instructions are returned.
 - **Traceable sources:** every catalog record has a source, pinned commit,
   license, and content hash.
