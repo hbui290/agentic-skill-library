@@ -12,8 +12,7 @@ their provenance and content hash, then returns only the selected instructions.
 Requires Git, Python 3.11+, and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-git clone --branch codex/safety-profiles \
-  https://github.com/hbui290/agentic-skill-library.git \
+git clone https://github.com/hbui290/agentic-skill-library.git \
   ~/.agents/agentic-skill-library
 
 uv tool install --editable ~/.agents/agentic-skill-library
