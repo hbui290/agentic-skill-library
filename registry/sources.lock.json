@@ -20,17 +20,18 @@
     {
       "source_id": "sickn33-agentic-awesome-skills",
       "url": "https://github.com/sickn33/agentic-awesome-skills.git",
-      "commit": "82c86e65677aa1b40fa8207f95bc43766494a3db",
+      "commit": "d5814bb4e7824a0991af40db4ecdabdfa9ab8d2d",
       "layout": "skills-subdir",
       "skills_root": "skills",
       "metadata_index": "skills_index.json",
-      "license_note": "Per-skill licenses tracked by the source index",
+      "license_note": "Per-skill licenses tracked by the pinned source index; missing evidence quarantined",
       "status": "active",
       "refreshable": true,
       "timeout_seconds": 15,
       "review": {
-        "status": "legacy",
-        "reason": "predates-reviewed-intake"
+        "status": "reviewed",
+        "artifact": "registry/source-reviews/sickn33-agentic-awesome-skills-d5814bb4e7824a0991af40db4ecdabdfa9ab8d2d.json",
+        "manifest_sha256": "52c120f1e8e071e4f4373e20ba5e6ec594a4ec2ed0a382013849c431c3ec7641"
       }
     },
     {
