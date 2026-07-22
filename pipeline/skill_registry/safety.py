@@ -174,14 +174,74 @@ def load_profiles(root: Path) -> dict[str, dict[str, object]]:
         )
     except (OSError, UnicodeError, json.JSONDecodeError):
         return {}
-    profiles = payload.get("profiles") if isinstance(payload, dict) else None
+    if (
+        not isinstance(payload, dict)
+        or set(payload) != {"schema_version", "profiles"}
+        or payload.get("schema_version") != 1
+    ):
+        return {}
+    profiles = payload["profiles"]
     if not isinstance(profiles, list):
         return {}
-    return {
-        profile["skill_id"]: profile
-        for profile in profiles
-        if isinstance(profile, dict) and isinstance(profile.get("skill_id"), str)
-    }
+    loaded: dict[str, dict[str, object]] = {}
+    for profile in profiles:
+        if not _valid_stored_profile(profile):
+            return {}
+        skill_id = str(profile["skill_id"])
+        if skill_id in loaded:
+            return {}
+        loaded[skill_id] = profile
+    return loaded
+
+
+def _valid_stored_profile(profile: object) -> bool:
+    if not isinstance(profile, dict) or set(profile) != {
+        "skill_id",
+        "content_sha256",
+        "scanner_version",
+        "status",
+        "signals",
+        "severity",
+        "evidence",
+    }:
+        return False
+    signals = profile["signals"]
+    evidence = profile["evidence"]
+    if (
+        not isinstance(profile["skill_id"], str)
+        or not profile["skill_id"]
+        or not isinstance(profile["content_sha256"], str)
+        or re.fullmatch(r"[0-9a-f]{64}", profile["content_sha256"]) is None
+        or not isinstance(profile["scanner_version"], int)
+        or isinstance(profile["scanner_version"], bool)
+        or profile["status"] not in {"scanned", "scan_error"}
+        or not isinstance(signals, list)
+        or signals != sorted(set(signals))
+        or not all(isinstance(signal, str) and signal in SIGNALS for signal in signals)
+        or profile["severity"] not in SEVERITIES
+        or not isinstance(evidence, list)
+    ):
+        return False
+    evidence_keys = []
+    for item in evidence:
+        if (
+            not isinstance(item, dict)
+            or set(item) != {"path", "line", "rule"}
+            or not isinstance(item["path"], str)
+            or not item["path"]
+            or not isinstance(item["line"], int)
+            or isinstance(item["line"], bool)
+            or item["line"] < 1
+            or not isinstance(item["rule"], str)
+            or not item["rule"]
+        ):
+            return False
+        evidence_keys.append((item["path"], item["line"], item["rule"]))
+    if evidence_keys != sorted(set(evidence_keys)):
+        return False
+    if profile["status"] == "scan_error":
+        return not signals and profile["severity"] == "high" and not evidence
+    return profile["severity"] == severity_for_signals(set(signals))
 
 
 def build_profile_registry(root: Path) -> dict[str, object]:
