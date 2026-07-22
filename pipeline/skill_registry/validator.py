@@ -11,7 +11,12 @@ from skill_registry.hashing import UnsafeCatalogPath, tree_sha256
 from skill_registry.identity import stable_skill_id
 from skill_registry.integration import verify_librarian_integration
 from skill_registry.reporting import VerificationReport
-from skill_registry.safety import SAFETY_SCANNER_VERSION, SEVERITIES, SIGNALS
+from skill_registry.safety import (
+    SAFETY_SCANNER_VERSION,
+    SEVERITIES,
+    SIGNALS,
+    severity_for_signals,
+)
 
 
 ID = re.compile(r"^asr_[0-9a-f]{16}$")
@@ -238,10 +243,18 @@ def valid_safety_registry(
             or profile.get("scanner_version") != SAFETY_SCANNER_VERSION
             or profile.get("status") not in {"scanned", "scan_error"}
             or not isinstance(signals, list)
-            or signals != sorted(set(signals))
             or not all(isinstance(signal, str) and signal in SIGNALS for signal in signals)
+            or signals != sorted(set(signals))
             or profile.get("severity") not in SEVERITIES
             or not isinstance(evidence, list)
+            or (
+                profile["status"] == "scanned"
+                and profile["severity"] != severity_for_signals(set(signals))
+            )
+            or (
+                profile["status"] == "scan_error"
+                and (signals or profile["severity"] != "high" or evidence)
+            )
         ):
             return False
         evidence_keys: list[tuple[str, int, str]] = []

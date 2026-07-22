@@ -41,8 +41,10 @@ def write_safety_profiles(root, **first_profile_changes):
             "severity": "clean",
             "evidence": [],
         }
-        for record in skills
-        if record["state"] == "active"
+        for record in sorted(
+            (record for record in skills if record["state"] == "active"),
+            key=lambda record: record["skill_id"],
+        )
     ]
     profiles[0].update(first_profile_changes)
     write_json(
@@ -118,6 +120,26 @@ def test_strict_verifier_rejects_profile_with_stale_hash(repo_root, tmp_path):
     root = clone_repository_fixture(repo_root, tmp_path)
     copy_librarian_index(repo_root, root)
     write_safety_profiles(root, content_sha256="0" * 64)
+
+    assert verify_repository(root).result == "fail"
+
+
+def test_strict_verifier_rejects_low_prompt_injection_profile(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    copy_librarian_index(repo_root, root)
+    write_safety_profiles(
+        root,
+        signals=["prompt_injection"],
+        severity="low",
+    )
+
+    assert verify_repository(root).result == "fail"
+
+
+def test_strict_verifier_rejects_clean_scan_error_profile(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    copy_librarian_index(repo_root, root)
+    write_safety_profiles(root, status="scan_error", severity="clean")
 
     assert verify_repository(root).result == "fail"
 

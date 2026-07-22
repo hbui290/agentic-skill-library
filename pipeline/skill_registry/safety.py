@@ -59,7 +59,7 @@ RULES = (
 )
 
 
-def _severity(signals: set[str]) -> str:
+def severity_for_signals(signals: set[str]) -> str:
     if not signals:
         return "clean"
     if {"credential", "prompt_injection"} & signals:
@@ -90,7 +90,7 @@ def _profile(
         "scanner_version": SAFETY_SCANNER_VERSION,
         "status": status,
         "signals": sorted(signals),
-        "severity": _severity(signals) if status == "scanned" else "high",
+        "severity": severity_for_signals(signals) if status == "scanned" else "high",
         "evidence": [
             {"path": path, "line": line, "rule": rule}
             for path, line, rule in sorted(evidence)
@@ -154,7 +154,9 @@ def compact_profile(
         return _compact("scan_error", [], "high")
     if profile["status"] == "scan_error":
         return _compact("scan_error", sorted(set(signals)), "high")
-    return _compact("scanned", sorted(set(signals)), _severity(set(signals)))
+    return _compact(
+        "scanned", sorted(set(signals)), severity_for_signals(set(signals))
+    )
 
 
 def _compact(status: str, signals: list[str], severity: str) -> dict[str, object]:
