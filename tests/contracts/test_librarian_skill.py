@@ -20,6 +20,17 @@ def _skill(repo_root: Path) -> tuple[dict[str, object], str]:
     return yaml.safe_load(frontmatter), body
 
 
+def _bundle_body(repo_root: Path) -> str:
+    _, body = _skill(repo_root)
+    references = repo_root / "skills/skill-librarian/references"
+    return "\n".join(
+        [body] + [
+            (references / name).read_text(encoding="utf-8")
+            for name in REFERENCE_FILES
+        ]
+    )
+
+
 def test_only_librarian_is_native(repo_root):
     skill_dirs = sorted(path.name for path in (repo_root / "skills").iterdir() if path.is_dir())
     assert skill_dirs == ["skill-librarian"]
@@ -27,7 +38,7 @@ def test_only_librarian_is_native(repo_root):
 
 def test_librarian_contract(repo_root):
     metadata, body = _skill(repo_root)
-    normalized_body = " ".join(body.split())
+    normalized_body = " ".join(_bundle_body(repo_root).split())
     assert metadata["name"] == "skill-librarian"
     assert "specialized" in metadata["description"].lower()
     for trigger in (
@@ -82,7 +93,7 @@ def test_librarian_contract(repo_root):
 
 
 def test_librarian_forbids_unsafe_shortcuts(repo_root):
-    _, body = _skill(repo_root)
+    body = _bundle_body(repo_root)
     forbidden = ["superpowers-mcp", "list_skills", "mcpServers"]
     assert not any(term in body for term in forbidden)
 
@@ -99,7 +110,7 @@ def test_librarian_forbids_unsafe_shortcuts(repo_root):
 
 
 def test_librarian_reports_a_compact_truthful_phase_status(repo_root):
-    _, body = _skill(repo_root)
+    body = _bundle_body(repo_root)
     normalized_body = body.lower()
 
     required = [
@@ -115,7 +126,7 @@ def test_librarian_reports_a_compact_truthful_phase_status(repo_root):
 
 
 def test_librarian_requires_current_phase_cli_evidence(repo_root):
-    _, body = _skill(repo_root)
+    body = _bundle_body(repo_root)
     normalized_body = " ".join(body.replace("`", "").split())
 
     required = [
