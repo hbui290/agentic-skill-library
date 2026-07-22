@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from skill_registry.hashing import UnsafeCatalogPath, tree_sha256
+from skill_registry.safety import compact_profile, load_profiles
 from skill_registry.text import tokenize
 from skill_registry.validator import valid_skill_record
 
@@ -128,6 +129,35 @@ def _skill_metadata(record: dict[str, object]) -> dict[str, object]:
     }
 
 
+def validated_skill_bundle(root: Path, record: dict[str, object]) -> Path:
+    """Return a catalog bundle only after the existing containment/hash checks."""
+    _require_skill_record(record)
+    identifier = str(record["skill_id"])
+    raw_catalog = root / "catalog"
+    raw_path = root / str(record.get("catalog_path", ""))
+    if raw_catalog.is_symlink():
+        raise SkillBlocked("catalog root is a symlink")
+    cursor = root
+    for part in Path(str(record["catalog_path"])).parts:
+        cursor = cursor / part
+        if cursor.is_symlink():
+            raise SkillBlocked(f"skill path contains a symlink: {identifier}")
+    catalog = raw_catalog.resolve()
+    path = raw_path.resolve()
+    if not path.is_relative_to(catalog):
+        raise SkillBlocked(f"skill path outside catalog: {identifier}")
+    marker = path / "SKILL.md"
+    if not marker.is_file():
+        raise SkillBlocked(f"SKILL.md missing: {identifier}")
+    try:
+        observed = tree_sha256(path)
+    except (OSError, UnsafeCatalogPath) as error:
+        raise SkillBlocked(f"unsafe skill tree: {error}") from error
+    if observed != record.get("content_sha256"):
+        raise SkillBlocked(f"hash mismatch: {identifier}")
+    return path
+
+
 def read_skill(root: Path, identifier: str) -> dict[str, object]:
     skills = _records(root, "skills.json", "skills")
     quarantine = _records(root, "quarantine.json", "records")
@@ -154,29 +184,13 @@ def read_skill(root: Path, identifier: str) -> dict[str, object]:
     if risk not in {"safe", "unknown", "review"}:
         raise SkillBlocked(f"unsupported risk state: {risk}")
 
-    raw_catalog = root / "catalog"
-    raw_path = root / str(record.get("catalog_path", ""))
-    if raw_catalog.is_symlink():
-        raise SkillBlocked("catalog root is a symlink")
-    cursor = root
-    for part in Path(str(record["catalog_path"])).parts:
-        cursor = cursor / part
-        if cursor.is_symlink():
-            raise SkillBlocked(f"skill path contains a symlink: {identifier}")
-    catalog = raw_catalog.resolve()
-    path = raw_path.resolve()
-    if not path.is_relative_to(catalog):
-        raise SkillBlocked(f"skill path outside catalog: {identifier}")
+    path = validated_skill_bundle(root, record)
     marker = path / "SKILL.md"
-    if not marker.is_file():
-        raise SkillBlocked(f"SKILL.md missing: {identifier}")
-    try:
-        observed = tree_sha256(path)
-    except (OSError, UnsafeCatalogPath) as error:
-        raise SkillBlocked(f"unsafe skill tree: {error}") from error
-    if observed != record.get("content_sha256"):
-        raise SkillBlocked(f"hash mismatch: {identifier}")
     return {
         "skill": _skill_metadata(record),
         "instructions": marker.read_text(encoding="utf-8"),
+        "safety": compact_profile(
+            load_profiles(root).get(str(record["skill_id"])),
+            str(record["content_sha256"]),
+        ),
     }

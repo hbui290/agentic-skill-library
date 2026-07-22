@@ -1,4 +1,5 @@
 import re
+import json
 from pathlib import Path
 
 
@@ -7,6 +8,10 @@ SIGNALS = frozenset(
     {"shell", "network", "credential", "filesystem_write", "prompt_injection"}
 )
 SEVERITIES = frozenset({"clean", "low", "medium", "high"})
+
+
+class SafetyProfileError(RuntimeError):
+    pass
 
 
 RULES = (
@@ -157,6 +162,60 @@ def compact_profile(
     return _compact(
         "scanned", sorted(set(signals)), severity_for_signals(set(signals))
     )
+
+
+def load_profiles(root: Path) -> dict[str, dict[str, object]]:
+    """Load cached profiles permissively; safety metadata never blocks reads."""
+    try:
+        payload = json.loads(
+            (Path(root) / "registry" / "safety-signals.json").read_text(
+                encoding="utf-8"
+            )
+        )
+    except (OSError, UnicodeError, json.JSONDecodeError):
+        return {}
+    profiles = payload.get("profiles") if isinstance(payload, dict) else None
+    if not isinstance(profiles, list):
+        return {}
+    return {
+        profile["skill_id"]: profile
+        for profile in profiles
+        if isinstance(profile, dict) and isinstance(profile.get("skill_id"), str)
+    }
+
+
+def build_profile_registry(root: Path) -> dict[str, object]:
+    """Scan every active, hash-verified catalog bundle deterministically."""
+    try:
+        payload = json.loads(
+            (Path(root) / "registry" / "skills.json").read_text(encoding="utf-8")
+        )
+    except (OSError, UnicodeError, json.JSONDecodeError) as error:
+        raise SafetyProfileError(f"cannot load skill registry: {error}") from error
+    skills = payload.get("skills") if isinstance(payload, dict) else None
+    if not isinstance(skills, list) or not all(isinstance(skill, dict) for skill in skills):
+        raise SafetyProfileError("invalid skill registry")
+
+    from skill_registry.runtime import validated_skill_bundle
+
+    profiles = []
+    for skill in sorted(
+        (skill for skill in skills if skill.get("state") == "active"),
+        key=lambda skill: str(skill.get("skill_id", "")),
+    ):
+        try:
+            bundle = validated_skill_bundle(root, skill)
+        except RuntimeError as error:
+            raise SafetyProfileError(
+                f"cannot profile {skill.get('skill_id', '<unknown>')}: {error}"
+            ) from error
+        profiles.append(
+            {
+                "skill_id": skill["skill_id"],
+                **scan_skill_bundle(bundle, str(skill["content_sha256"])),
+            }
+        )
+    return {"schema_version": 1, "profiles": profiles}
 
 
 def _compact(status: str, signals: list[str], severity: str) -> dict[str, object]:

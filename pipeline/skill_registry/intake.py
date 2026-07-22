@@ -14,8 +14,9 @@ import yaml
 from skill_registry.hashing import tree_sha256
 from skill_registry.filesystem import dump_json_atomic, load_json, write_bytes_atomic
 from skill_registry.identity import stable_skill_id
+from skill_registry.safety import scan_skill_bundle
 from skill_registry.text import jaccard, tokenize
-from skill_registry.validator import verify_repository
+from skill_registry.validator import valid_safety_registry, verify_repository
 
 
 SOURCE_ID = re.compile(r"^[a-z0-9][a-z0-9-]{2,63}$")
@@ -829,6 +830,7 @@ def commit_source(
         root / "registry/skills.json",
         root / "registry/quarantine.json",
         root / "librarian-index.json",
+        root / "registry/safety-signals.json",
     ]
     original_bytes: dict[Path, bytes] = {}
     json_mutation_started = False
@@ -836,6 +838,7 @@ def commit_source(
     skills_payload = _load_json_object(json_paths[1])
     quarantine_payload = _load_json_object(json_paths[2])
     index_payload = _load_json_object(json_paths[3])
+    safety_payload = _load_json_object(json_paths[4])
     sources = sources_payload.get("sources")
     skills = skills_payload.get("skills")
     quarantine = quarantine_payload.get("records")
@@ -1005,9 +1008,51 @@ def commit_source(
             }
             new_index_payload = {**index_payload, "entries": new_entries}
             new_index_payload["count"] = len(new_entries)
+            profiles = safety_payload.get("profiles")
+            if not isinstance(profiles, list) or not all(
+                isinstance(profile, dict) for profile in profiles
+            ):
+                raise IntakeError("safety profile records are invalid")
+            profiles_by_id = {
+                str(profile.get("skill_id")): profile for profile in profiles
+            }
+            for source_path in sorted(inspected_by_path):
+                decision = decision_by_path[source_path]
+                if decision["decision"] == "quarantine":
+                    continue
+                record = next(
+                    item
+                    for item in new_skills
+                    if item["skill_id"]
+                    == stable_skill_id(source["source_id"], source_path)
+                )
+                bundle, inspected = inspected_by_path[source_path]
+                profiles_by_id[record["skill_id"]] = {
+                    "skill_id": record["skill_id"],
+                    **scan_skill_bundle(bundle, str(inspected["content_sha256"])),
+                }
+            new_safety_payload = {
+                "schema_version": 1,
+                "profiles": [
+                    profiles_by_id[str(record["skill_id"])]
+                    for record in sorted(
+                        (
+                            record
+                            for record in new_skills
+                            if record.get("state") == "active"
+                        ),
+                        key=lambda record: str(record["skill_id"]),
+                    )
+                    if str(record["skill_id"]) in profiles_by_id
+                ],
+            }
             _validate_commit_objects(
                 new_sources, new_skills_payload, new_quarantine_payload
             )
+            if not valid_safety_registry(
+                new_safety_payload, new_skills
+            ):
+                raise IntakeError("safety profile records are invalid")
 
             catalog_root = (root / "catalog").resolve()
             for source_path in sorted(inspected_by_path):
@@ -1037,6 +1082,7 @@ def commit_source(
                     new_skills_payload,
                     new_quarantine_payload,
                     new_index_payload,
+                    new_safety_payload,
                 ],
             ):
                 dump_json_atomic(path, payload)

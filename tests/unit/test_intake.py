@@ -5,6 +5,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 import threading
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -134,6 +135,10 @@ def valid_root(tmp_path):
         {"schema_version": 1, "sources": [source]},
     )
     write_json(root / "registry/skills.json", {"schema_version": 1, "skills": []})
+    write_json(
+        root / "registry/safety-signals.json",
+        {"schema_version": 1, "profiles": []},
+    )
     write_json(
         root / "registry/quarantine.json", {"schema_version": 1, "records": []}
     )
@@ -1488,6 +1493,55 @@ def test_commit_imports_reviewed_snapshot_and_builds_joined_json_in_memory(
     assert json.loads((valid_root / "registry/schema-version.json").read_text()) == {
         "schema_version": 1
     }
+
+
+def test_commit_source_writes_profile_for_each_accepted_bundle(
+    valid_root, manifest, prepared_paths
+):
+    intake.commit_source(valid_root, manifest, prepared_paths[1])
+
+    record = json.loads((valid_root / "registry/skills.json").read_text())["skills"][0]
+    profiles = json.loads(
+        (valid_root / "registry/safety-signals.json").read_text()
+    )["profiles"]
+
+    assert profiles == [
+        {
+            "skill_id": record["skill_id"],
+            "content_sha256": record["content_sha256"],
+            "scanner_version": 1,
+            "status": "scanned",
+            "signals": [],
+            "severity": "clean",
+            "evidence": [],
+        }
+    ]
+
+
+def test_generate_safety_signals_rebuilds_profiles_for_active_bundles(
+    valid_root, manifest, prepared_paths
+):
+    intake.commit_source(valid_root, manifest, prepared_paths[1])
+    target = valid_root / "registry/safety-signals.json"
+    target.unlink()
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "tools/generate_safety_signals.py",
+            "--root",
+            str(valid_root),
+        ],
+        cwd=Path(__file__).resolve().parents[2],
+        text=True,
+        capture_output=True,
+    )
+
+    assert result.returncode == 0, result.stderr
+    profile = json.loads(target.read_text())["profiles"][0]
+    assert profile["content_sha256"] == json.loads(
+        (valid_root / "registry/skills.json").read_text()
+    )["skills"][0]["content_sha256"]
 
 
 def test_commit_sets_discovery_index_count_when_input_omits_count(

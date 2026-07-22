@@ -51,7 +51,11 @@ def test_search_cli_renders_text_and_no_match(monkeypatch, capsys, tmp_path):
 
 
 def test_read_cli_renders_text_and_json(monkeypatch, capsys, tmp_path):
-    payload = {"skill": {"load_name": "pdf"}, "instructions": "# Loaded\n"}
+    payload = {
+        "skill": {"load_name": "pdf"},
+        "instructions": "# Loaded\n",
+        "safety": {"status": "unscanned"},
+    }
     monkeypatch.setattr(cli, "read_skill", lambda root, identifier: payload, raising=False)
     assert cli.main(["read", "pdf", "--root", str(tmp_path)]) == 0
     assert capsys.readouterr().out == "# Loaded\n"
