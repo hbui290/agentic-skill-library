@@ -10,12 +10,10 @@ git clone https://github.com/hbui290/agentic-skill-library.git \
   ~/.agents/agentic-skill-library
 cd ~/.agents/agentic-skill-library
 
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -e '.[dev]'
+uv sync --locked --extra dev
 export AGENTIC_SKILL_REGISTRY_ROOT="$HOME/.agents/agentic-skill-library"
 
-skill-registry verify --strict
+uv run --no-sync skill-registry verify --strict
 ```
 
 Expected output includes:

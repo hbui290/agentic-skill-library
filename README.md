@@ -18,8 +18,8 @@ git clone --branch codex/safety-profiles \
 
 uv tool install --editable ~/.agents/agentic-skill-library
 export AGENTIC_SKILL_REGISTRY_ROOT="$HOME/.agents/agentic-skill-library"
-
-skill-registry verify --root "$AGENTIC_SKILL_REGISTRY_ROOT" --strict
+cd "$AGENTIC_SKILL_REGISTRY_ROOT"
+skill-registry verify --strict
 ```
 
 The global CLI is `skill-registry`. The catalog itself is not installed into
@@ -83,6 +83,7 @@ when it would exceed scope or a high-risk signal needs confirmation.
 ## Limits by design
 
 - Not an MCP server, marketplace, vector database, or bulk installer.
+- Automatic bulk import is deliberately disabled.
 - Not tool-level capability enforcement or a permission broker.
 - Not permission to execute every instruction a skill contains.
 
@@ -97,8 +98,10 @@ when it would exceed scope or a high-risk signal needs confirmation.
 ## Contributors
 
 ```bash
-uv run --extra dev pytest -q
-uv run --extra dev skill-registry verify --root . --strict
+uv sync --locked --extra dev
+uv run --no-sync python -m pytest -q
+uv run --no-sync skill-registry verify --root . --strict
+skill-registry refresh --format json
 git diff --check
 ```
 
