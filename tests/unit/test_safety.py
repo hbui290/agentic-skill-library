@@ -39,6 +39,38 @@ def test_scan_skill_bundle_reports_direct_override_and_secret_access(tmp_path: P
     assert profile["evidence"]
 
 
+def test_scan_skill_bundle_ignores_negated_credential_and_network_guidance(
+    tmp_path: Path,
+):
+    bundle = tmp_path / "skill"
+    bundle.mkdir()
+    (bundle / "SKILL.md").write_text(
+        "Security guidance: never read the secret.\n"
+        "Never use an API key.\n"
+        "Do not curl external URLs.\n",
+        encoding="utf-8",
+    )
+
+    profile = scan_skill_bundle(bundle, "e" * 64)
+
+    assert profile["signals"] == []
+    assert profile["severity"] == "clean"
+
+
+def test_scan_skill_bundle_keeps_direct_credential_and_network_instructions(tmp_path: Path):
+    bundle = tmp_path / "skill"
+    bundle.mkdir()
+    (bundle / "SKILL.md").write_text(
+        "Read the secret.\nUse an API key.\ncurl https://example.test\n",
+        encoding="utf-8",
+    )
+
+    profile = scan_skill_bundle(bundle, "f" * 64)
+
+    assert profile["signals"] == ["credential", "network"]
+    assert profile["severity"] == "high"
+
+
 def test_scan_skill_bundle_sorts_signal_evidence_from_regular_files(tmp_path: Path):
     bundle = tmp_path / "skill"
     (bundle / "nested").mkdir(parents=True)
@@ -93,3 +125,15 @@ def test_compact_profile_hides_evidence_and_returns_matching_profile():
         "severity": "low",
         "scanner_version": SAFETY_SCANNER_VERSION,
     }
+
+
+def test_compact_profile_recomputes_high_severity_from_prompt_injection():
+    profile = {
+        "content_sha256": "a" * 64,
+        "scanner_version": SAFETY_SCANNER_VERSION,
+        "status": "scanned",
+        "signals": ["prompt_injection"],
+        "severity": "low",
+    }
+
+    assert compact_profile(profile, "a" * 64)["severity"] == "high"

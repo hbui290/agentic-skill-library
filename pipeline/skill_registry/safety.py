@@ -69,6 +69,16 @@ def _severity(signals: set[str]) -> str:
     return "low"
 
 
+def _negated(line: str, start: int) -> bool:
+    return bool(
+        re.search(
+            r"\b(?:do\s+not|don't|never|avoid)(?:\s+\w+){0,2}\s*$",
+            line[:start],
+            re.IGNORECASE,
+        )
+    )
+
+
 def _profile(
     content_sha256: str,
     status: str,
@@ -109,7 +119,11 @@ def scan_skill_bundle(bundle: Path, content_sha256: str) -> dict[str, object]:
                 item.read_text(encoding="utf-8").splitlines(), start=1
             ):
                 for signal, rule, pattern in RULES:
-                    if pattern.search(line):
+                    match = pattern.search(line)
+                    if match and not (
+                        signal in {"credential", "network"}
+                        and _negated(line, match.start())
+                    ):
                         signals.add(signal)
                         evidence.add((relative, line_number, rule))
     except (OSError, UnicodeError, ValueError):
@@ -140,7 +154,7 @@ def compact_profile(
         return _compact("scan_error", [], "high")
     if profile["status"] == "scan_error":
         return _compact("scan_error", sorted(set(signals)), "high")
-    return _compact("scanned", sorted(set(signals)), severity)
+    return _compact("scanned", sorted(set(signals)), _severity(set(signals)))
 
 
 def _compact(status: str, signals: list[str], severity: str) -> dict[str, object]:
