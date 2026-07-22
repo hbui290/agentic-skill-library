@@ -3,6 +3,16 @@ from pathlib import Path
 import yaml
 
 
+REFERENCE_FILES = (
+    "control-plane.md",
+    "trust-and-safety.md",
+    "composition.md",
+    "decision-trace.md",
+    "source-intake.md",
+    "evaluation.md",
+)
+
+
 def _skill(repo_root: Path) -> tuple[dict[str, object], str]:
     path = repo_root / "skills/skill-librarian/SKILL.md"
     content = path.read_text(encoding="utf-8")
@@ -119,6 +129,24 @@ def test_librarian_requires_current_phase_cli_evidence(repo_root):
         "Never claim to use, select, load, or apply a library skill without those current-phase command results",
     ]
     assert all(item in normalized_body for item in required)
+
+
+def test_librarian_routes_to_scoped_references(repo_root):
+    references = repo_root / "skills/skill-librarian/references"
+    for name in REFERENCE_FILES:
+        reference = references / name
+        assert reference.is_file()
+        assert not reference.is_symlink()
+
+    _, body = _skill(repo_root)
+    route_table = "\n".join(
+        line for line in body.splitlines() if line.startswith("|")
+    )
+    assert "phase" in route_table.lower()
+    assert "reference" in route_table.lower()
+    for name in REFERENCE_FILES:
+        assert f"references/{name}" in route_table
+    assert "Librarian decision — Phase <n>" not in body
 
 
 def test_librarian_scenarios_cover_routing_boundaries(repo_root):

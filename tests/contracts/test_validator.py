@@ -176,6 +176,32 @@ def test_verify_rejects_invalid_librarian_integration(
 
 
 @pytest.mark.parametrize(
+    "mutation",
+    ["changed_reference", "extra_reference", "reference_symlink"],
+)
+def test_verify_rejects_librarian_reference_bundle_mutations(
+    repo_root, tmp_path, mutation
+):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    references = root / "skills/skill-librarian/references"
+    references.mkdir(exist_ok=True)
+    reference = references / "control-plane.md"
+
+    if mutation == "changed_reference":
+        reference.write_text("changed", encoding="utf-8")
+    elif mutation == "extra_reference":
+        (references / "unexpected.md").write_text("extra", encoding="utf-8")
+    else:
+        external = tmp_path.parent / f"{tmp_path.name}-control-plane.md"
+        external.write_text("external", encoding="utf-8")
+        if reference.exists() or reference.is_symlink():
+            reference.unlink()
+        reference.symlink_to(external)
+
+    assert "registry.librarian-integration" in check_ids(root)
+
+
+@pytest.mark.parametrize(
     "relative",
     [
         "registry/skills.json",
