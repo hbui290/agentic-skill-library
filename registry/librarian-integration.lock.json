@@ -1,10 +1,6 @@
 {
   "files": [
     {
-      "path": "skills/skill-librarian/.DS_Store",
-      "sha256": "9709714d43af750600804f7eb65e1247c32fac788ac98a963c97e5f783a4517e"
-    },
-    {
       "path": "skills/skill-librarian/SKILL.md",
       "sha256": "c8d5dacd795753a806122afed48f1294f0a41f3db085ac7e92013ad15b3d6ec6"
     },

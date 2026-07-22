@@ -105,6 +105,8 @@ def _native_skill_bundle(root: Path, native_skill_path: str) -> list[Path]:
                 if (directory_path / name).is_symlink():
                     raise IntegrationValidationError("native skill bundle contains a symlink")
             for name in names:
+                if name == ".DS_Store":
+                    continue
                 path = directory_path / name
                 if not path.is_file():
                     raise IntegrationValidationError("native skill bundle contains a non-file")
