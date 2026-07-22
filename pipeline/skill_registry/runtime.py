@@ -3,6 +3,7 @@ from pathlib import Path
 
 from skill_registry.hashing import UnsafeCatalogPath, tree_sha256
 from skill_registry.text import tokenize
+from skill_registry.validator import valid_skill_record
 
 
 class RegistryRuntimeError(RuntimeError):
@@ -11,22 +12,6 @@ class RegistryRuntimeError(RuntimeError):
 
 class SkillBlocked(RegistryRuntimeError):
     pass
-
-
-REQUIRED_SKILL_FIELDS = {
-    "skill_id",
-    "name",
-    "load_name",
-    "catalog_path",
-    "source_id",
-    "source_commit",
-    "source_path",
-    "content_sha256",
-    "license",
-    "risk",
-    "risk_reasons",
-    "state",
-}
 
 
 def _load_object(path: Path) -> dict[str, object]:
@@ -40,12 +25,7 @@ def _load_object(path: Path) -> dict[str, object]:
 
 
 def _require_skill_record(record: dict[str, object]) -> None:
-    if (
-        not REQUIRED_SKILL_FIELDS <= record.keys()
-        or not all(isinstance(record[field], str) and record[field] for field in REQUIRED_SKILL_FIELDS - {"risk_reasons"})
-        or not isinstance(record["risk_reasons"], list)
-        or not all(isinstance(reason, str) and reason for reason in record["risk_reasons"])
-    ):
+    if not valid_skill_record(record):
         raise RegistryRuntimeError("invalid skill record")
 
 

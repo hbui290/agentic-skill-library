@@ -29,6 +29,28 @@ def copy_librarian_index(repo_root, root):
     shutil.copy2(repo_root / "librarian-index.json", root / "librarian-index.json")
 
 
+def write_safety_profiles(root, **first_profile_changes):
+    skills = json.loads((root / "registry/skills.json").read_text())["skills"]
+    profiles = [
+        {
+            "skill_id": record["skill_id"],
+            "content_sha256": record["content_sha256"],
+            "scanner_version": 1,
+            "status": "scanned",
+            "signals": [],
+            "severity": "clean",
+            "evidence": [],
+        }
+        for record in skills
+        if record["state"] == "active"
+    ]
+    profiles[0].update(first_profile_changes)
+    write_json(
+        root / "registry/safety-signals.json",
+        {"schema_version": 1, "profiles": profiles},
+    )
+
+
 def reviewed_source_artifact(root):
     lock_path = root / "registry/sources.lock.json"
     lock = json.loads(lock_path.read_text())
@@ -79,6 +101,25 @@ def test_complete_repository_passes(repo_root):
     assert report.result == "pass"
     assert report.failed == 0
     assert report.skipped == 0
+
+
+def test_strict_verifier_rejects_non_list_risk_reasons(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    copy_librarian_index(repo_root, root)
+    write_safety_profiles(root)
+    payload = json.loads((root / "registry/skills.json").read_text())
+    payload["skills"][0]["risk_reasons"] = "not-a-list"
+    write_json(root / "registry/skills.json", payload)
+
+    assert verify_repository(root).result == "fail"
+
+
+def test_strict_verifier_rejects_profile_with_stale_hash(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    copy_librarian_index(repo_root, root)
+    write_safety_profiles(root, content_sha256="0" * 64)
+
+    assert verify_repository(root).result == "fail"
 
 
 @pytest.mark.parametrize(
