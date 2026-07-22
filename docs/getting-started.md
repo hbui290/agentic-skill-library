@@ -72,6 +72,20 @@ record state
 Quarantine, inactive, dangerous, path, symlink, and hash failures always exit
 `1` and cannot be bypassed.
 
+The JSON form of `read` also includes compact `safety` metadata. `scanned`
+means a static scan found the listed signals for the current bundle hash and
+scanner version; it is not a safety approval. The other statuses are
+conservative: `unscanned` has no usable cached profile, `stale` has a mismatched
+bundle hash or scanner version, and `scan_error` could not produce a usable
+profile. These states are returned with high severity and are never presented
+as clean. `read` does not rescan a stale bundle.
+
+Profiles are cached in `registry/safety-signals.json` and tied to the bundle's
+content hash and scanner version. The Registry reports the result; it does not
+enforce shell, network, credential, or filesystem tools and does not ask for
+approval. The consumer agent asks the owner only if its planned action is
+outside the explicit task scope or a high-risk signal requires confirmation.
+
 ## 5. Let the Librarian route a task
 
 Invoke Librarian on demand before planning or execution for an explicit

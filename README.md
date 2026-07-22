@@ -62,6 +62,8 @@ selection, provenance, and integrity checks.
   skill was used if the phase has no successful registry search and read
   results.
 - **Integrity checks before reading:** availability, source, file path, symlink, and content-hash checks happen before instructions are returned.
+- **Static safety signals:** a cached scan reports matching static signals for the
+  current bundle; `scanned` is evidence to review, never a safety approval.
 - **Traceable sources:** every catalog record has a source, pinned commit,
   license, and content hash.
 - **Controlled growth:** new public GitHub sources go through
@@ -79,6 +81,13 @@ selection, provenance, and integrity checks.
 `active` means a record is available to the library. Any active, non-blocked
 skill can be read after its path and content hash pass integrity checks. Risk
 and Core labels are metadata; they are not an approval workflow.
+
+Safety profiles are also metadata. They are cached against the bundle content
+hash and scanner version, so a changed bundle or scanner produces a `stale`
+profile until it is scanned again. The Registry does not enforce the tools a
+profile names or ask for confirmation. The consumer agent compares the planned
+action with the task scope and signals, and asks the owner only when the action
+is outside that scope or a high-risk signal requires confirmation.
 
 ## Start here
 
@@ -109,6 +118,7 @@ reading, see [Getting started](docs/getting-started.md).
 - Not an MCP server, marketplace, vector database, or bulk installer.
 - Automatic bulk import is deliberately disabled.
 - Not permission to run every catalog skill automatically.
+- Not tool-level capability enforcement or an automatic approval system.
 - Not a replacement for Official Superpowers: Superpowers guides the process;
   the Librarian selects domain-specific playbooks.
 
