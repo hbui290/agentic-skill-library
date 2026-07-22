@@ -5,6 +5,7 @@ import pytest
 
 from skill_registry.validator import verify_repository
 from skill_registry.identity import stable_skill_id
+from skill_registry.integration import build_librarian_integration_lock
 
 
 def clone_repository_fixture(repo_root, tmp_path):
@@ -197,6 +198,28 @@ def test_verify_rejects_librarian_reference_bundle_mutations(
         if reference.exists() or reference.is_symlink():
             reference.unlink()
         reference.symlink_to(external)
+
+    assert "registry.librarian-integration" in check_ids(root)
+
+
+def test_verify_rejects_missing_librarian_reference(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    references = root / "skills/skill-librarian/references"
+    references.mkdir(exist_ok=True)
+    for name in (
+        "control-plane.md",
+        "trust-and-safety.md",
+        "composition.md",
+        "decision-trace.md",
+        "source-intake.md",
+        "evaluation.md",
+    ):
+        (references / name).write_text(name, encoding="utf-8")
+    write_json(
+        root / "registry/librarian-integration.lock.json",
+        build_librarian_integration_lock(root),
+    )
+    (references / "decision-trace.md").unlink()
 
     assert "registry.librarian-integration" in check_ids(root)
 
