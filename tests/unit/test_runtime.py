@@ -205,6 +205,127 @@ def test_read_allows_active_skill_and_returns_instructions(tmp_path):
     assert result["instructions"].startswith("---\nname: active-doc")
 
 
+def test_read_returns_compact_matching_safety_profile(tmp_path):
+    record = build_registry(tmp_path, [{"name": "pdf"}])[0]
+    (tmp_path / "registry" / "safety-signals.json").write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "profiles": [
+                    {
+                        "skill_id": record["skill_id"],
+                        "content_sha256": record["content_sha256"],
+                        "scanner_version": 1,
+                        "status": "scanned",
+                        "signals": [],
+                        "severity": "clean",
+                        "evidence": [],
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    assert read_skill(tmp_path, "pdf")["safety"] == {
+        "status": "scanned",
+        "signals": [],
+        "severity": "clean",
+        "scanner_version": 1,
+    }
+
+
+def test_read_marks_missing_or_stale_profiles_unscanned_or_stale(tmp_path):
+    record = build_registry(tmp_path, [{"name": "pdf"}])[0]
+
+    assert read_skill(tmp_path, "pdf")["safety"]["status"] == "unscanned"
+
+    (tmp_path / "registry" / "safety-signals.json").write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "profiles": [
+                    {
+                        "skill_id": record["skill_id"],
+                        "content_sha256": "0" * 64,
+                        "scanner_version": 1,
+                        "status": "scanned",
+                        "signals": [],
+                        "severity": "clean",
+                        "evidence": [],
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    assert read_skill(tmp_path, "pdf")["safety"]["status"] == "stale"
+
+
+def test_read_keeps_duplicate_safety_profiles_conservative(tmp_path):
+    record = build_registry(tmp_path, [{"name": "pdf"}])[0]
+    (tmp_path / "registry" / "safety-signals.json").write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "profiles": [
+                    {
+                        "skill_id": record["skill_id"],
+                        "content_sha256": record["content_sha256"],
+                        "scanner_version": 1,
+                        "status": "scan_error",
+                        "signals": [],
+                        "severity": "high",
+                        "evidence": [],
+                    },
+                    {
+                        "skill_id": record["skill_id"],
+                        "content_sha256": record["content_sha256"],
+                        "scanner_version": 1,
+                        "status": "scanned",
+                        "signals": [],
+                        "severity": "clean",
+                        "evidence": [],
+                    },
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    safety = read_skill(tmp_path, "pdf")["safety"]
+    assert safety["status"] in {"unscanned", "scan_error"}
+    assert safety["severity"] == "high"
+
+
+def test_read_tolerates_unhashable_safety_signal(tmp_path):
+    record = build_registry(tmp_path, [{"name": "pdf"}])[0]
+    (tmp_path / "registry" / "safety-signals.json").write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "profiles": [
+                    {
+                        "skill_id": record["skill_id"],
+                        "content_sha256": record["content_sha256"],
+                        "scanner_version": 1,
+                        "status": "scanned",
+                        "signals": [{}],
+                        "severity": "clean",
+                        "evidence": [],
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    safety = read_skill(tmp_path, "pdf")["safety"]
+    assert safety["status"] in {"unscanned", "scan_error"}
+    assert safety["severity"] == "high"
+
+
 def test_read_exposes_integrity_metadata(tmp_path):
     record = build_registry(tmp_path, [{"name": "safe-skill", "risk": "safe"}])[0]
     result = read_skill(tmp_path, "safe-skill")

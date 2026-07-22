@@ -3,11 +3,32 @@ from pathlib import Path
 import yaml
 
 
+REFERENCE_FILES = (
+    "control-plane.md",
+    "trust-and-safety.md",
+    "composition.md",
+    "decision-trace.md",
+    "source-intake.md",
+    "evaluation.md",
+)
+
+
 def _skill(repo_root: Path) -> tuple[dict[str, object], str]:
     path = repo_root / "skills/skill-librarian/SKILL.md"
     content = path.read_text(encoding="utf-8")
     _, frontmatter, body = content.split("---", 2)
     return yaml.safe_load(frontmatter), body
+
+
+def _bundle_body(repo_root: Path) -> str:
+    _, body = _skill(repo_root)
+    references = repo_root / "skills/skill-librarian/references"
+    return "\n".join(
+        [body] + [
+            (references / name).read_text(encoding="utf-8")
+            for name in REFERENCE_FILES
+        ]
+    )
 
 
 def test_only_librarian_is_native(repo_root):
@@ -17,7 +38,7 @@ def test_only_librarian_is_native(repo_root):
 
 def test_librarian_contract(repo_root):
     metadata, body = _skill(repo_root)
-    normalized_body = " ".join(body.split())
+    normalized_body = " ".join(_bundle_body(repo_root).split())
     assert metadata["name"] == "skill-librarian"
     assert "specialized" in metadata["description"].lower()
     for trigger in (
@@ -72,7 +93,7 @@ def test_librarian_contract(repo_root):
 
 
 def test_librarian_forbids_unsafe_shortcuts(repo_root):
-    _, body = _skill(repo_root)
+    body = _bundle_body(repo_root)
     forbidden = ["superpowers-mcp", "list_skills", "mcpServers"]
     assert not any(term in body for term in forbidden)
 
@@ -89,7 +110,7 @@ def test_librarian_forbids_unsafe_shortcuts(repo_root):
 
 
 def test_librarian_reports_a_compact_truthful_phase_status(repo_root):
-    _, body = _skill(repo_root)
+    body = _bundle_body(repo_root)
     normalized_body = body.lower()
 
     required = [
@@ -105,7 +126,7 @@ def test_librarian_reports_a_compact_truthful_phase_status(repo_root):
 
 
 def test_librarian_requires_current_phase_cli_evidence(repo_root):
-    _, body = _skill(repo_root)
+    body = _bundle_body(repo_root)
     normalized_body = " ".join(body.replace("`", "").split())
 
     required = [
@@ -121,6 +142,24 @@ def test_librarian_requires_current_phase_cli_evidence(repo_root):
     assert all(item in normalized_body for item in required)
 
 
+def test_librarian_routes_to_scoped_references(repo_root):
+    references = repo_root / "skills/skill-librarian/references"
+    for name in REFERENCE_FILES:
+        reference = references / name
+        assert reference.is_file()
+        assert not reference.is_symlink()
+
+    _, body = _skill(repo_root)
+    route_table = "\n".join(
+        line for line in body.splitlines() if line.startswith("|")
+    )
+    assert "phase" in route_table.lower()
+    assert "reference" in route_table.lower()
+    for name in REFERENCE_FILES:
+        assert f"references/{name}" in route_table
+    assert "Librarian decision — Phase <n>" not in body
+
+
 def test_librarian_scenarios_cover_routing_boundaries(repo_root):
     scenarios = (repo_root / "docs/evaluations/2026-07-16-librarian-scenarios.md").read_text(
         encoding="utf-8"
@@ -134,8 +173,25 @@ def test_librarian_scenarios_cover_routing_boundaries(repo_root):
         "## 12. Multi-domain task",
         "## 13. No match",
         "## 14. CLI failure",
+        "## 15. Blocked read",
+        "## 16. High-risk signal boundary",
+        "## 17. Reference selection",
+        "## 18. Multi-phase handoff",
     ]
     assert all(heading in scenarios for heading in required_headings)
+
+    required_boundaries = [
+        "Policy: blocked",
+        "static evidence",
+        "not Registry approval or a tool-level block",
+        "only before the planned action exceeds scope or the high-risk signal needs confirmation",
+        "always-loaded router reads only its control-plane and",
+        "It reads trust, composition, source-intake, or evaluation references only when that current phase needs their guidance",
+        "each phase performs a new search, selection, and read decision",
+        "no earlier domain `SKILL.md` or router reference is automatically kept",
+    ]
+    normalized_scenarios = " ".join(scenarios.split())
+    assert all(boundary in normalized_scenarios for boundary in required_boundaries)
 
 
 def test_architecture_docs_keep_catalog_out_of_native_discovery(repo_root):

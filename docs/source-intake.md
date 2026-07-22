@@ -110,8 +110,9 @@ Verify discovery and repository integrity:
 
 ```bash
 skill-registry search --root "$PWD" --format json azure blob storage
-python -m pytest -q
-skill-registry verify --strict
+uv sync --locked --extra dev
+uv run --no-sync python -m pytest -q
+uv run --no-sync skill-registry verify --strict
 git diff --check
 ```
 

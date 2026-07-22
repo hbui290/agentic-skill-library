@@ -67,6 +67,18 @@ def test_build_lock_is_deterministic_and_hashes_manifest_and_native_skill(tmp_pa
     }]
 
 
+def test_build_lock_ignores_finder_metadata(tmp_path):
+    root = _root(tmp_path)
+    (root / "skills/skill-librarian/.DS_Store").write_bytes(b"finder")
+
+    assert build_librarian_integration_lock(root)["files"] == [{
+        "path": "skills/skill-librarian/SKILL.md",
+        "sha256": hashlib.sha256(
+            (root / "skills/skill-librarian/SKILL.md").read_bytes()
+        ).hexdigest(),
+    }]
+
+
 def test_valid_integration_passes(tmp_path):
     assert _findings(_root(tmp_path)) == []
 

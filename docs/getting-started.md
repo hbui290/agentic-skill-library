@@ -10,12 +10,10 @@ git clone https://github.com/hbui290/agentic-skill-library.git \
   ~/.agents/agentic-skill-library
 cd ~/.agents/agentic-skill-library
 
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -e '.[dev]'
+uv sync --locked --extra dev
 export AGENTIC_SKILL_REGISTRY_ROOT="$HOME/.agents/agentic-skill-library"
 
-skill-registry verify --strict
+uv run --no-sync skill-registry verify --strict
 ```
 
 Expected output includes:
@@ -30,6 +28,10 @@ Install only [`skills/skill-librarian`](../skills/skill-librarian/) using
 OpenAI's `$skill-installer`. Do not install `catalog/` into
 `~/.codex/skills`; catalog skills remain repository data until the Librarian
 selects one for a task.
+
+The compact Librarian router is the only always-loaded native material. It reads
+its focused references just in time for the current phase; it does not preload
+the catalog, every reference, or prior phase instructions.
 
 ## 3. Search without loading instructions
 
@@ -72,6 +74,20 @@ record state
 Quarantine, inactive, dangerous, path, symlink, and hash failures always exit
 `1` and cannot be bypassed.
 
+The JSON form of `read` also includes compact `safety` metadata. `scanned`
+means a static scan found the listed signals for the current bundle hash and
+scanner version; it is not a safety approval. The other statuses are
+conservative: `unscanned` has no usable cached profile, `stale` has a mismatched
+bundle hash or scanner version, and `scan_error` could not produce a usable
+profile. These states are returned with high severity and are never presented
+as clean. `read` does not rescan a stale bundle.
+
+Profiles are cached in `registry/safety-signals.json` and tied to the bundle's
+content hash and scanner version. The Registry reports the result; it does not
+enforce shell, network, credential, or filesystem tools and does not ask for
+approval. The consumer agent asks the owner only if its planned action is
+outside the explicit task scope or a high-risk signal requires confirmation.
+
 ## 5. Let the Librarian route a task
 
 Invoke Librarian on demand before planning or execution for an explicit
@@ -86,6 +102,11 @@ The Librarian searches up to ten candidates and may retry once with broader
 terms. It selects up to eight domain skills concurrently for a phase, prefers
 one to five, assigns them `primary` or `supporting` roles, and chooses `single`,
 `sequential`, or `parallel` composition.
+
+It reads only the minimum router reference for that phase: control-plane and
+receipt guidance for routing, safety guidance when signals or scope matter,
+composition for multi-skill work, source intake for reviewed sources, and
+evaluation for pressure tests or release checks.
 
 A large task can have additional phases. Each new phase gets a new search and
 selection; only the prior phase's needed output is handed forward. It does not

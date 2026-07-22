@@ -11,6 +11,12 @@ from skill_registry.hashing import UnsafeCatalogPath, tree_sha256
 from skill_registry.identity import stable_skill_id
 from skill_registry.integration import verify_librarian_integration
 from skill_registry.reporting import VerificationReport
+from skill_registry.safety import (
+    SAFETY_SCANNER_VERSION,
+    SEVERITIES,
+    SIGNALS,
+    severity_for_signals,
+)
 
 
 ID = re.compile(r"^asr_[0-9a-f]{16}$")
@@ -61,6 +67,31 @@ SOURCE_LAYOUTS = {"legacy-snapshot", "skills-subdir"}
 RISK_VALUES = {"safe", "review", "dangerous", "unknown"}
 STATE_VALUES = {"active", "deprecated", "quarantined"}
 SKILL_FIELDS = {"skill_id", "name", "load_name", "catalog_path", "source_id", "source_commit", "source_path", "content_sha256", "license", "risk", "risk_reasons", "state", "canonical_skill_id", "first_seen_version"}
+RUNTIME_SKILL_FIELDS = {
+    "skill_id",
+    "name",
+    "load_name",
+    "catalog_path",
+    "source_id",
+    "source_commit",
+    "source_path",
+    "content_sha256",
+    "license",
+    "risk",
+    "risk_reasons",
+    "state",
+}
+SAFETY_REGISTRY_FIELDS = {"schema_version", "profiles"}
+SAFETY_PROFILE_FIELDS = {
+    "skill_id",
+    "content_sha256",
+    "scanner_version",
+    "status",
+    "signals",
+    "severity",
+    "evidence",
+}
+SAFETY_EVIDENCE_FIELDS = {"path", "line", "rule"}
 
 
 def add(findings: list[dict[str, object]], check_id: str, requirement_ids: list[str], **context: object) -> None:
@@ -163,6 +194,90 @@ def valid_normalized_relative_path(path: object) -> bool:
         and SAFE_RELATIVE_PATH.fullmatch(path) is not None
         and all(part not in {".", ".."} for part in path.split("/"))
     )
+
+
+def valid_skill_record(record: object) -> bool:
+    return (
+        isinstance(record, dict)
+        and RUNTIME_SKILL_FIELDS <= record.keys()
+        and all(
+            isinstance(record[field], str) and record[field]
+            for field in RUNTIME_SKILL_FIELDS - {"risk_reasons"}
+        )
+        and isinstance(record["risk_reasons"], list)
+        and all(
+            isinstance(reason, str) and reason
+            for reason in record["risk_reasons"]
+        )
+    )
+
+
+def valid_safety_registry(
+    payload: object, skills: list[dict[str, object]]
+) -> bool:
+    if (
+        not isinstance(payload, dict)
+        or set(payload) != SAFETY_REGISTRY_FIELDS
+        or payload.get("schema_version") != 1
+        or not isinstance(payload.get("profiles"), list)
+        or not all(valid_skill_record(record) for record in skills)
+    ):
+        return False
+    active = {
+        record["skill_id"]: record
+        for record in skills
+        if record["state"] == "active"
+    }
+    profiles = payload["profiles"]
+    profile_ids: list[str] = []
+    for profile in profiles:
+        if not isinstance(profile, dict) or set(profile) != SAFETY_PROFILE_FIELDS:
+            return False
+        skill_id = profile.get("skill_id")
+        signals = profile.get("signals")
+        evidence = profile.get("evidence")
+        if (
+            not isinstance(skill_id, str)
+            or skill_id not in active
+            or profile.get("content_sha256") != active[skill_id]["content_sha256"]
+            or not isinstance(profile.get("scanner_version"), int)
+            or isinstance(profile.get("scanner_version"), bool)
+            or profile.get("scanner_version") != SAFETY_SCANNER_VERSION
+            or profile.get("status") not in {"scanned", "scan_error"}
+            or not isinstance(signals, list)
+            or not all(isinstance(signal, str) and signal in SIGNALS for signal in signals)
+            or signals != sorted(set(signals))
+            or profile.get("severity") not in SEVERITIES
+            or not isinstance(evidence, list)
+            or (
+                profile["status"] == "scanned"
+                and profile["severity"] != severity_for_signals(set(signals))
+            )
+            or (
+                profile["status"] == "scan_error"
+                and (signals or profile["severity"] != "high" or evidence)
+            )
+        ):
+            return False
+        evidence_keys: list[tuple[str, int, str]] = []
+        for item in evidence:
+            if (
+                not isinstance(item, dict)
+                or set(item) != SAFETY_EVIDENCE_FIELDS
+                or not isinstance(item.get("path"), str)
+                or not item["path"]
+                or not isinstance(item.get("line"), int)
+                or isinstance(item["line"], bool)
+                or item["line"] < 1
+                or not isinstance(item.get("rule"), str)
+                or not item["rule"]
+            ):
+                return False
+            evidence_keys.append((item["path"], item["line"], item["rule"]))
+        if evidence_keys != sorted(set(evidence_keys)):
+            return False
+        profile_ids.append(skill_id)
+    return profile_ids == sorted(active) and len(profile_ids) == len(set(profile_ids))
 
 
 def valid_discovery_entry(
@@ -272,12 +387,25 @@ def _verify_repository(root: Path) -> VerificationReport:
         else {}
     )
     skills = read_records(skills_path, "skills")
+    if not all(isinstance(record, dict) for record in skills):
+        add(findings, "registry.skill-schema", ["DR-08"])
+        skills = [record for record in skills if isinstance(record, dict)]
+    if not all(valid_skill_record(record) for record in skills):
+        add(findings, "registry.skill-schema", ["DR-08"])
     quarantine = read_records(registry / "quarantine.json", "records")
     aliases = read_records(registry / "aliases.json", "aliases")
     exceptions = read_records(registry / "exceptions.json", "exceptions")
     core_payload = json.loads((registry / "core.json").read_text()) if (registry / "core.json").is_file() else {}
     core = core_payload.get("skill_ids") if isinstance(core_payload, dict) else None
     known_skills = {record.get("skill_id"): record for record in skills}
+    safety_path = registry / "safety-signals.json"
+    safety_payload = (
+        json.loads(safety_path.read_text(encoding="utf-8"))
+        if safety_path.is_file()
+        else {}
+    )
+    if not valid_safety_registry(safety_payload, skills):
+        add(findings, "registry.safety-signals", ["DR-08"])
     if (
         core_payload.get("schema_version") != 1
         or not isinstance(core, list)
@@ -385,6 +513,8 @@ def _verify_repository(root: Path) -> VerificationReport:
         marker = path / "SKILL.md"
         if not marker.is_file():
             add(findings, "catalog.skill-root", ["DR-03"], skill_id=record.get("skill_id"))
+        if not valid_skill_record(record):
+            continue
         missing_fields = sorted(SKILL_FIELDS - record.keys())
         if missing_fields:
             add(findings, "registry.skill-schema", ["DR-08"], missing=missing_fields)

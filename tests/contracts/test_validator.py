@@ -5,6 +5,7 @@ import pytest
 
 from skill_registry.validator import verify_repository
 from skill_registry.identity import stable_skill_id
+from skill_registry.integration import build_librarian_integration_lock
 
 
 def clone_repository_fixture(repo_root, tmp_path):
@@ -27,6 +28,30 @@ def check_ids(root):
 
 def copy_librarian_index(repo_root, root):
     shutil.copy2(repo_root / "librarian-index.json", root / "librarian-index.json")
+
+
+def write_safety_profiles(root, **first_profile_changes):
+    skills = json.loads((root / "registry/skills.json").read_text())["skills"]
+    profiles = [
+        {
+            "skill_id": record["skill_id"],
+            "content_sha256": record["content_sha256"],
+            "scanner_version": 1,
+            "status": "scanned",
+            "signals": [],
+            "severity": "clean",
+            "evidence": [],
+        }
+        for record in sorted(
+            (record for record in skills if record["state"] == "active"),
+            key=lambda record: record["skill_id"],
+        )
+    ]
+    profiles[0].update(first_profile_changes)
+    write_json(
+        root / "registry/safety-signals.json",
+        {"schema_version": 1, "profiles": profiles},
+    )
 
 
 def reviewed_source_artifact(root):
@@ -81,6 +106,53 @@ def test_complete_repository_passes(repo_root):
     assert report.skipped == 0
 
 
+def test_strict_verifier_rejects_non_list_risk_reasons(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    copy_librarian_index(repo_root, root)
+    write_safety_profiles(root)
+    payload = json.loads((root / "registry/skills.json").read_text())
+    payload["skills"][0]["risk_reasons"] = "not-a-list"
+    write_json(root / "registry/skills.json", payload)
+
+    assert verify_repository(root).result == "fail"
+
+
+def test_strict_verifier_rejects_profile_with_stale_hash(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    copy_librarian_index(repo_root, root)
+    write_safety_profiles(root, content_sha256="0" * 64)
+
+    assert verify_repository(root).result == "fail"
+
+
+def test_strict_verifier_rejects_boolean_scanner_version(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    copy_librarian_index(repo_root, root)
+    write_safety_profiles(root, scanner_version=True)
+
+    assert verify_repository(root).result == "fail"
+
+
+def test_strict_verifier_rejects_low_prompt_injection_profile(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    copy_librarian_index(repo_root, root)
+    write_safety_profiles(
+        root,
+        signals=["prompt_injection"],
+        severity="low",
+    )
+
+    assert verify_repository(root).result == "fail"
+
+
+def test_strict_verifier_rejects_clean_scan_error_profile(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    copy_librarian_index(repo_root, root)
+    write_safety_profiles(root, status="scan_error", severity="clean")
+
+    assert verify_repository(root).result == "fail"
+
+
 @pytest.mark.parametrize(
     "mutation",
     ["missing_manifest", "lock_mismatch", "native_skill_mismatch"],
@@ -100,6 +172,54 @@ def test_verify_rejects_invalid_librarian_integration(
         (root / "skills/skill-librarian/SKILL.md").write_text(
             "changed", encoding="utf-8"
         )
+
+    assert "registry.librarian-integration" in check_ids(root)
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    ["changed_reference", "extra_reference", "reference_symlink"],
+)
+def test_verify_rejects_librarian_reference_bundle_mutations(
+    repo_root, tmp_path, mutation
+):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    references = root / "skills/skill-librarian/references"
+    references.mkdir(exist_ok=True)
+    reference = references / "control-plane.md"
+
+    if mutation == "changed_reference":
+        reference.write_text("changed", encoding="utf-8")
+    elif mutation == "extra_reference":
+        (references / "unexpected.md").write_text("extra", encoding="utf-8")
+    else:
+        external = tmp_path.parent / f"{tmp_path.name}-control-plane.md"
+        external.write_text("external", encoding="utf-8")
+        if reference.exists() or reference.is_symlink():
+            reference.unlink()
+        reference.symlink_to(external)
+
+    assert "registry.librarian-integration" in check_ids(root)
+
+
+def test_verify_rejects_missing_librarian_reference(repo_root, tmp_path):
+    root = clone_repository_fixture(repo_root, tmp_path)
+    references = root / "skills/skill-librarian/references"
+    references.mkdir(exist_ok=True)
+    for name in (
+        "control-plane.md",
+        "trust-and-safety.md",
+        "composition.md",
+        "decision-trace.md",
+        "source-intake.md",
+        "evaluation.md",
+    ):
+        (references / name).write_text(name, encoding="utf-8")
+    write_json(
+        root / "registry/librarian-integration.lock.json",
+        build_librarian_integration_lock(root),
+    )
+    (references / "decision-trace.md").unlink()
 
     assert "registry.librarian-integration" in check_ids(root)
 
