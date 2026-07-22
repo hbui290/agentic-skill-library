@@ -207,6 +207,8 @@ def _valid_stored_profile(profile: object) -> bool:
         return False
     signals = profile["signals"]
     evidence = profile["evidence"]
+    status = profile["status"]
+    severity = profile["severity"]
     if (
         not isinstance(profile["skill_id"], str)
         or not profile["skill_id"]
@@ -214,12 +216,18 @@ def _valid_stored_profile(profile: object) -> bool:
         or re.fullmatch(r"[0-9a-f]{64}", profile["content_sha256"]) is None
         or not isinstance(profile["scanner_version"], int)
         or isinstance(profile["scanner_version"], bool)
-        or profile["status"] not in {"scanned", "scan_error"}
+        or not isinstance(status, str)
         or not isinstance(signals, list)
-        or signals != sorted(set(signals))
-        or not all(isinstance(signal, str) and signal in SIGNALS for signal in signals)
-        or profile["severity"] not in SEVERITIES
+        or not all(isinstance(signal, str) for signal in signals)
+        or not isinstance(severity, str)
         or not isinstance(evidence, list)
+    ):
+        return False
+    if (
+        status not in {"scanned", "scan_error"}
+        or signals != sorted(set(signals))
+        or not all(signal in SIGNALS for signal in signals)
+        or severity not in SEVERITIES
     ):
         return False
     evidence_keys = []
@@ -239,9 +247,9 @@ def _valid_stored_profile(profile: object) -> bool:
         evidence_keys.append((item["path"], item["line"], item["rule"]))
     if evidence_keys != sorted(set(evidence_keys)):
         return False
-    if profile["status"] == "scan_error":
-        return not signals and profile["severity"] == "high" and not evidence
-    return profile["severity"] == severity_for_signals(set(signals))
+    if status == "scan_error":
+        return not signals and severity == "high" and not evidence
+    return severity == severity_for_signals(set(signals))
 
 
 def build_profile_registry(root: Path) -> dict[str, object]:

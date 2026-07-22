@@ -299,6 +299,33 @@ def test_read_keeps_duplicate_safety_profiles_conservative(tmp_path):
     assert safety["severity"] == "high"
 
 
+def test_read_tolerates_unhashable_safety_signal(tmp_path):
+    record = build_registry(tmp_path, [{"name": "pdf"}])[0]
+    (tmp_path / "registry" / "safety-signals.json").write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "profiles": [
+                    {
+                        "skill_id": record["skill_id"],
+                        "content_sha256": record["content_sha256"],
+                        "scanner_version": 1,
+                        "status": "scanned",
+                        "signals": [{}],
+                        "severity": "clean",
+                        "evidence": [],
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    safety = read_skill(tmp_path, "pdf")["safety"]
+    assert safety["status"] in {"unscanned", "scan_error"}
+    assert safety["severity"] == "high"
+
+
 def test_read_exposes_integrity_metadata(tmp_path):
     record = build_registry(tmp_path, [{"name": "safe-skill", "risk": "safe"}])[0]
     result = read_skill(tmp_path, "safe-skill")
